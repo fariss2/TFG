@@ -1,0 +1,15 @@
+ESQUEMA:
+  3 mapas introductorios de los tres factores que intervienen en la prediccion.
+  mapas con informacion diaria. ¿Porque se seleccionan estas variables? ¿correlación?
+    -Mapa UVR
+    -Mapa Tª
+    -Mapa altitud
+  A continuación un mapa con las muertes causadas por melanoma cutáneo, 
+  Puede tener un desplegable indicando los valores de las tres variables anteriores,
+  intervalo de confianza del modelo predictivo por si se desvía demasiado la predicción 
+  con los datos reales que tenemos.
+  Como resultado un mapa que predice el riesgo de muerte por el efecto provocado de la combinacion de 
+  las tres variables.
+  
+INE: me aporta las muertes por provincias https://www.ine.es/jaxi/Tabla.htm?tpx=67900&L=0 (Buscar api)
+AEMET: UVR https://www.aemet.es/es/eltiempo/prediccion/radiacionuv?w=0&datos=det https://www.aemet.es/es/eltiempo/prediccion/radiacionuv?w=0&datos=det (buscar api)
