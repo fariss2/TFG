@@ -14,3 +14,4 @@ ESQUEMA:
 INE: me aporta las muertes por provincias https://www.ine.es/jaxi/Tabla.htm?tpx=67900&L=0 (Buscar api)
 AEMET: UVR https://www.aemet.es/es/eltiempo/prediccion/radiacionuv?w=0&datos=det https://www.aemet.es/es/eltiempo/prediccion/radiacionuv?w=0&datos=det (buscar api)
 Prueba 
+apis rstudio:https://rpubs.com/Wences/biblio_apis
