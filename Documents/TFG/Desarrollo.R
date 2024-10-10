@@ -11,6 +11,8 @@ library(DT)
 library(dplyr)
 library(climaemet)
 library(ggplot2)
+library(dblyr)
+
 "-------------------------------------------------------------------------------"
 
 #Altitudes
@@ -53,11 +55,17 @@ if (tipo_respuesta == "application/json") {
 } else {
   print(paste("el contenido no es JSON:", tipo_respuesta))
 }
-#2 solicitud, indices
-uv_data_respuesta <- GET(data_url)
-tipo_uv_data <- http_type(uv_data_respuesta)
-print(paste("tipo de los datos:", tipo_uv_data))
+# #2 solicitud, indices
+# uv_data_respuesta <- GET(data_url)
+# tipo_uv_data <- http_type(uv_data_respuesta)
+# print(paste("tipo de los datos:", tipo_uv_data))
 
-
+#funcion q descargue y vuelva a solicitar 
+#base de datos local q almacene todos los datos para el modelo aprendzaje 
 #hasta aqui funciona
 "----------------------------------------------------------------------------"
+#trabajar con melanomas en diferentes sexos 
+#nubes y uvr si afecta ver si esta corregido por las nubes, porcentaje de cobertura de nubes o nubosidad AEMET
+
+
+download.file(url ="https://opendata.aemet.es/opendata/sh/87479e47",destfile = "UVR.json" )
