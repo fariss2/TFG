@@ -1,4 +1,7 @@
 install.packages("shiny")
+
+
+
 install.packages("dplyr")
 install.packages("ggplot2")
 install.packages("httr")
@@ -12,6 +15,7 @@ library(dplyr)
 library(climaemet)
 library(ggplot2)
 library(dblyr)
+
 
 "-------------------------------------------------------------------------------"
 
@@ -63,9 +67,34 @@ if (tipo_respuesta == "application/json") {
 #funcion q descargue y vuelva a solicitar 
 #base de datos local q almacene todos los datos para el modelo aprendzaje 
 #hasta aqui funciona
-"----------------------------------------------------------------------------"
 #trabajar con melanomas en diferentes sexos 
 #nubes y uvr si afecta ver si esta corregido por las nubes, porcentaje de cobertura de nubes o nubosidad AEMET
 
 
 download.file(url ="https://opendata.aemet.es/opendata/sh/87479e47",destfile = "UVR.json" )
+"-----------------------------------------------------------------------------------------------"
+
+download.file(url ="https://www.aemet.es/es/api-eltiempo/temperaturas/2024-10-12/PB",destfile = "tem.json" )
+library(httr)
+library(jsonlite)
+
+# URL de la API
+url <- "https://servicios.ine.es/wstempus/js/es/DATOS_TABLA/67900?"
+
+# Realizar la solicitud
+response <- GET(url)
+
+if (status_code(response) == 200) {
+  # Inspeccionar el contenido en texto
+  response_content <- content(response, "text", encoding = "UTF-8")
+  print(response_content)  # Ver el contenido JSON directamente
+  
+  # Convertir el JSON a lista para explorar la estructura
+  data_list <- fromJSON(response_content, simplifyVector = FALSE)
+  str(data_list)  # Ver la estructura de la lista
+  
+} else {
+  print(paste("Error en la solicitud:", status_code(response)))
+}
+
+
