@@ -1,0 +1,145 @@
+---
+title: |
+  ```{=latex}
+  \vspace{1cm}
+  \huge \textbf{TFG del Grado en Ingeniería de la Salud} \\[0.8cm]  % Agrega un salto de línea
+  \vspace{0.5cm}  % Ajusta el espacio entre los textos
+  \Huge \textbf{Título del Trabajo} 
+  ```
+author: "Nisrine Fariss Lamine"
+date: ""
+output: 
+  pdf_document:
+    includes:
+      in_header: header.tex
+    toc: false
+    toc_depth: 8
+    number_sections: true
+toc_title: "Índice General"
+editor_options:
+  chunk_output_type: console
+extra_dependencies: [hyperref]
+linkcolor: blue
+bibliography: Bibliografia/referencias_memoria.bib
+lang: es-ES
+header-includes:
+- \usepackage{titling}
+- \pretitle{\begin{center}\LARGE\includegraphics[width=12cm]{Imagenes/Cabecera_Escudo_Salud.png}\\[\bigskipamount]}
+- \posttitle{\end{center}}
+- \usepackage{pdfpages}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\vspace{1cm}
+\begin{center}
+ \vspace{1cm}
+\Large \text{Presentado por Nombre Participante} \par 
+\text{en Universidad de Burgos}
+\end{center}
+\vspace{0.5cm}
+\par
+\begin{center}
+\Large \text{Fecha de presentación} \par
+\vspace{0.5cm}
+\Large \text{Tutores: Tutor/a 1 -- Tutor/a 2}
+\par
+\end{center}
+
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+
+\newpage
+
+\section*{Resumen}
+En el contexto actual de la salud publica y la disponibilidad de datos abiertos, la compresion de los factores asociados a la mortalidad por cancer de piel y otros tejidos blandos se ha vuelve una prioridad investigadora como social, alimenrando el contexto actual el calentamiento global. 
+Este proyecto se enfocara ene el desarrollo de una aplicacion web interactiva empleando el framework Shiny de R, con el fin de visualizar, analizar y modelar la variabilidad geografica de las defunciones epidermicas en España.*bien dicho?
+La aplicación permitira explorar como la  mortalidad por melanoma de piel se distribuye por las provinvias españolas, aportando información adicional de variables ambientales como la radiacón ultravioleta, altitud y temperaturas. *especifico maximas y minimas 
+A parte del desarrollo técnico de la web interactiva, este trabajo comprendera una parte de mineria de datos, por la cual se construira el modelo de regresion para predecir y estimar riesgo de mortalidad por melanoma de piel y tejidos blandos, como causa del efecto combinado de las variables ambientales mencionadas anteriormente. En otras palabras, esta web facilitara una visualizacion cuantitativa aproximada del impacto de las defunciones de la piel en el territorio nacional. *se echa en falta algo??tipo de visualizacion relevante?
+
+
+
+\textbf{Descriptores:}
+Calentamiento Global,Cancer de piel, Minería de datos, predicción, Shiny, R Studio, Epidermis, variables Ambientales, Salud Pública.
+\section*{Abstract}
+A brief presentation of the topic addressed in the project.
+
+\textbf{Keywords:} keywords separated by commas.
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\newpage
+
+# Introducción
+Descripción del contenido del trabajo y de la estructura del documento.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Imagenes/Cabecera_Salud.png}
+    \caption{Descripción de la imagen 1.}
+\end{figure}
+
+# Objetivos
+- Objetivos del proyecto.
+- Objetivos técnicos.
+- Objetivos de aprendizaje.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Imagenes/Cabecera_Salud.png}
+    \caption{Descripción de la imagen 2.}
+\end{figure}
+
+# Conceptos teóricos
+Explicación de los conceptos básicos necesarios.
+
+## Estado del arte y trabajos relacionados
+Revisión bibliográfica y comparación con trabajos previos.
+
+# Metodología
+## Descripción de los datos
+Breve descripción de los datos utilizados.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Imagenes/Cabecera_Salud.png}
+    \caption{Descripción de la imagen 3.}
+\end{figure}
+
+## Técnicas y herramientas
+Resumen de metodologías, herramientas y comparaciones.
+
+# Resultados
+## Resumen de resultados
+Breve resumen de los resultados obtenidos.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Imagenes/Cabecera_Salud.png}
+    \caption{Descripción de la imagen 4.}
+\end{figure}
+
+## Discusión
+Análisis de los resultados y su relevancia.
+
+# Conclusiones
+## Aspectos relevantes
+Resumen de la experiencia y justificación de decisiones.
+
+# Líneas de trabajo futuras
+Posibles mejoras y futuros desarrollos del proyecto.
+
+# Bibliografía

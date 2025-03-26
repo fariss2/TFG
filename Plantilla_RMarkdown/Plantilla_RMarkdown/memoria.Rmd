@@ -1,0 +1,40 @@
+---
+title: |
+  ```{=latex}
+  \Huge \textbf{Título del TFG}
+  ```
+author: "Nombre de la persona que realiza el TFG"
+date: ""
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+    toc: false
+    toc_depth: 8
+    number_sections: true
+toc_title: "Índice General"
+editor_options:
+  chunk_output_type: console
+extra_dependencies: [hyperref]
+linkcolor: blue
+header-includes:
+  - \usepackage{pdfpages}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\begin{center}
+\includegraphics[width=5cm]{} 
+\end{center}
+
+\vspace{1cm}
+
+\centerline{\textbf{Titulo centrado}}
+\vspace{0.2cm}
+\centerline{\textbf{Subtítulo centrado}}
+\vspace{0.2cm}
+\centerline{Subtítulo 2}
+\vspace{0.6cm}
+\centerline{\textbf{Fecha de entrega}}

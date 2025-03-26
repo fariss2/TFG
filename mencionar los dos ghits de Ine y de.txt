@@ -1,0 +1,5 @@
+mencionar los dos ghits de Ine y decir con cual te quedaste y porque 
+conjunto de datos de defunciones ver si es acumulado 
+para cada provincia obtener un valor que represente 
+buscar uv y t medio de provincias en 2023
+https://cran.r-project.org/web/packages/climaemet/index.html
