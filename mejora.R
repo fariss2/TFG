@@ -4,12 +4,16 @@ install.packages(c("shiny", "tidyverse", "leaflet", "ggplot2", "shinydashboard",
 install.packages("dplyr")
 install.packages("httr")
 install.packages("jsonlite")
-install.packages("devtools")
-devtools::install_github("oddworldng/INEbaseR")
-install.packages("INEbaseR")
+install.packages("devtools", dependencies = TRUE)
+devtools::install_github("oddworldng/INEbaseR", force = TRUE)
+1
+
+library(devtools)
+
 library(INEbaseR)
 library(httr)
 library(jsonlite)
+
 library(DT)
 library(dplyr)
 library(climaemet)
@@ -30,7 +34,6 @@ promedio_altitud_provincia <- estaciones_filtradas %>%
 datatable(promedio_altitud_provincia)
 '------------------------------------------'
 
-
 Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
 api_key <- Sys.getenv("AEMET_API_KEY")
 
@@ -40,12 +43,12 @@ endpoint <- paste0("https://opendata.aemet.es/opendata/api/prediccion/especifica
 respuesta <- GET(endpoint, query = list(api_key = api_key))
 
 if (http_status(respuesta)$category == "Success") {
-  print("Datos obtenidos correctamente")
+  print("hay datos")
 } else {
-  stop(paste("eror en la solicitud:", http_status(respuesta)$message))
+  stop(paste("eror:", http_status(respuesta)$message))
 }
 
-# Verificar el tipo de respuesta
+#  tipo de respuesta
 tipo_respuesta <- http_type(respuesta)
 
 if (tipo_respuesta == "application/json") {
@@ -53,7 +56,7 @@ if (tipo_respuesta == "application/json") {
   
   if (!is.null(json_contenido$datos)) {
     data_url <- json_contenido$datos
-    print(paste("URL de datos:", data_url))
+    print(paste(" datos:", data_url))
     
    
     archivo_destino <- "UVR.json"
@@ -66,14 +69,45 @@ if (tipo_respuesta == "application/json") {
     })
     
   } else {
-    stop("No se encontró la clave 'datos' en la respuesta de la API.")
+    stop("No hay clave 'datos' en la respuesta.")
   }
   
 } else {
-  stop(paste("no es JSON. Tipo recibido:", tipo_respuesta))
+  stop(paste("no es JSON. ", tipo_respuesta))
 }
-'-------------------------------------------'
+'----------------'
 
+#carga de datos uvr.json
+
+#conversion 
+archivo_original <- "UVR.json"
+archivo_utf8 <- "UVR_utf8.json"
+
+# archivo en ISO-8859-1, original
+contenido_bruto <- readLines(archivo_original, warn = FALSE, encoding = "ISO-8859-1")
+
+# Conversion
+contenido_corregido <- iconv(contenido_bruto, from = "ISO-8859-1", to = "UTF-8")
+writeLines(contenido_corregido, archivo_utf8)
+
+datos_uv <- fromJSON(archivo_utf8)
+
+# lista del filtro
+datos_ciudades <- datos_uv$ROOT$CIUDAD
+
+# conversion df 
+datos_df <- as.data.frame(do.call(rbind, datos_ciudades))
+head(datos_df)
+
+# traspuesto y filtrado
+datos_df <- as.data.frame(t(datos_df))
+colnames(datos_df)
+datos_df <- datos_df[, c("uv", "valor")]
+#hasta aqui limpio y funciona 
+'-------------------------------------------'
+#tabla enfermedades
+library(stringr)
+library(purrr)
 datos_67900 <- get_tables(67900, resource = "data")
 
 
@@ -91,4 +125,107 @@ datos_melanoma <- datos_melanoma %>%
   select(-Data) 
 
 head(datos_melanoma)
+# hasta aqui bien 
 
+'----------------------------------------------------'
+# temperaturas 
+
+Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
+api_key <- Sys.getenv("AEMET_API_KEY")
+
+endpoint <- paste0("https://opendata.aemet.es/opendata/api/observacion/convencional/todas")
+
+respuesta <- GET(endpoint, query = list(api_key = api_key))
+
+if (http_status(respuesta)$category == "Success") {
+  print("hay datos")
+} else {
+  stop(paste("eror:", http_status(respuesta)$message))
+}
+
+#  tipo de respuesta
+tipo_respuesta <- http_type(respuesta)
+
+if (tipo_respuesta == "application/json") {
+  json_contenido <- fromJSON(content(respuesta, as = "text"))
+  
+  if (!is.null(json_contenido$datos)) {
+    data_url <- json_contenido$datos
+    print(paste(" datos:", data_url))
+    
+    
+    archivo_destino <- "temp.json"
+    
+    tryCatch({
+      download.file(url = data_url, destfile = archivo_destino, mode = "wb")
+      print(paste("Datos guardados en:", archivo_destino))
+    }, error = function(e) {
+      print(paste("error al descargar datos:", e$message))
+    })
+    
+  } else {
+    stop("No hay clave 'datos' en la respuesta.")
+  }
+  
+} else {
+  stop(paste("no es JSON. ", tipo_respuesta))
+}
+'-----------------------'
+install.packages("readr")
+library(readr)
+#tipo de encoding 
+archivo_original <- "temp.json"
+
+encoding_detectado <- guess_encoding(archivo_original)
+print(encoding_detectado)
+
+#conversion datos temperatura
+archivo_temp_original <- "temp.json"
+archivo_temp_utf8 <- "temp_utf8.json"
+
+# archivo en ISO-8859-1, original
+contenido_bruto <- readLines(archivo_temp_original, warn = FALSE, encoding = "ISO-8859-1")
+
+# Conversion
+contenido_corregido <- iconv(contenido_bruto, from = "ISO-8859-1", to = "UTF-8")
+writeLines(contenido_corregido, archivo_temp_utf8)
+library(jsonlite)  
+
+datos_temp <- fromJSON(archivo_temp_utf8)
+colnames(datos_temp)
+
+---------------------# lista del filtro
+library(dplyr)
+
+
+datos_resumidos <- datos_temp %>%
+  group_by(idema,ubi) %>%
+  summarise(
+    Tmin = ifelse(all(is.na(tamin)), NA, min(tamin, na.rm = TRUE)),
+    Tmax = ifelse(all(is.na(tamax)), NA, max(tamax, na.rm = TRUE))
+  ) %>%
+  filter(!is.na(Tmin) & !is.na(Tmax)) 
+print(datos_resumidos)
+
+'----------------------'
+#datos 2023
+library(climaemet)
+library(dplyr)
+library(purrr)
+aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE
+              )
+# Obtener datos diarios de una estación específica
+library(climaemet)
+
+# Configurar API Key
+aemet_api_key("TU_CLAVE_DE_API")
+
+# Obtener todas las estaciones disponibles
+estaciones <- aemet_stations()
+
+# Buscar la estación "1387D" en la lista
+estacion_info <- estaciones %>% filter(indicativo == "1387D"
+                                       )
+
+# Mostrar resultado
+print(estacion_info)
