@@ -183,10 +183,10 @@ print(encoding_detectado)
 archivo_temp_original <- "temp.json"
 archivo_temp_utf8 <- "temp_utf8.json"
 
-# archivo en ISO-8859-1, original
+# archivo en ISO-8859-1 el original
 contenido_bruto <- readLines(archivo_temp_original, warn = FALSE, encoding = "ISO-8859-1")
 
-# Conversion
+# conversion
 contenido_corregido <- iconv(contenido_bruto, from = "ISO-8859-1", to = "UTF-8")
 writeLines(contenido_corregido, archivo_temp_utf8)
 library(jsonlite)  
@@ -212,20 +212,43 @@ print(datos_resumidos)
 library(climaemet)
 library(dplyr)
 library(purrr)
-aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE
-              )
-# Obtener datos diarios de una estación específica
-library(climaemet)
-
-# Configurar API Key
-aemet_api_key("TU_CLAVE_DE_API")
-
-# Obtener todas las estaciones disponibles
+aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE)
+#IDEMA VS PROVINCIA
 estaciones <- aemet_stations()
+estaciones <- estaciones %>%
+  select(idema = indicativo, provincia)
 
-# Buscar la estación "1387D" en la lista
-estacion_info <- estaciones %>% filter(indicativo == "1387D"
-                                       )
+#prueba ver cols
+datos_prueba <- aemet_monthly_clim(station = "0076", year = 2023)
+print(datos_prueba)
+colnames(datos_prueba)
 
-# Mostrar resultado
-print(estacion_info)
+
+
+
+
+estaciones <- aemet_stations()
+ids <- estaciones$indicativo#equivale idema renombrarlo mas tarde
+
+# por bloques porque son 947
+bloques <- split(ids, ceiling(seq_along(ids) / 20))
+
+#consultar un bloque
+consultar_bloque <- function(bloque) {
+  tryCatch({
+    Sys.sleep(1)  
+    aemet_monthly_clim(station = bloque, year = 2023)
+  }, error = function(e) {
+    message("error con bloque:", paste(bloque, collapse = ", "))
+    return(NULL)
+  })
+}
+
+#pasan todos los bloques 
+datos_mensuales <- map_df(bloques, consultar_bloque)
+
+#filtro 
+datos_temperatura <- datos_mensuales %>%
+  select(indicativo, fecha, ta_min, ta_max)
+#unir por indicativo y luego agrupar por provincias y seleccionar la minima y la maxima 
+help("function")
