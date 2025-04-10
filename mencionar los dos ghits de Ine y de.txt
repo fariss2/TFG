@@ -7,3 +7,20 @@ https://cran.r-project.org/web/packages/climaemet/index.html
 
 pensar el porque de todo y la selección de todos los datos 
 
+se puede hacer un csv con la provincia y su índice mensual de UVI
+diseño IMPORTANTE:
+muertes por provincias de 2023
+2 mapas uno por cada una de las defunciones 
+mapas de las variables ambientales de interés de 2023 
+predicción de probabilidad de morir por cancer, 
+mapa de riesgo 0-1
+entrenamiento de modelos 
+bb.dd acumulativa de los dias que se entrena el modelo para datos llamados para el entrenamiento 
+diseños en el anexo
+-solucion: riesgo de morir por cancer en el tiempo 
+justificar el porque d modelo de aprendizaje y porque un año de datos
+procesar tus datos conjunto de entrenamiento y de testeo 
+buen análisis y procesamiento
+explicar la importancia de las variables en random forest. 
+anexos mejoras futuras: entrenar el modelo con mas años para mejor precisión.
+porque por que optaste por la decisión actual demostrar porque
