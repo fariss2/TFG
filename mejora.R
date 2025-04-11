@@ -6,14 +6,10 @@ install.packages("httr")
 install.packages("jsonlite")
 install.packages("devtools", dependencies = TRUE)
 devtools::install_github("oddworldng/INEbaseR", force = TRUE)
-1
-
 library(devtools)
-
 library(INEbaseR)
 library(httr)
 library(jsonlite)
-
 library(DT)
 library(dplyr)
 library(climaemet)
@@ -296,5 +292,25 @@ datos_limpios <- datos_temperatura %>%
     ta_max=as.numeric(str_trim(ta_max))
   )
 datos_limpios_prov <-datos_limpios %>%
-  inner_join(estaciones_prov_idema, by="idema")
+  inner_join(estaciones_prov_idema, by="idema") 
 
+datos_limpios_prov_prueba <- datos_limpios_prov %>%
+  filter(!is.na(ta_min) & !is.na(ta_max))
+datos_limpios_prov_prueba <- datos_limpios_prov_prueba %>% 
+  group_by(provincia, fecha) %>% 
+  summarise(
+    ta_min= min(ta_min, na.rm = TRUE),  
+    ta_max= max(ta_max, na.rm = TRUE),
+    .groups = "drop"
+  )
+'---------------------------------------------------------------'
+#CARGA DE UVI 2023
+install.packages("readxl")
+library(readxl)
+uvi_2023<- read_excel("datos_uv_2023.xlsx")
+head(uvi_2023)
+uvi_2023 <- uvi_2023 %>%
+  rename(idema=INDICATIVO)
+uvi_2023_prov<- uvi_2023 %>%
+  inner_join(estaciones_prov_idema, by="idema")
+  
