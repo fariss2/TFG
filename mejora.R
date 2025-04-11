@@ -124,8 +124,23 @@ datos_melanoma <- datos_melanoma %>%
   mutate(Valor = map(Data, ~ .x$Valor)) %>% 
   select(-Data) 
 
-head(datos_melanoma)
-# hasta aqui bien 
+datos_melanoma_bien <- datos_melanoma %>% 
+  mutate(
+    Diagnostico = case_when(
+      grepl("021 Melanoma", Nombre) ~ "021 Melanoma maligno de la piel",
+      grepl("022 Otros tumores", Nombre) ~ "022 Otros tumores malignos",
+    TRUE ~ "Otro"
+    ),
+    Sexo= case_when(
+      grepl("Hombres", Nombre)~"Hombres",
+      grepl("Mujeres", Nombre)~ "Mujeres",
+      TRUE~ "Otro"
+    )
+  )%>%
+  filter(Sexo %in% c("Hombres", "Mujeres")) %>%
+  select(Provincia, Diagnostico, Sexo, Valor) %>%
+  unite("Diagnostico_Sexo", Diagnostico, Sexo, sep = " - ") %>%
+  pivot_wider(names_from = Diagnostico_Sexo, values_from = Valor)
 
 '----------------------------------------------------'
 # temperaturas 
@@ -207,6 +222,24 @@ datos_resumidos <- datos_temp %>%
   filter(!is.na(Tmin) & !is.na(Tmax)) 
 print(datos_resumidos)
 
+aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE)
+#IDEMA VS PROVINCIA
+estaciones <- aemet_stations()
+estaciones_prov_idema <- estaciones %>%
+  select(idema = indicativo, provincia)
+datos_identificados <- datos_resumidos %>%
+  inner_join(estaciones_prov_idema, by="idema")
+datos_identificados<- datos_identificados %>%
+  group_by(provincia)%>%
+  summarise(
+    Tmin=mean(Tmin, na.rm=TRUE),
+    Tmax=mean(Tmax, na.rm=TRUE),
+    .groups = "drop"
+  )
+
+
+
+
 '----------------------'
 #datos 2023
 library(climaemet)
@@ -239,7 +272,7 @@ consultar_bloque <- function(bloque) {
     Sys.sleep(1)  
     aemet_monthly_clim(station = bloque, year = 2023)
   }, error = function(e) {
-    message("error con bloque:", paste(bloque, collapse = ", "))
+    message("error:", paste(bloque, collapse = ", "))
     return(NULL)
   })
 }
@@ -250,5 +283,17 @@ datos_mensuales <- map_df(bloques, consultar_bloque)
 #filtro 
 datos_temperatura <- datos_mensuales %>%
   select(indicativo, fecha, ta_min, ta_max)
-#unir por indicativo y luego agrupar por provincias y seleccionar la minima y la maxima 
-help("function")
+#unir por indicativo y luego agrupar por provincias y seleccionar prov minima y la maxima 
+library(dplyr)
+library(stringr)
+datos_limpios <- datos_temperatura %>% 
+  rename(idema=indicativo) %>%
+  filter(fecha!= "2023-13") %>%
+  mutate(
+    ta_min= str_remove(ta_min, "\\(.*\\)"),
+    ta_min=as.numeric(str_trim(ta_min)),
+    ta_max= str_remove(ta_max, "\\(.*\\)"),
+    ta_max=as.numeric(str_trim(ta_max))
+  )
+datos_limpios_prov <-datos_limpios %>%
+  inner_join(estaciones_prov_idema, by="idema")
