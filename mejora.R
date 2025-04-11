@@ -297,3 +297,4 @@ datos_limpios <- datos_temperatura %>%
   )
 datos_limpios_prov <-datos_limpios %>%
   inner_join(estaciones_prov_idema, by="idema")
+
