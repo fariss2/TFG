@@ -303,6 +303,13 @@ datos_limpios_prov_prueba <- datos_limpios_prov_prueba %>%
     ta_max= max(ta_max, na.rm = TRUE),
     .groups = "drop"
   )
+print(datos_limpios_prov_prueba
+      )
+
+install.packages("writexl")
+library(writexl)
+write_xlsx(datos_limpios_prov_prueba, "temperaturas_extremas_provincia.xlsx")
+
 '---------------------------------------------------------------'
 #CARGA DE UVI 2023
 install.packages("readxl")
@@ -313,4 +320,23 @@ uvi_2023 <- uvi_2023 %>%
   rename(idema=INDICATIVO)
 uvi_2023_prov<- uvi_2023 %>%
   inner_join(estaciones_prov_idema, by="idema")
-  
+uvi_2023_prov<-uvi_2023_prov%>%
+  mutate(fecha= paste0(AÑO,"-",MES))%>%
+  select(-AÑO,-MES)
+print(uvi_2023_prov
+      )
+'---------------------------------------------------------'
+  #modelaje
+temps<- read_excel("temperaturas_extremas_provincia.xlsx")
+print(temps)
+
+
+resumen_ambiental <- temps %>%
+  left_join(uvi_2023_prov, by = c("provincia", "fecha")) %>%
+  group_by(provincia) %>%
+  summarise(
+    temp_max_media = mean(ta_max, na.rm = TRUE),
+    uvi_max_media = mean(UVBMAX, na.rm = TRUE)
+  )
+View(resumen_ambiental)
+  #19 provs con temps y uvi 
