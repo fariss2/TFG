@@ -98,7 +98,15 @@ head(datos_df)
 # traspuesto y filtrado
 datos_df <- as.data.frame(t(datos_df))
 colnames(datos_df)
-datos_df <- datos_df[, c("uv", "valor")]
+datos_df <- datos_df[, c("uv", "valor")]%>%
+  rename(provincia=valor)
+datos_df <- datos_df %>%
+  mutate(
+    fecha = Sys.Date(),
+    uv = as.numeric(uv), 
+    provincia = as.character(provincia)
+  ) 
+View(datos_df)
 #hasta aqui limpio y funciona 
 '-------------------------------------------'
 #tabla enfermedades
@@ -233,6 +241,9 @@ datos_identificados<- datos_identificados %>%
     .groups = "drop"
   )
 
+datos_identificados <- datos_identificados %>%
+  mutate(fecha = Sys.Date())
+  
 
 
 
