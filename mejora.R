@@ -1,6 +1,6 @@
 install.packages(c("shiny", "tidyverse", "leaflet", "ggplot2", "shinydashboard", 
                    "DT", "caret", "randomForest", "rpart", "plotly", "sf"))
-
+install.packages("readxl")
 install.packages("dplyr")
 install.packages("httr")
 install.packages("jsonlite")
@@ -34,6 +34,8 @@ library(httr)
 library(jsonlite)
 library(dplyr)
 library(readr)
+library(climaemet)
+
 Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
 api_key <- Sys.getenv("AEMET_API_KEY")
 
@@ -90,11 +92,95 @@ datos_uv<- as.data.frame(t(as.data.frame(do.call(rbind, datos_ciudades))))%>%
     provincia=as.character(provincia)
   )
 View(datos_uv)
+equivalencias_provincias <- c(
+  "Alacant/Alicante" = "ALICANTE",
+  "Albacete" = "ALBACETE",
+  "Almería" = "ALMERIA",
+  "Ávila" = "AVILA",
+  "Badajoz" = "BADAJOZ",
+  "Barcelona" = "BARCELONA",
+  "Bilbao" = "BIZKAIA",
+  "Burgos" = "BURGOS",
+  "Cáceres" = "CACERES",
+  "Cádiz" = "CADIZ",
+  "Castellón de la Plana/Castelló de la Plana" = "CASTELLON",
+  "Ceuta" = "CEUTA",
+  "Ciudad Real" = "CIUDAD REAL",
+  "Córdoba" = "CORDOBA",
+  "Coruña, A" = "A CORUÑA",
+  "Cuenca" = "CUENCA",
+  "Donostia-San Sebastián" = "GIPUZKOA",
+  "Eivissa"="BALEARES",
+  "Girona" = "GIRONA",
+  "Granada" = "GRANADA",
+  "Guadalajara" = "GUADALAJARA",
+  "Huelva" = "HUELVA",
+  "Huesca" = "HUESCA",
+  "Jaén" = "JAEN",
+  "León" = "LEON",
+  "Lleida" = "LLEIDA",
+  "Logroño" = "LA RIOJA",
+  "Lugo" = "LUGO",
+  "Madrid" = "MADRID",
+  "Málaga" = "MALAGA",
+  "Melilla" = "MELILLA",
+  "Murcia" = "MURCIA",
+  "Ourense" = "OURENSE",
+  "Oviedo" = "ASTURIAS",
+  "Palencia" = "PALENCIA",
+  "Palma" = "ILLES BALEARES",
+  "Palmas de Gran Canaria, Las" = "LAS PALMAS",
+  "Pamplona/Iruña" = "NAVARRA",
+  "Pontevedra" = "PONTEVEDRA",
+  "Salamanca" = "SALAMANCA",
+  "Santa Cruz de Tenerife" = "SANTA CRUZ DE TENERIFE",
+  "Santander" = "CANTABRIA",
+  "Segovia" = "SEGOVIA",
+  "Sevilla" = "SEVILLA",
+  "Soria" = "SORIA",
+  "Tarragona" = "TARRAGONA",
+  "Teruel" = "TERUEL",
+  "Toledo" = "TOLEDO",
+  "Valencia" = "VALENCIA",
+  "Valladolid" = "VALLADOLID",
+  "Vitoria-Gasteiz" = "ARABA/ALAVA",
+  "Zamora" = "ZAMORA",
+  "Zaragoza" = "ZARAGOZA"
+)
 
-datosxdia<- full_join(datos_temp,datos_uv,by=c("provincia","fecha"))
-View(datosxdia)
+
+datos_uv <- datos_uv %>%
+  mutate(provincia = recode(provincia, !!!equivalencias_provincias))
+provincias_validas <- unname(equivalencias_provincias)
+datos_uv <- datos_uv %>%
+  filter(provincia %in% provincias_validas)
+datos_dia <- full_join(datos_temp, datos_uv, by = c("provincia", "fecha"))%>%
+  filter(if_all(everything(), ~ !is.na(.)))
+if (!file.exists("base_climatica.rds")) {
+  base_climatica <- data.frame(
+    fecha = as.Date(character()),
+    provincia = character(),
+    Tmin = numeric(),
+    Tmax = numeric(),
+    uv = numeric(),
+    stringsAsFactors = FALSE
+  )}
+  
+base_climatica <- base_climatica %>%
+  filter(!(paste0(provincia, fecha) %in% paste0(datos_dia$provincia, datos_dia$fecha)))
+  
+base_climatica <- bind_rows(base_climatica, datos_dia)
+  
+
+saveRDS(base_climatica, "base_climatica.rds")
+
+cat("Base actualizada", format(Sys.Date(), "%Y-%m-%d"), "\n")
+View(base_climatica)
+
 '-------------------------------------------'
 #tabla enfermedades
+library(INEbaseR)
+library(tidyr)
 library(stringr)
 library(purrr)
 datos_67900 <- get_tables(67900, resource = "data")
@@ -147,10 +233,6 @@ estaciones <- estaciones %>%
 datos_prueba <- aemet_monthly_clim(station = "0076", year = 2023)
 print(datos_prueba)
 colnames(datos_prueba)
-
-
-
-
 
 estaciones <- aemet_stations()
 ids <- estaciones$indicativo#equivale idema renombrarlo mas tarde
@@ -208,7 +290,6 @@ write_xlsx(datos_limpios_prov_prueba, "temperaturas_extremas_provincia.xlsx")
 
 '---------------------------------------------------------------'
 #CARGA DE UVI 2023
-install.packages("readxl")
 library(readxl)
 uvi_2023<- read_excel("datos_uv_2023.xlsx")
 head(uvi_2023)
@@ -226,7 +307,7 @@ print(uvi_2023_prov
 temps<- read_excel("temperaturas_extremas_provincia.xlsx")
 print(temps)
 
-
+#union uvi vs temps2023
 resumen_ambiental <- temps %>%
   left_join(uvi_2023_prov, by = c("provincia", "fecha")) %>%
   group_by(provincia) %>%
