@@ -17,13 +17,13 @@
     },
     {
       "uv": 8,
-      "valor": "Almer√≠a",
+      "valor": "AlmerÌa",
       "canarias": 0,
       "id": "04013"
     },
     {
       "uv": 8,
-      "valor": "√Åvila",
+      "valor": "¡vila",
       "canarias": 0,
       "id": "05019"
     },
@@ -53,19 +53,19 @@
     },
     {
       "uv": 8,
-      "valor": "C√°ceres",
+      "valor": "C·ceres",
       "canarias": 0,
       "id": 10037
     },
     {
       "uv": 8,
-      "valor": "C√°diz",
+      "valor": "C·diz",
       "canarias": 0,
       "id": 11012
     },
     {
       "uv": 7,
-      "valor": "Castell√≥n de la Plana/Castell√≥ de la Plana",
+      "valor": "CastellÛn de la Plana/CastellÛ de la Plana",
       "canarias": 0,
       "id": 12040
     },
@@ -83,13 +83,13 @@
     },
     {
       "uv": 8,
-      "valor": "C√≥rdoba",
+      "valor": "CÛrdoba",
       "canarias": 0,
       "id": 14021
     },
     {
       "uv": 6,
-      "valor": "Coru√±a, A",
+      "valor": "CoruÒa, A",
       "canarias": 0,
       "id": 15030
     },
@@ -131,19 +131,19 @@
     },
     {
       "uv": 8,
-      "valor": "Ja√©n",
+      "valor": "JaÈn",
       "canarias": 0,
       "id": 23050
     },
     {
       "uv": 7,
-      "valor": "Le√≥n",
+      "valor": "LeÛn",
       "canarias": 0,
       "id": 24089
     },
     {
       "uv": 7,
-      "valor": "Logro√±o",
+      "valor": "LogroÒo",
       "canarias": 0,
       "id": 26089
     },
@@ -167,7 +167,7 @@
     },
     {
       "uv": 8,
-      "valor": "M√°laga",
+      "valor": "M·laga",
       "canarias": 0,
       "id": 29067
     },
@@ -215,7 +215,7 @@
     },
     {
       "uv": 6,
-      "valor": "Ma√≥",
+      "valor": "MaÛ",
       "canarias": 0,
       "id": "07032"
     },
@@ -239,7 +239,7 @@
     },
     {
       "uv": 6,
-      "valor": "Pamplona/Iru√±a",
+      "valor": "Pamplona/IruÒa",
       "canarias": 0,
       "id": 31201
     },
@@ -257,7 +257,7 @@
     },
     {
       "uv": 6,
-      "valor": "Donostia-San Sebasti√°n",
+      "valor": "Donostia-San Sebasti·n",
       "canarias": 0,
       "id": 20069
     },
@@ -269,7 +269,7 @@
     },
     {
       "uv": 10,
-      "valor": "San Sebasti√°n de la Gomera",
+      "valor": "San Sebasti·n de la Gomera",
       "canarias": 1,
       "id": 38036
     },
