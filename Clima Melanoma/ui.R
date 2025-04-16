@@ -75,7 +75,9 @@ shinyUI(
                       fluidPage(
                         h3("Mapa diario del índice UV por provincia"),
                         plotOutput("mapa_uv", height = 600)
-                      )
+                      ),
+                      tabPanel("Aviso de alto IUV",
+                               h3("..."))
              ),
              
              
