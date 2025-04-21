@@ -297,7 +297,10 @@ shinyServer(function(input, output) {
         "Provincia: ", provincia_usuario, "\n",
         "Índice UV: ", datos_hoy$uv, "\n",
         "Temperatura máxima: ", datos_hoy$Tmax, " °C\n\n",
-        "Te recomendamos evitar la exposición al sol entre las 12:00 y 16:00."
+        "Te recomendamos evitar la exposición al sol entre las 12:00 y 16:00.
+        Mnatengase en la sombra durante esas horas. Aquí una recomendacion de cremas solares para aplicarse:
+        https://www.elle.com/es/belleza/cara-cuerpo/g32580491/mejores-protectores-solares-farmacia/
+        "
       )
       
       correo <- envelope() %>%

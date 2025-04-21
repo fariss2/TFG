@@ -112,11 +112,13 @@ shinyUI(
              tabPanel("Acerca del proyecto",
                       fluidPage(
                         h4("Trabajo de Fin de Grado de Ingeniería de la Salud"),
+                        img(src="Cabecera_Escudo_Salud.png", height = "800px" ),
                         p("Autor/a: Nisrine Fariss Lamine"),
                         p("Tutor/a: Antonio Jesus Canepa Oneto"),
                         p(" Universidad de Burgos "),
-                        p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos.")
-                      )
+                        p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
+                        p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos con la base de datos climatico creada
+                          por la falta de información para predecir la probabilidad de padecer esta patología ")                      )
              )
   )
 )
