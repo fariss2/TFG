@@ -6,6 +6,16 @@ library(ggplot2)
 library(sf)
 library(mapSpain)
 library(tidyverse)
+library(emayili)
+library(climaemet)
+smtp <- server(
+  host = "smtp.gmail.com",
+  port = 587,
+  username = "nisrinefs02@gmail.com",           
+  password = "nrcy hlyl doha afnq"      
+)
+
+
 actualizar_datos_climaticos<- function(){
   Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
   api_key <- Sys.getenv("AEMET_API_KEY")
@@ -35,7 +45,8 @@ actualizar_datos_climaticos<- function(){
     inner_join(estaciones_prov,by="idema")%>%
     group_by(provincia)%>%
     summarise(Tmin=mean(Tmin, na.rm=TRUE),Tmax=mean(Tmax, na.rm=TRUE), .groups = "drop"  )%>%
-    mutate(fecha=Sys.Date())
+    mutate(fecha=as.Date(Sys.Date()))
+  #-----
   codigo <- "0"  
   endpoint <- paste0("https://opendata.aemet.es/opendata/api/prediccion/especifica/uvi/", codigo)
   
@@ -53,10 +64,11 @@ actualizar_datos_climaticos<- function(){
     rename(provincia = valor) %>%
     mutate(
       uv = as.numeric(uv),
-      fecha = Sys.Date(),
+      fecha = as.Date(Sys.Date()),
       provincia = as.character(provincia)
     ) %>%
     select(provincia, uv, fecha)
+  #------
   equivalencias_provincias <- c(
     "Alacant/Alicante" = "ALICANTE",
     "Albacete" = "ALBACETE",
@@ -143,9 +155,14 @@ actualizar_datos_climaticos<- function(){
 
 
 
-
 shinyServer(function(input, output) { 
-  
+  base_climatica<-actualizar_datos_climaticos()
+  base_climatica$fecha<-as.Date(as.character(base_climatica$fecha))
+  #print(paste("Última fecha en base_climatica:", max(base_climatica$fecha)))
+  output$tabla_de_BC<- renderTable({
+    base_climatica
+  })
+  #view(base_climatica)
   Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
   api_key <- Sys.getenv("AEMET_API_KEY")
   codigo <- "0"  
@@ -169,9 +186,9 @@ shinyServer(function(input, output) {
       provincia = as.character(provincia)
     ) %>%
     select(provincia, uv, fecha)
- 
   
-
+  
+  
   equivalencias_mapa <- c(
     "Alacant/Alicante" = "Alicante/Alacant",
     "Coruña, A" = "Coruña, A",
@@ -235,20 +252,23 @@ shinyServer(function(input, output) {
     select(prov_map,uv)
   datos_uv_mapa<- datos_uv_mapa%>%
     rename(provincia=prov_map)
+  
+  
+  
   output$mapa_uv <- renderPlot({
     
-    Provs <- esp_get_prov() %>%
-      dplyr::rename(provincia = ine.prov.name)
+    Provs <- esp_get_prov() %>%rename(provincia = ine.prov.name)
     
     Can <- esp_get_can_box()
     
-    provincias_uv <- dplyr::inner_join(Provs, datos_uv_mapa, by = "provincia") %>%
+    
+    provincias_uv <-inner_join(Provs,datos_uv_mapa, by = "provincia") %>%
       sf::st_as_sf()
     
     ggplot(provincias_uv) +
       geom_sf(aes(fill = uv), color = "grey50", linewidth = 0.3) +
       geom_sf(data = Can, color = "grey50") +
-      geom_sf_label(aes(label = uv), fill = "white", alpha = 0.7, size = 3) +
+      geom_sf_label(aes(label = uv), fill = "white", alpha = 0.9, size = 5, fontface="bold") +
       scale_fill_gradientn(
         colors = hcl.colors(10, "YlOrRd", rev = TRUE),
         name = "Índice UV",
@@ -257,14 +277,51 @@ shinyServer(function(input, output) {
       labs(title = paste("Índice UV por provincia -", Sys.Date())) +
       theme_void() +
       theme(
-        legend.position = c(0.1, 0.6),
-        plot.title = element_text(hjust = 0.5, face = "bold")
+        legend.position = "right",
+        plot.title = element_text(hjust = 0.5,size = 18 ,face = "bold"))
+  })
+  
+  observeEvent(input$alerta, {
+    provincia_usuario <- input$provincia_us
+    email_usuario <- input$email_us
+    
+    datos_hoy <- base_climatica %>%
+      filter(provincia == provincia_usuario & fecha == Sys.Date())
+    
+    if (nrow(datos_hoy) == 0) {
+      output$mensaje_alerta <- renderText("No hay datos disponibles para esa provincia.")
+      
+    } else if (datos_hoy$uv > 6 & datos_hoy$Tmax > 20) {
+      alerta_texto <- paste0(
+        " ¡Alerta UV!\n\n",
+        "Provincia: ", provincia_usuario, "\n",
+        "Índice UV: ", datos_hoy$uv, "\n",
+        "Temperatura máxima: ", datos_hoy$Tmax, " °C\n\n",
+        "Te recomendamos evitar la exposición al sol entre las 12:00 y 16:00."
       )
+      
+      correo <- envelope() %>%
+        from("tucuenta@gmail.com") %>%
+        to(email_usuario) %>%
+        subject("Alerta UV y temperatura en tu zona") %>%
+        text(alerta_texto)
+      
+      smtp(correo)
+      
+      output$mensaje_alerta <- renderText(
+        paste("Alerta enviada a", email_usuario)
+      )
+      
+    } else {
+      output$mensaje_alerta <- renderText("Todo bajo control: no hay riesgo elevado en tu zona.")
+    }
   })
+  
   
   
   
     
     
   })
+
 

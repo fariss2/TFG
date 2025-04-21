@@ -1,5 +1,4 @@
 library(shiny)
-library(shiny)
 
 shinyUI(
   navbarPage("App Radiación UV y Melanoma",
@@ -72,14 +71,24 @@ shinyUI(
              
              
              tabPanel("Índice UV hoy",
-                      fluidPage(
-                        h3("Mapa diario del índice UV por provincia"),
-                        plotOutput("mapa_uv", height = 600)
+                      tabsetPanel(
+                        tabPanel("Mapa indice UV",
+                                 h3("Mapa actual del indice UV"),
+                                 plotOutput("mapa_uv", height = "800px",width = "100%")
+                                 ),
+                        tabPanel("alerta",
+                                 h3("aviso al usuario en caso de valores de riesgo de UV y temperatura máxima"),
+                                 textInput("provincia_us", "Introduce tu provincia:"),
+                                 textInput("email_us", "Introduce tu email:"),
+                                 actionButton("alerta","comprobar zona"),
+                                 br(),
+                                 textOutput("mensaje_alerta")
+                        )
+                          
+                        )
                       ),
-                      tabPanel("Aviso de alto IUV",
-                               h3("..."))
-             ),
-             
+                      
+                     
              
              tabPanel("Ultima Semana",
                       fluidPage(
@@ -90,11 +99,12 @@ shinyUI(
              ),
              
              
-             tabPanel("regresion logistica simple",
+             tabPanel("base climatica ",
                       fluidPage(
-                        h3("c"),
-                        p("b"),
-                        verbatimTextOutput("v")
+                        h3("Base climatica Actual"),
+                        p("En la siguiente pestaña se muestra una base de datos que ses va actualizando con los datos que vamos recibiendo 
+                          de las APIs de la AEMET. Nos mostrara la fecha de los valores de indice de radiación ultravioleta, temperatura máxima y mínima de cada provincia"),
+                        tableOutput("tabla_de_BC")
                       )
              ),
              
