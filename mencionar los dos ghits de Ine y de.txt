@@ -23,4 +23,31 @@ procesar tus datos conjunto de entrenamiento y de testeo
 buen análisis y procesamiento
 explicar la importancia de las variables en random forest. 
 anexos mejoras futuras: entrenar el modelo con mas años para mejor precisión.
-porque por que optaste por la decisión actual demostrar porque
+porque por que optaste por la decisión actual demostrar porque.
+no hay observación UVI en toda España.
+líneas futuras: pronostico a largo plazo 
+modelos estadísticos presentarlos 
+como se comparan modelos entre, q modelos lo hacen mejor 
+predicción de variable continua, 4 regresores para cada regresores tener una predicción
+promedio/mapa de incertidumbre/ desviación 
+solicitud  formal de los datos 
+insolación, radiación directa 
+
+introducción cancer de piel:
+https://www.contraelcancer.es/es/todo-sobre-cancer/tipos-cancer/cancer-piel
+coste económico ingeniero:
+https://www.boe.es/boe/dias/2023/01/31/pdfs/BOE-A-2023-2472.pdf
+https://www.jobted.es/salario/ingeniero-biom%C3%A9dico
+viabilidad legal
+https://www.aemet.es/es/nota_legal
+rgpd y datos no identificables:
+https://www.boe.es/doue/2016/119/L00001-00088.pdf
+añadir densidad de cada población:
+https://es.wikipedia.org/wiki/Anexo:Provincias_y_ciudades_aut%C3%B3nomas_de_Espa%C3%B1a
+intervalos de uv:https://espanol.epa.gov/espanol/escala-del-indice-uv#:~:text=Una%20lectura%20de%20%C3%ADndice%20UV%20de%2011%20o%20m%C3%A1s%20significa,a.%20m.%20y%20las%204%20p.%20m.
+https://www.aemet.es/es/eltiempo/prediccion/radiacionuv/ayuda#:~:text=Los%20colores%20utilizados%20son%20el,extremo%20(superior%20a%2011).
+
+pestaña educativa:
+usuario 
+en otro panel poner un aviso de provincias con iv >8
+ideas nuevas:
