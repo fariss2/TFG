@@ -51,3 +51,14 @@ pestaña educativa:
 usuario 
 en otro panel poner un aviso de provincias con iv >8
 ideas nuevas:
+email a Antonio Canepa
+He empezado a realizar la app ya que casi toda la lógica  de solicitud de datos ya la tenía resuelta, mi idea actual es: 
+Sera una web interactiva informativa y divulgativa sobre el efecto de la radiación ultravioleta y de más variables ambientales 
+Actualmente tiene un panel principal de información sobre el cáncer de piel la radiación UV y breve información sobre sus intervalos. Ayer conseguí realizar un mapa con los índices que recibo de la AEMET. También estoy intentando realizar y pretendo tener una interfaz donde el usuario pueda meter su provincia y su email, de esta manera si la provincia sus datos de hoy superan 6 de uv y tmax>20, se le mande un email con algo tipo (permanezca a la sombra…. y un enlace de recomendacion de cremas solares). Esto ultimo ha surgido de la carencia de poder predecir el riesgo de sufrir cáncer con los pocos datos que existen y por ende, si no puedo predecir, puedo prevenir o alertar al usuario de la presencia de factores de riesgo.
+Al problema de los pocos de datos para predecir, como te comenté en el anterior email, tengo una base de datos que se va actualizando con los nuevos datos que recibe de la api, de esta manera tendre registros diarios de uv de TODAS las provincias (aunque sean predicciones de la AEMET, estan realizadas teniendo en cuenta la zona geografica y la densidad de la capa de ozono y demas factores ) y temperaturas diarias. Esto serviria como una base para lineas futuras donde se podria conectar con el resgistro de diagnosticos de cancer de piel mensuales de algun hospital y de este modo habra datos completos asegurando una mejor prediccion. En la web habra uuna pestaña de la base de datos...  y vere como podre modelarla.
+Al tener datos de la ine de defunciones, quiero hacer otra pestaña con un mapa interactivo con la tasa de mortalidad y altitud de la provincia. Y una breve mencion a un estudio que se investigo la relacion entre el melanoma y la altitud en una zona con morfología geográfica mixta:
+https://www.researchgate.net/publication/360674426_Altitude_Effect_on_Cutaneous_Melanoma_Epidemiology_in_the_Veneto_Region_Northern_Italy_A_Pilot_Study
+Una pestaña final, sobre el tfg
+
+
+prueba grafico contributors 
