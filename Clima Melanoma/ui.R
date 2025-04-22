@@ -32,9 +32,24 @@ shinyUI(
                                        ),
                                        column(6,
                                               img(src = "r_UV.jpg", width = "550px")
-                                       )
+                                       ),
+                                       br(),
+                                       h3("Efectos de la radiación UV sobre el ADN"),
+                                       p("La incidencia directa de la radiación UV en combinación con otros factores de riesgo ambientales y genéticos altera el ADN de los melanocitos,son las células que pigmentan la piel."),
+                                       p("El ADN de una célula son las instrucciones que debe seguir la célula para seguir multiplicándose y creciendo a un ritmo sano; y finalmente cuando sea indicado el momento de la apoptosis, muerte celular."),
+                                       p("El resultado más común por la luz UV es la formación de dímeros de pirimidina, lo que induce a mutaciones en las células epidérmicas, y como consecuencia se crean células cancerosas."),
+                                       img(src = "dimeros.png", width = "600px"),
+                                       p("Estos dímeros distorsionan localmente la estructura del ADN interfiriendo en el apareamiento de bases complementarias. "),
+                                       p("A veces se reparan los dímeros pero existen casos en los que no y esto afecta a los procesos de replicación y transcripción."),
+                                       p("La acumulación de alteraciones en el ADN puede provocar mutaciones en genes de gran importancia, como el gen supresor de tumores p53 que es esencial para mantener el equilibrio genético."),
+                                       p("Su función principal es controlar la reparación del ADN, la detención del ciclo celular y la apoptosis."),
+                                       p("Promueve la apoptosis para evitar el desarrollo del cáncer cuando el daño en el ADN es demasiado severo y no se ha reparado."),
+                                       img(src="p53.jpeg", width="500px"),
+                                       p("El exceso de radiación UV puede causar mutaciones específicas en este gen que alterarán su función protectora.")
+                                       
                                      )
                             ),
+                            
                             
                             
                             tabPanel("Niveles de riesgo UV",
@@ -53,15 +68,33 @@ shinyUI(
                             
                             tabPanel("Melanoma maligno de piel",
                                      h3("¿Qué es?"),
-                                     p("Es un tipo de cáncer de piel que se desarrolla cuando las células que nos aportan color a la piel, los melanocitos, comienzan a crecer fuera de control. Es menos frecuente que otros tipos de cánceres de piel, pero más grave, ya que si no se detecta a tiempo puede propagarse al resto del cuerpo."),
-                                     p("Son más frecuentes en zonas superiores del cuerpo como la espalda y el pecho en hombres, y en las piernas en las mujeres."),
+                                     p("Es un tipo de cáncer de piel que se desarrolla cuando las células que nos aportan color a la piel, como se ha mencionado anteriormente los melanocitos, comienzan a crecer fuera de control. Es menos frecuente que otros tipos de cánceres de piel, pero más grave, ya que si no se detecta a tiempo puede propagarse al resto del cuerpo."),
+                                     p("Este tipo de cancer se suele desarrollar generalmente en la piel más expuesta a la luz solar como los brazos,cara, piernas o espalda cuando estamos tomando el sol. "),
                                      p("La radiación UV es un factor muy importante y bien reconocido en la génesis del cáncer cutáneo, pero también existen otros factores de riesgo como la predisposición genética, y la combinación de otros factores ambientales como la altitud y las temperaturas máximas."),
+                                     p("Se sabe que la exposicion descontrolada y sin proteccion a la radiación ultravioleta es la culpable de la mayoría de melanomas y por ello, debemos limitar la exposición a esta. "),
                                      p("Aquí un ejemplo de su expresión:"),
                                      fluidRow(
                                        column(4, img(src = "melanoma_1.jpg", width = "100%")),
                                        column(4, img(src = "melanoma_2.png", width = "100%")),
                                        column(4, img(src = "melanoma_3.png", width = "100%"))
-                                     )
+                                     ),
+                                     br(),
+                                     h3("Signos y síntomas tempranos del melanoma"),
+                                     p("Los primeros síntomas del melanoma suelen ser cambion en la piel, tanto en el cambio de lunares o pecas ya existentes como la aparición de una nueva malformación pigmentada. "),
+                                     p("Todos sabemos como es el aspecto de un lunar sano, pero algunos presentan características anormales que indican melanomas u otros tipos de cáncer de piel."),
+                                     p("Un lunar sano presenta un color uniforme, con borde definido de forma ovalada o redonda."),
+                                     p("Las características que deberían llamarnos la atención son las siguientes:"),
+                                     tags$ul(
+                                       tags$li("Forma asímetrica"),
+                                       tags$li("Cambios de color,bultos cuyo color no este bien definido visualmente o no se un color usual."),
+                                       tags$li("Cambios de tamaño, que su diametros sea superior a los 6 milimetros."),
+                                       tags$li("Aparición de sangrado o tenga apariencia de picazón."),
+                                       tags$li("Bordes inusuales, no bien definidos, que tenga cortes en la forma.")
+                                     ),
+                                     p("Aquí una comparación visual de como es un lunar sano de uno maligno."),
+                                     img(src = "maligno_vs_benigno.png", width = "600px")
+                                     
+                                     
                             )
                             
                           )
