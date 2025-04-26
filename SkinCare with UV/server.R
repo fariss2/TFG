@@ -8,12 +8,23 @@ library(mapSpain)
 library(tidyverse)
 library(emayili)
 library(climaemet)
-smtp <- server(
-  host = "smtp.gmail.com",
-  port = 587,
-  username = "nisrinefs02@gmail.com",           
-  password = "nrcy hlyl doha afnq"      
-)
+library(DT)
+library(readxl)
+library(writexl)
+
+
+#OBTENCION ALTITUDES
+#aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE)
+#estaciones<- aemet_stations()
+#datatable(estaciones)
+#colnames(estaciones)
+#estaciones_filtradas <- estaciones %>%
+  #select(provincia, altitud)
+#promedio_altitud_provincia <- estaciones_filtradas %>%
+ # group_by(provincia) %>%         
+ # summarise(promedio_altitud = mean(altitud, na.rm = TRUE)) 
+#datatable(promedio_altitud_provincia)
+#write_xlsx(promedio_altitud_provincia, "promedio_altitud_provincia.xlsx")
 
 
 actualizar_datos_climaticos<- function(){
@@ -259,6 +270,7 @@ shinyServer(function(input, output) {
     
     Provs <- esp_get_prov() %>%rename(provincia = ine.prov.name)
     
+    
     Can <- esp_get_can_box()
     
     
@@ -280,6 +292,102 @@ shinyServer(function(input, output) {
         legend.position = "right",
         plot.title = element_text(hjust = 0.5,size = 18 ,face = "bold"))
   })
+  
+  
+  altitud<- read_excel("promedio_altitud_provincia.xlsx")
+  equivalencias_mapa_altitud <- c(
+    "ALICANTE" = "Alicante/Alacant",
+    "A CORUÑA" = "Coruña, A",
+    "ALBACETE" = "Albacete",
+    "ALMERIA" = "Almería",
+    "AVILA" = "Ávila",
+    "BADAJOZ" = "Badajoz",
+    "BARCELONA" = "Barcelona",
+    "BIZKAIA" = "Bizkaia",
+    "BURGOS" = "Burgos",
+    "CACERES" = "Cáceres",
+    "CADIZ" = "Cádiz",
+    "CASTELLON" = "Castellón/Castelló",
+    "CEUTA" = "Ceuta",
+    "CIUDAD REAL" = "Ciudad Real",
+    "CORDOBA" = "Córdoba",
+    "CUENCA" = "Cuenca",
+    "GIPUZKOA" = "Gipuzkoa",
+    "GIRONA" = "Girona",
+    "GRANADA" = "Granada",
+    "GUADALAJARA" = "Guadalajara",
+    "HUELVA" = "Huelva",
+    "HUESCA" = "Huesca",
+    "JAEN" = "Jaén",
+    "LEON" = "León",
+    "LLEIDA" = "Lleida",
+    "LA RIOJA" = "Rioja, La",
+    "LUGO" = "Lugo",
+    "MADRID" = "Madrid",
+    "MALAGA" = "Málaga",
+    "MELILLA" = "Melilla",
+    "MURCIA" = "Murcia",
+    "OURENSE" = "Ourense",
+    "ASTURIAS" = "Asturias",
+    "PALENCIA" = "Palencia",
+    "ILLES BALEARS" = "Balears, Illes",
+    "LAS PALMAS" = "Palmas, Las",
+    "NAVARRA" = "Navarra",
+    "PONTEVEDRA" = "Pontevedra",
+    "SALAMANCA" = "Salamanca",
+    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
+    "CANTABRIA" = "Cantabria",
+    "SEGOVIA" = "Segovia",
+    "SEVILLA" = "Sevilla",
+    "SORIA" = "Soria",
+    "TARRAGONA" = "Tarragona",
+    "TERUEL" = "Teruel",
+    "TOLEDO" = "Toledo",
+    "VALENCIA" = "Valencia/València",
+    "VALLADOLID" = "Valladolid",
+    "ARABA/ALAVA" = "Araba/Álava",
+    "ZAMORA" = "Zamora",
+    "ZARAGOZA" = "Zaragoza"
+  )
+  
+  provincias_validas <- names(equivalencias_mapa_altitud)
+  
+  datos_altitud_mapa <- altitud %>%
+    filter(provincia %in% provincias_validas) %>%
+    mutate(provincia = recode(provincia, !!!equivalencias_mapa_altitud))%>%
+    select(provincia,promedio_altitud)
+  
+  
+  output$mapa_altitud <- renderPlot({
+    
+    Provs <- esp_get_prov() %>%rename(provincia = ine.prov.name)
+    
+    
+    Can <- esp_get_can_box()
+    
+    
+    provincias_alt <-inner_join(Provs,datos_altitud_mapa, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    ggplot(provincias_alt) +
+      geom_sf(aes(fill = promedio_altitud), color = "grey50", linewidth = 0.3) +
+      geom_sf(data = Can, color = "grey50") +
+      scale_fill_gradientn(
+        colors = hcl.colors(10, "Earth", rev = FALSE),
+        name = "Altitud promedio ",
+        n.breaks = 8
+      ) +
+      labs(title = paste("Altitud promedio por provincia ")) +
+      theme_void() +
+      theme(
+        legend.position = "right",
+        plot.title = element_text(hjust = 0.5,size = 18 ,face = "bold"))
+  })
+  
+  
+  
+  
+  
   
   observeEvent(input$alerta, {
     provincia_usuario <- input$provincia_us
