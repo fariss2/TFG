@@ -59,6 +59,16 @@ Al problema de los pocos de datos para predecir, como te comenté en el anterior
 Al tener datos de la ine de defunciones, quiero hacer otra pestaña con un mapa interactivo con la tasa de mortalidad y altitud de la provincia. Y una breve mencion a un estudio que se investigo la relacion entre el melanoma y la altitud en una zona con morfología geográfica mixta:
 https://www.researchgate.net/publication/360674426_Altitude_Effect_on_Cutaneous_Melanoma_Epidemiology_in_the_Veneto_Region_Northern_Italy_A_Pilot_Study
 Una pestaña final, sobre el tfg
-
-
+pagina principal 
+promedio de los 7 dias de uv
+limitar la base de datos, la memoria 
 prueba grafico contributors 
+categorizar las altitudes
+proporcionar una formul de riesgo, indice acumulado 
+mapa de variables 
+opcion de descargar datos, opcion descarga foto 
+RECOMENDACION EN LA PROPIA PESTAÑA 
+MAPA VARIABLES
+RIESGO ACUMULADO FORMULA
+RECOMENDADOR 
+DIAGRAMA DE GANT
