@@ -37,7 +37,21 @@ shinyUI(
                           tags$li("Las zonas de mayor altitud reciben más radiación UV."),
                           tags$li("El 90% de los melanomas son evitables con protección adecuada.")
                         )
-                      )
+                      ),
+                      
+                      br(),
+                      
+                      fluidRow(
+                        column(4,
+                               actionButton("ir_info", "Contenido informativo", class = "btn-primary btn-lg")
+                        ),
+                        column(4,
+                               actionButton("ir_alerta", "Mapa de Variables", class = "btn-warning btn-lg")
+                        ),
+                        column(4,
+                               actionButton("ir_datos", "Base Climatica", class = "btn-success btn-lg")
+                        )
+                      )#añadir acceso directo pulsando enlace
              ),
              
              
@@ -140,10 +154,12 @@ shinyUI(
                         ),
                         tabPanel("Mapa altitud",
                                  h3("Altitud de las provincias."),
+                                 plotOutput("mapa_altitud", height = "800px",width = "100%"),
                                  p("categorizar altitudes")
                                  ),
                         tabPanel("Mapa Melanoma",
                                  h3("Mapa de de muertes por Melanoma de piel maligno INE"),
+                                 plotOutput("mapa_melanoma",height = "800px",width = "100%"),
                                  p("Integrar altitud y muertes, conclusiones")
                                  )
                         
@@ -156,7 +172,7 @@ shinyUI(
              
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
-                        tabPanel("")
+                        tabPanel("Aqui ira el riesgo acumulado tutoria ")
                         
                       )
                      

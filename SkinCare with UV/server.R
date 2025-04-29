@@ -11,7 +11,9 @@ library(climaemet)
 library(DT)
 library(readxl)
 library(writexl)
-
+library(INEbaseR)
+library(stringr)
+library(purrr)
 
 #OBTENCION ALTITUDES
 #aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE)
@@ -160,6 +162,20 @@ actualizar_datos_climaticos<- function(){
   
 }
 
+obtener_datos_melanoma <- function() {
+  datos_67900 <- get_tables(67900, resource = "data")
+  
+  datos_melanoma <- datos_67900 %>%
+    filter(grepl("021 Melanoma maligno de la piel", Nombre)) %>%
+    filter(grepl("Ambos sexos", Nombre) & !grepl("Total", Nombre)) %>%
+    mutate(
+      provincia = str_extract(Nombre, "[^,]+$"),
+      melanoma = map_dbl(Data, ~ .x$Valor[1])
+    ) %>%
+    select(provincia, melanoma)
+  
+  return(datos_melanoma)
+}
 
 
 
@@ -167,13 +183,53 @@ actualizar_datos_climaticos<- function(){
 
 
 shinyServer(function(input, output) { 
+  datos_melanoma <- obtener_datos_melanoma()#añadir tasa de mortalidad
+  
+  datos_melanoma <- datos_melanoma %>%
+    mutate(provincia =str_trim(provincia))%>%
+    filter(provincia!="Extranjero")%>%
+    mutate(provincia = str_replace(provincia, "Valencia/Val\u008ancia", "Valencia/València"))
+  datos_melanoma <- datos_melanoma %>%
+    mutate(provincia = recode(provincia,
+                              "Illes" = "Balears, Illes",
+                              "Las" = "Palmas, Las",
+                              "Avila" = "Ávila",
+                              "A" = "Coruña, A",
+                              "Araba/Alava" = "Araba/Álava",
+                              "La" = "Rioja, La"
+    ))
+  
+  output$mapa_melanoma <- renderPlot({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
+    Can <- esp_get_can_box()
+    #setdiff(Provs$provincia, datos_melanoma$provincia)
+    
+    #view(Provs$provincia)
+    provincias_melanoma <- inner_join(Provs, datos_melanoma, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    ggplot(provincias_melanoma) +
+      geom_sf(aes(fill = melanoma), color = "grey50", linewidth = 0.3) +
+      geom_sf_label(aes(label = melanoma), fill = "white", alpha = 0.8, size = 4, fontface = "bold")+
+      scale_fill_gradientn(
+        colors = hcl.colors(10, "Reds", rev = FALSE),
+        name = "Casos melanoma"
+      ) +
+      labs(title = "Melanoma maligno de la piel según INE") +
+      theme_void() +
+      theme(
+        legend.position = "right",
+        plot.title = element_text(hjust = 0.5, size = 18, face = "bold")
+      )
+  })
+  
   base_climatica<-actualizar_datos_climaticos()
   base_climatica$fecha<-as.Date(as.character(base_climatica$fecha))
   #print(paste("Última fecha en base_climatica:", max(base_climatica$fecha)))
   output$tabla_de_BC<- renderTable({
     base_climatica
   })
-  view(base_climatica)
+  #view(base_climatica)
   Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
   api_key <- Sys.getenv("AEMET_API_KEY")
   codigo <- "0"  
@@ -387,7 +443,7 @@ shinyServer(function(input, output) {
   
   
   
-  
+#cambiar alerta a recomendacion en la propia pantalla 
   
   observeEvent(input$alerta, {
     provincia_usuario <- input$provincia_us
@@ -427,8 +483,6 @@ shinyServer(function(input, output) {
       output$mensaje_alerta <- renderText("Todo bajo control: no hay riesgo elevado en tu zona.")
     }
   })
-  
-  
   
   
     
