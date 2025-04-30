@@ -1,4 +1,5 @@
 library(shiny)
+library(leaflet)
 
 shinyUI(
   navbarPage("SkinCare with UV",
@@ -146,20 +147,20 @@ shinyUI(
                       tabsetPanel(
                         tabPanel("Mapa UV ",
                                  h3("Mapa actual del indice UV"),
-                                 plotOutput("mapa_uv", height = "800px",width = "100%")
+                                 leafletOutput("mapa_uv", height = "800px",width = "100%")
                                  ),
                         tabPanel("Mapa temperaturas",
-                                 h3("Mapa de temperaturas hoy")
+                                 h3("Mapa de temperaturas hoy"),
+                                 leafletOutput("mapa_temp", height ="800px", width ="100%")
                                  
                         ),
                         tabPanel("Mapa altitud",
                                  h3("Altitud de las provincias."),
-                                 plotOutput("mapa_altitud", height = "800px",width = "100%"),
-                                 p("categorizar altitudes")
+                                 leafletOutput("mapa_altitud", height = "800px",width = "100%")
                                  ),
                         tabPanel("Mapa Melanoma",
                                  h3("Mapa de de muertes por Melanoma de piel maligno INE"),
-                                 plotOutput("mapa_melanoma",height = "800px",width = "100%"),
+                                 leafletOutput("mapa_melanoma",height = "800px",width = "100%"),
                                  p("Integrar altitud y muertes, conclusiones")
                                  )
                         

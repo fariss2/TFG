@@ -1,3 +1,4 @@
+
 library(shiny)
 library(httr)
 library(jsonlite)
@@ -14,6 +15,8 @@ library(writexl)
 library(INEbaseR)
 library(stringr)
 library(purrr)
+library(leaflet)
+library(htmltools)
 
 #OBTENCION ALTITUDES
 #aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE)
@@ -182,8 +185,75 @@ obtener_datos_melanoma <- function() {
 
 
 
+
+
+
+
+
+
+
+
 shinyServer(function(input, output) { 
   datos_melanoma <- obtener_datos_melanoma()#añadir tasa de mortalidad
+  poblacion<-read_xlsx("densidad.xlsx")
+  equivalencias_densidad <- c(
+    "ALICANTE" = "Alicante/Alacant",
+    "A CORUÑA" = "Coruña, A",
+    "ALBACETE" = "Albacete",
+    "ALMERIA" = "Almería",
+    "AVILA" = "Ávila",
+    "BADAJOZ" = "Badajoz",
+    "BARCELONA" = "Barcelona",
+    "BIZKAIA" = "Bizkaia",
+    "BURGOS" = "Burgos",
+    "CACERES" = "Cáceres",
+    "CADIZ" = "Cádiz",
+    "CASTELLON" = "Castellón/Castelló",
+    "CEUTA" = "Ceuta",
+    "CIUDAD REAL" = "Ciudad Real",
+    "CORDOBA" = "Córdoba",
+    "CUENCA" = "Cuenca",
+    "GIPUZKOA" = "Gipuzkoa",
+    "GIRONA" = "Girona",
+    "GRANADA" = "Granada",
+    "GUADALAJARA" = "Guadalajara",
+    "HUELVA" = "Huelva",
+    "HUESCA" = "Huesca",
+    "JAEN" = "Jaén",
+    "LEON" = "León",
+    "LLEIDA" = "Lleida",
+    "LA RIOJA" = "Rioja, La",
+    "LUGO" = "Lugo",
+    "MADRID" = "Madrid",
+    "MALAGA" = "Málaga",
+    "MELILLA" = "Melilla",
+    "MURCIA" = "Murcia",
+    "OURENSE" = "Ourense",
+    "ASTURIAS" = "Asturias",
+    "PALENCIA" = "Palencia",
+    "ILLES BALEARS" = "Balears, Illes",
+    "LAS PALMAS" = "Palmas, Las",
+    "NAVARRA" = "Navarra",
+    "PONTEVEDRA" = "Pontevedra",
+    "SALAMANCA" = "Salamanca",
+    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
+    "CANTABRIA" = "Cantabria",
+    "SEGOVIA" = "Segovia",
+    "SEVILLA" = "Sevilla",
+    "SORIA" = "Soria",
+    "TARRAGONA" = "Tarragona",
+    "TERUEL" = "Teruel",
+    "TOLEDO" = "Toledo",
+    "VALENCIA" = "Valencia/València",
+    "VALLADOLID" = "Valladolid",
+    "ARABA/ALAVA" = "Araba/Álava",
+    "ZAMORA" = "Zamora",
+    "ZARAGOZA" = "Zaragoza"
+  )
+  
+  
+  poblacion <- poblacion %>%
+    mutate(provincia = recode(provincia, !!!equivalencias_densidad))
   
   datos_melanoma <- datos_melanoma %>%
     mutate(provincia =str_trim(provincia))%>%
@@ -199,29 +269,50 @@ shinyServer(function(input, output) {
                               "La" = "Rioja, La"
     ))
   
-  output$mapa_melanoma <- renderPlot({
+  tasa_mortalidad<-inner_join(datos_melanoma,poblacion,by="provincia")
+  tasa_mortalidad<-tasa_mortalidad%>%
+    mutate(tasa=round((melanoma / poblacion) * 100000, 2))
+  
+  
+  
+  output$mapa_melanoma <- renderLeaflet({
     Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
-    Can <- esp_get_can_box()
-    #setdiff(Provs$provincia, datos_melanoma$provincia)
     
-    #view(Provs$provincia)
-    provincias_melanoma <- inner_join(Provs, datos_melanoma, by = "provincia") %>%
+    provincias_leaflet <- inner_join(Provs, tasa_mortalidad, by = "provincia") %>%
       sf::st_as_sf()
     
-    ggplot(provincias_melanoma) +
-      geom_sf(aes(fill = melanoma), color = "grey50", linewidth = 0.3) +
-      geom_sf_label(aes(label = melanoma), fill = "white", alpha = 0.8, size = 4, fontface = "bold")+
-      scale_fill_gradientn(
-        colors = hcl.colors(10, "Reds", rev = FALSE),
-        name = "Casos melanoma"
-      ) +
-      labs(title = "Melanoma maligno de la piel según INE") +
-      theme_void() +
-      theme(
-        legend.position = "right",
-        plot.title = element_text(hjust = 0.5, size = 18, face = "bold")
+    pal <- colorNumeric("PuBu", domain = provincias_leaflet$tasa)
+    
+    leaflet(provincias_leaflet) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(tasa),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        label = ~lapply(
+          paste0(
+            "<strong>", provincia, "</strong><br/>",
+            "Casos: ", melanoma, "<br/>",
+            "Tasa: ", tasa, " por 100.000 Habitantes"
+          ), 
+          HTML
+        ),
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.7,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~tasa,
+        title = "Tasa de mortalidad por 100.000 habitantes ",
+        position = "bottomright"
       )
   })
+  
   
   base_climatica<-actualizar_datos_climaticos()
   base_climatica$fecha<-as.Date(as.character(base_climatica$fecha))
@@ -320,34 +411,59 @@ shinyServer(function(input, output) {
   datos_uv_mapa<- datos_uv_mapa%>%
     rename(provincia=prov_map)
   
-  
-  
-  output$mapa_uv <- renderPlot({
-    
-    Provs <- esp_get_prov() %>%rename(provincia = ine.prov.name)
-    
-    
-    Can <- esp_get_can_box()
-    
-    
-    provincias_uv <-inner_join(Provs,datos_uv_mapa, by = "provincia") %>%
+  output$mapa_uv <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
+    centroides <- st_centroid(provincias_uv)
+    provincias_uv <- inner_join(Provs, datos_uv_mapa, by = "provincia") %>%
       sf::st_as_sf()
     
-    ggplot(provincias_uv) +
-      geom_sf(aes(fill = uv), color = "grey50", linewidth = 0.3) +
-      geom_sf(data = Can, color = "grey50") +
-      geom_sf_label(aes(label = uv), fill = "white", alpha = 0.9, size = 5, fontface="bold") +
-      scale_fill_gradientn(
-        colors = hcl.colors(10, "YlOrRd", rev = TRUE),
-        name = "Índice UV",
-        n.breaks = 7
-      ) +
-      labs(title = paste("Índice UV por provincia -", Sys.Date())) +
-      theme_void() +
-      theme(
-        legend.position = "right",
-        plot.title = element_text(hjust = 0.5,size = 18 ,face = "bold"))
+    pal <- colorNumeric(palette = "YlOrRd", domain = provincias_uv$uv)
+    
+    leaflet(provincias_uv, options = leafletOptions(
+      zoomControl = TRUE,
+      dragging = TRUE,
+      scrollWheelZoom = TRUE
+    )) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(uv),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.9,
+          bringToFront = TRUE
+        )
+      )%>%
+      addLabelOnlyMarkers(
+        data = centroides,
+        lng = ~st_coordinates(geometry)[,1],
+        lat = ~st_coordinates(geometry)[,2],
+        label = ~as.character(uv),
+        labelOptions = labelOptions(
+          noHide = TRUE,
+          direction = "center",
+          textOnly = TRUE,
+          style = list(
+            "font-weight" = "bold",
+            "font-size" = "12px",
+            "background-color" = "white",
+            "border" = "1px solid gray",
+            "padding" = "2px"
+          )
+        )
+      )%>%
+      addLegend(
+        pal = pal,
+        values = ~uv,
+        title = paste("Índice UV -", Sys.Date()),
+        position = "bottomright"
+      ) %>%
+      setView(lng = -3, lat = 40, zoom = 5)
   })
+  
   
   
   altitud<- read_excel("promedio_altitud_provincia.xlsx")
@@ -412,33 +528,61 @@ shinyServer(function(input, output) {
     filter(provincia %in% provincias_validas) %>%
     mutate(provincia = recode(provincia, !!!equivalencias_mapa_altitud))%>%
     select(provincia,promedio_altitud)
+  datos_altitud_mapa <- datos_altitud_mapa %>%
+    mutate(
+      indice = case_when(
+        promedio_altitud < 200 ~ 1,
+        promedio_altitud < 500 ~ 2,
+        promedio_altitud < 800 ~ 3,
+        promedio_altitud < 1000 ~ 4,
+        TRUE ~ 5
+      )
+    )
   
-  
-  output$mapa_altitud <- renderPlot({
+  output$mapa_altitud <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
     
-    Provs <- esp_get_prov() %>%rename(provincia = ine.prov.name)
-    
-    
-    Can <- esp_get_can_box()
-    
-    
-    provincias_alt <-inner_join(Provs,datos_altitud_mapa, by = "provincia") %>%
+    provincias_alt <- inner_join(Provs, datos_altitud_mapa, by = "provincia") %>%
       sf::st_as_sf()
     
-    ggplot(provincias_alt) +
-      geom_sf(aes(fill = promedio_altitud), color = "grey50", linewidth = 0.3) +
-      geom_sf(data = Can, color = "grey50") +
-      scale_fill_gradientn(
-        colors = hcl.colors(10, "Earth", rev = FALSE),
-        name = "Altitud promedio ",
-        n.breaks = 8
-      ) +
-      labs(title = paste("Altitud promedio por provincia ")) +
-      theme_void() +
-      theme(
-        legend.position = "right",
-        plot.title = element_text(hjust = 0.5,size = 18 ,face = "bold"))
+    pal <- colorNumeric(palette = "BrBG", domain = provincias_alt$promedio_altitud, reverse = FALSE)
+    
+    leaflet(provincias_alt, options = leafletOptions(
+      zoomControl = TRUE,
+      dragging = TRUE,
+      scrollWheelZoom = TRUE
+    )) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(promedio_altitud),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        label = ~lapply(
+          paste0(
+            "<strong>", provincia, "</strong><br/>",
+            "Altitud promedio: ", promedio_altitud, " m<br/>",
+            "Indice según la altitud:", indice
+          ),
+          htmltools::HTML
+        ),
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.9,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~promedio_altitud,
+        title = "Altitud promedio (m)",
+        position = "bottomright"
+      ) %>%
+      setView(lng = -3, lat = 40, zoom = 5)
   })
+  
+
   
   
   
@@ -483,9 +627,131 @@ shinyServer(function(input, output) {
       output$mensaje_alerta <- renderText("Todo bajo control: no hay riesgo elevado en tu zona.")
     }
   })
+ #mapa temp
+  api_key <- Sys.getenv("AEMET_API_KEY")
   
+  endpoint <- paste0("https://opendata.aemet.es/opendata/api/observacion/convencional/todas")
   
+  respuesta <- GET(endpoint, query = list(api_key = api_key))
+  json_temp<- fromJSON(content(respuesta, as = "text"))
+  url_datos<- json_temp$datos
+  download.file(url_datos,"temp.json",mode="wb")
+  contenido_bruto<-readLines("temp.json", warn = FALSE, encoding = "ISO-8859-1")
+  contenido_utf8<-iconv(contenido_bruto, from = "ISO-8859-1", to = "UTF-8")
+  writeLines(contenido_utf8, "temp_utf8.json")
+  datos_temp<-fromJSON("temp_utf8.json")%>%
+    group_by(idema,ubi)%>%
+    summarise(
+      Tmin = ifelse(all(is.na(tamin)), NA, min(tamin, na.rm = TRUE)),
+      Tmax = ifelse(all(is.na(tamax)), NA, max(tamax, na.rm = TRUE)),
+      .groups = "drop"
+    )%>%
+    filter(!is.na(Tmin) & !is.na(Tmax))
+  
+  estaciones <- aemet_stations()
+  estaciones_prov <- estaciones %>%
+    select(idema = indicativo, provincia)
+  datos_temp<- datos_temp%>%
+    inner_join(estaciones_prov,by="idema")%>%
+    group_by(provincia)%>%
+    summarise(Tmin=mean(Tmin, na.rm=TRUE),Tmax=mean(Tmax, na.rm=TRUE), .groups = "drop"  )%>%
+    mutate(fecha=as.Date(Sys.Date()))
+  #view(datos_temp)
+  equivalencias_temp <- c(
+    "ALICANTE" = "Alicante/Alacant",
+    "A CORUÑA" = "Coruña, A",
+    "ALBACETE" = "Albacete",
+    "ALMERIA" = "Almería",
+    "AVILA" = "Ávila",
+    "BADAJOZ" = "Badajoz",
+    "BARCELONA" = "Barcelona",
+    "BIZKAIA" = "Bizkaia",
+    "BURGOS" = "Burgos",
+    "CACERES" = "Cáceres",
+    "CADIZ" = "Cádiz",
+    "CASTELLON" = "Castellón/Castelló",
+    "CEUTA" = "Ceuta",
+    "CIUDAD REAL" = "Ciudad Real",
+    "CORDOBA" = "Córdoba",
+    "CUENCA" = "Cuenca",
+    "GIPUZKOA" = "Gipuzkoa",
+    "GIRONA" = "Girona",
+    "GRANADA" = "Granada",
+    "GUADALAJARA" = "Guadalajara",
+    "HUELVA" = "Huelva",
+    "HUESCA" = "Huesca",
+    "JAEN" = "Jaén",
+    "LEON" = "León",
+    "LLEIDA" = "Lleida",
+    "LA RIOJA" = "Rioja, La",
+    "LUGO" = "Lugo",
+    "MADRID" = "Madrid",
+    "MALAGA" = "Málaga",
+    "MELILLA" = "Melilla",
+    "MURCIA" = "Murcia",
+    "OURENSE" = "Ourense",
+    "ASTURIAS" = "Asturias",
+    "PALENCIA" = "Palencia",
+    "BALEARES" = "Balears, Illes",
+    "LAS PALMAS" = "Palmas, Las",
+    "NAVARRA" = "Navarra",
+    "PONTEVEDRA" = "Pontevedra",
+    "SALAMANCA" = "Salamanca",
+    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
+    "CANTABRIA" = "Cantabria",
+    "SEGOVIA" = "Segovia",
+    "SEVILLA" = "Sevilla",
+    "SORIA" = "Soria",
+    "TARRAGONA" = "Tarragona",
+    "TERUEL" = "Teruel",
+    "TOLEDO" = "Toledo",
+    "VALENCIA" = "Valencia/València",
+    "VALLADOLID" = "Valladolid",
+    "ARABA/ALAVA" = "Araba/Álava",
+    "ZAMORA" = "Zamora",
+    "ZARAGOZA" = "Zaragoza"
+  )
+
+  datos_temp <- datos_temp %>%
+    mutate(provincia = toupper(provincia)) %>% 
+    mutate(provincia = recode(provincia, !!!equivalencias_temp))
+  
+  #view(datos_temp)
+  output$mapa_temp <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
     
+    provincias_temp <- inner_join(Provs, datos_temp, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    pal <- colorNumeric(palette = "Reds", domain = provincias_temp$Tmax)
+    
+    leaflet(provincias_temp, options = leafletOptions(
+      zoomControl = TRUE,
+      dragging = TRUE,
+      scrollWheelZoom = TRUE
+    )) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(Tmax),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.9,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~Tmax,
+        title = "Temperatura máxima (°C) - ", Sys.Date(),
+        position = "bottomright"
+      ) %>%
+      setView(lng = -3, lat = 40, zoom = 5)
+  })
+  
     
   })
 

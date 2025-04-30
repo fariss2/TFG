@@ -1,10 +1,10 @@
 {"ROOT": {
-  "FECHA_VALIDEZ": "2025-05-02T12:00:00",
-  "FECHA_MOD": "2025-04-28T12:00:00",
-  "FECHA_ELABORACION": "2025-04-29T03:57:02",
+  "FECHA_VALIDEZ": "2025-05-03T12:00:00",
+  "FECHA_MOD": "2025-04-29T12:00:00",
+  "FECHA_ELABORACION": "2025-04-30T02:32:01",
   "CIUDAD": [
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Albacete",
       "canarias": 0,
       "id": "02003"
@@ -34,7 +34,7 @@
       "id": "06015"
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Barcelona",
       "canarias": 0,
       "id": "08019"
@@ -100,19 +100,19 @@
       "id": 16078
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Girona",
       "canarias": 0,
       "id": 17079
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Granada",
       "canarias": 0,
       "id": 18087
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Guadalajara",
       "canarias": 0,
       "id": 19130
@@ -124,7 +124,7 @@
       "id": 21041
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Huesca",
       "canarias": 0,
       "id": 22125
@@ -154,13 +154,13 @@
       "id": 27028
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Lleida",
       "canarias": 0,
       "id": 25120
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Madrid",
       "canarias": 0,
       "id": 28079
@@ -190,7 +190,7 @@
       "id": 32054
     },
     {
-      "uv": 7,
+      "uv": 6,
       "valor": "Oviedo",
       "canarias": 0,
       "id": 33044
@@ -202,13 +202,13 @@
       "id": 34120
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Palma",
       "canarias": 0,
       "id": "07040"
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Eivissa",
       "canarias": 0,
       "id": "07026"
@@ -238,7 +238,7 @@
       "id": 35004
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Pamplona/Iruña",
       "canarias": 0,
       "id": 31201
@@ -262,7 +262,7 @@
       "id": 20069
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Santa Cruz de Tenerife",
       "canarias": 1,
       "id": 38038
@@ -280,19 +280,19 @@
       "id": 38048
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Santa Cruz de la Palma",
       "canarias": 1,
       "id": 38037
     },
     {
-      "uv": 7,
+      "uv": 6,
       "valor": "Santander",
       "canarias": 0,
       "id": 39075
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Segovia",
       "canarias": 0,
       "id": 40194
@@ -304,7 +304,7 @@
       "id": 41091
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Soria",
       "canarias": 0,
       "id": 42173
@@ -316,13 +316,13 @@
       "id": 43148
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Teruel",
       "canarias": 0,
       "id": 44216
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Toledo",
       "canarias": 0,
       "id": 45168
@@ -352,7 +352,7 @@
       "id": 49275
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Zaragoza",
       "canarias": 0,
       "id": 50297
