@@ -7,7 +7,6 @@ library(ggplot2)
 library(sf)
 library(mapSpain)
 library(tidyverse)
-library(emayili)
 library(climaemet)
 library(DT)
 library(readxl)
@@ -45,6 +44,16 @@ actualizar_datos_climaticos<- function(){
   contenido_bruto<-readLines("temp.json", warn = FALSE, encoding = "ISO-8859-1")
   contenido_utf8<-iconv(contenido_bruto, from = "ISO-8859-1", to = "UTF-8")
   writeLines(contenido_utf8, "temp_utf8.json")
+'  datos_temp <- datos_brutos %>%
+    select(idema, ubi, tamin, tamax) %>%  
+    group_by(idema, ubi) %>%
+    summarise(
+      Tmin = ifelse(all(is.na(tamin)), NA, min(tamin, na.rm = TRUE)),
+      Tmax = ifelse(all(is.na(tamax)), NA, max(tamax, na.rm = TRUE)),
+      .groups = "drop"
+    ) %>%
+    filter(!is.na(Tmin) & !is.na(Tmax))
+  '
   datos_temp<-fromJSON("temp_utf8.json")%>%
     group_by(idema,ubi)%>%
     summarise(
@@ -193,8 +202,27 @@ obtener_datos_melanoma <- function() {
 
 
 
-shinyServer(function(input, output) { 
-  datos_melanoma <- obtener_datos_melanoma()#añadir tasa de mortalidad
+shinyServer(function(input, output,session) { 
+  
+  observeEvent(input$ir_info, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Contenido informativo")
+  })
+  observeEvent(input$ir_alerta, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Mapa de Variables")
+  })
+  observeEvent(input$ir_riesgo, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Riesgo Acumulado")
+  })
+  observeEvent(input$ir_recomendador, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Recomendador")
+  })
+  observeEvent(input$ir_datos, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Base Climatica ")
+  })
+
+#--------  
+  
+  datos_melanoma <- obtener_datos_melanoma()
   poblacion<-read_xlsx("densidad.xlsx")
   equivalencias_densidad <- c(
     "ALICANTE" = "Alicante/Alacant",
@@ -293,7 +321,7 @@ shinyServer(function(input, output) {
         label = ~lapply(
           paste0(
             "<strong>", provincia, "</strong><br/>",
-            "Casos: ", melanoma, "<br/>",
+            "Muertes: ", melanoma, "<br/>",
             "Tasa: ", tasa, " por 100.000 Habitantes"
           ), 
           HTML
@@ -316,11 +344,11 @@ shinyServer(function(input, output) {
   
   base_climatica<-actualizar_datos_climaticos()
   base_climatica$fecha<-as.Date(as.character(base_climatica$fecha))
-  #print(paste("Última fecha en base_climatica:", max(base_climatica$fecha)))
+  print(paste("Última fecha en base_climatica:", max(base_climatica$fecha)))
   output$tabla_de_BC<- renderTable({
     base_climatica
   })
-  #view(base_climatica)
+  view(base_climatica)
   Sys.setenv(AEMET_API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0")
   api_key <- Sys.getenv("AEMET_API_KEY")
   codigo <- "0"  
@@ -587,46 +615,59 @@ shinyServer(function(input, output) {
   
   
   
-#cambiar alerta a recomendacion en la propia pantalla 
+  recomendacion<-function(uv,tmax,fototipo){
+    alto_riesgo<- fototipo %in% c("I","II")
+    riesgo_medio<- fototipo %in% c("III","IV")
+    bajo_riesgo<- fototipo %in% c("V","VI")
+    if (uv >= 6 && tmax >= 20 && alto_riesgo) {
+      return("¡¡ATENCIÓN!!: Alto riesgo, use protector SPF50+, evita la exposición al sol entre las 12-16h,use gafas y y protección solar capilar.")
+    } else if (uv >= 6 && tmax >= 20 && (alto_riesgo || riesgo_medio)) {
+      return("Riesgo MODERADO-ALTO: usa protector SPF50, evita la exposición al sol entre las 12-16h,use gafas y proteccón solar capilar.")
+    } else if (uv >= 6 && fototipo %in% c("I", "II", "III")) {
+      return(" Riesgo MODERADO: protección recomendada SPF50, .")
+    } else if (uv < 4 && bajo_riesgo) {
+      return("Riesgo BAJO: protección solar recomendada SPF30. No olvide proteger sus ojos, use gafas de sol .")
+    } else if (tmax >= 35) {
+      return("¡¡ATENCÓN!!: temperatura extrema, mantengase hidratado y evita exposición al sol directa durante las horas 12-16h.")
+    } else {
+      return("Riesgo BAJO-MODERADO: use protección SPF20 si vas a estar  expuesto al sol por larga duración. ")
+    }
   
-  observeEvent(input$alerta, {
-    provincia_usuario <- input$provincia_us
-    email_usuario <- input$email_us
     
+    
+  }
+  observeEvent(input$generar_recomendacion, {
+    provincia <- input$provincia_usuario
+
     datos_hoy <- base_climatica %>%
-      filter(provincia == provincia_usuario & fecha == Sys.Date())
+      filter(provincia == provincia & fecha == Sys.Date())
     
     if (nrow(datos_hoy) == 0) {
-      output$mensaje_alerta <- renderText("No hay datos disponibles para esa provincia.")
+      output$mensaje_recomendacion <- renderText("No hay datos disponibles para esa provincia.")
+      return()}
+    uv<-datos_hoy$uv
+    tmax<-datos_hoy$Tmax
+    fototipo_piel<- switch(input$tipo_piel,
+                           "Muy blanca"="I" ,
+                           "Blanca"="II",
+                           "Intermedia"="III" ,
+                           "Morena clara"="IV" ,
+                           "Morena oscura"="V" ,
+                           "Negra"="VI" 
+                    )
+    mensaje<- recomendacion(uv,tmax,fototipo_piel)
+    output$mensaje_recomendacion<-renderText(mensaje)
       
-    } else if (datos_hoy$uv > 6 & datos_hoy$Tmax > 20) {
-      alerta_texto <- paste0(
-        " ¡Alerta UV!\n\n",
-        "Provincia: ", provincia_usuario, "\n",
-        "Índice UV: ", datos_hoy$uv, "\n",
-        "Temperatura máxima: ", datos_hoy$Tmax, " °C\n\n",
-        "Te recomendamos evitar la exposición al sol entre las 12:00 y 16:00.
-        Mnatengase en la sombra durante esas horas. Aquí una recomendacion de cremas solares para aplicarse:
-        https://www.elle.com/es/belleza/cara-cuerpo/g32580491/mejores-protectores-solares-farmacia/
-        "
-      )
       
-      correo <- envelope() %>%
-        from("tucuenta@gmail.com") %>%
-        to(email_usuario) %>%
-        subject("Alerta UV y temperatura en tu zona") %>%
-        text(alerta_texto)
       
-      smtp(correo)
       
-      output$mensaje_alerta <- renderText(
-        paste("Alerta enviada a", email_usuario)
-      )
-      
-    } else {
-      output$mensaje_alerta <- renderText("Todo bajo control: no hay riesgo elevado en tu zona.")
-    }
+    
   })
+  
+  
+  
+  
+  
  #mapa temp
   api_key <- Sys.getenv("AEMET_API_KEY")
   

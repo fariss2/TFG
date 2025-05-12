@@ -2,7 +2,13 @@ library(shiny)
 library(leaflet)
 
 shinyUI(
-  navbarPage("SkinCare with UV",
+  navbarPage("SkinCare with UV", id="navegador",
+             tags$head(
+               tags$style(HTML(
+                 " .tab-content {
+                   margin-bottom: 100px;
+                 }"))
+             ),
              tabPanel("Inicio",
                       fluidPage(
                         h1("Bienvenido/a a SkinCare with UV", align = "center"),
@@ -36,23 +42,67 @@ shinyUI(
                           tags$li("Una quemadura solar en la infancia puede duplicar el riesgo de melanoma."),
                           tags$li("La radiación UV puede ser intensa incluso en días nublados."),
                           tags$li("Las zonas de mayor altitud reciben más radiación UV."),
-                          tags$li("El 90% de los melanomas son evitables con protección adecuada.")
+                          tags$li("El 90% de los melanomas son evitables con protección adecuada."),
+                          tags$li("El 80% del daño solar en la piel ocurre antes de los 18 años"),
+                          
                         )
                       ),
                       
                       br(),
                       
-                      fluidRow(
-                        column(4,
-                               actionButton("ir_info", "Contenido informativo", class = "btn-primary btn-lg")
-                        ),
-                        column(4,
-                               actionButton("ir_alerta", "Mapa de Variables", class = "btn-warning btn-lg")
-                        ),
-                        column(4,
-                               actionButton("ir_datos", "Base Climatica", class = "btn-success btn-lg")
-                        )
-                      )#añadir acceso directo pulsando enlace
+                      tags$head(
+                        tags$style(HTML("
+    .inicio-botones {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      margin-bottom: 60px;
+    }
+    
+    .btn-primary {
+      background-color: #1e88e5;
+      color: white;
+      font-size: 16px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #1565c0;
+      transform: scale(1.05);
+    }
+
+    .btn-success {
+      background-color: #f9a825;
+    }
+
+    .btn-danger:hover {
+      background-color: #f57f17;
+    }
+
+    .btn-warning {
+      background-color: #43a047;
+    }
+
+    .btn-secondary:hover {
+      background-color: #2e7d32;
+    }
+  "))
+                      ),
+                      
+                      div(class = "inicio-botones",
+                          actionButton("ir_info", "Contenido informativo", class = "btn-primary"),
+                          actionButton("ir_alerta", "Mapa de Variables", class = "btn-success"),
+                          actionButton("ir_riesgo", "Riesgo Acumulado", class = "btn-danger"),
+                          actionButton("ir_recomendador", "Recomendador", class = "btn-warning"),
+                          actionButton("ir_datos", "Base Climatica", class = "btn-secondary")
+                      )
+                      
              ),
              
              
@@ -145,6 +195,11 @@ shinyUI(
              
              tabPanel("Mapa de Variables",
                       tabsetPanel(
+                        tabPanel("Mapa Melanoma",
+                                 h3("Mapa de de muertes por Melanoma de piel maligno INE"),
+                                 leafletOutput("mapa_melanoma",height = "800px",width = "100%"),
+                                 p("Integrar altitud y muertes, conclusiones")
+                        ),
                         tabPanel("Mapa UV ",
                                  h3("Mapa actual del indice UV"),
                                  leafletOutput("mapa_uv", height = "800px",width = "100%")
@@ -157,13 +212,7 @@ shinyUI(
                         tabPanel("Mapa altitud",
                                  h3("Altitud de las provincias."),
                                  leafletOutput("mapa_altitud", height = "800px",width = "100%")
-                                 ),
-                        tabPanel("Mapa Melanoma",
-                                 h3("Mapa de de muertes por Melanoma de piel maligno INE"),
-                                 leafletOutput("mapa_melanoma",height = "800px",width = "100%"),
-                                 p("Integrar altitud y muertes, conclusiones")
                                  )
-                        
                       
                           
                         )
@@ -179,14 +228,32 @@ shinyUI(
                      
              ),
              tabPanel("Recomendador",
-                      h3("cambiar alertas que salgan en la propia pestaña "),
-                      textInput("provincia_us", "Introduce tu provincia:"),
-                      textInput("email_us", "Introduce tu email:"),
-                      actionButton("alerta","comprobar zona"),
-                      br(),
-                      textOutput("mensaje_alerta")
-                      ),
-             
+                      h3("Recomendación según tipo de piel y zona geográfica"),
+                      fluidRow(
+                        column(6,
+                               selectInput("provincia_usuario", "Selecciona tu provincia",
+                                           choices = sort(unique(base_climatica$provincia))),
+                               selectInput("tipo_piel", "Selecciona tu tipo de piel",
+                                           choices = c("Muy blanca", "Blanca", "Intermedia",
+                                                       "Morena clara", "Morena oscura", "Negra")),
+                               actionButton("generar_recomendacion", "Obtener recomendación"),
+                               br(), br(),
+                               textOutput("mensaje_recomendacion")
+                        ),
+                        column(6,
+                               h4("Diferentes fototipos de piel"),
+                               p("Según la capacidad de la piel para quemarse y broncearse se clasifica en 6 tipos:"),
+                               tags$ul(
+                                 tags$li(strong("Muy blanca:"), "Presente en individuos de piel muy clara, ojos azules, propia de pelirrojos con pecas en la piel. Presentan un color de piel blanco-lechoso. Se quema siempre de forma intensa sin presencia de bronceado y descama de forma ostensible."),
+                                 tags$li(strong("Blanca:"), "Presente en individuos de piel clara, pelo rubio, ojos claros y con pecas, que no estan expuestas habitualmente al sol. Quemado intenso y fácil, con bronceado mínimo y descama de forma notoria "),
+                                 tags$li(strong("Intermedia:"), "Presente en razas caucásicas de piel ligeramente morena que  no esta expuesta habitualmente al sol.Se quema con facilidad presentando un bronceado gradual. "),
+                                 tags$li(strong("Morena clara:"), "Presente en individuos de piel morena con pelo y ojos oscuros. Se quema moderada o minímamente, bronceado o pigmentación inmediata y con bastante facilidad al exponerse al sol."),
+                                 tags$li(strong("Morena oscura:"), "Presente en individuos de piel color marron. Se quema raramente y presentan bronceado muy intenso. "),
+                                 tags$li(strong("Negra:"), " Fototipo propio de razas negras. Nunca se quema y pigmentación intensa.")
+                               )
+                        )
+                      )
+             ),
              
              tabPanel("Base Climatica ",
                       fluidPage(
