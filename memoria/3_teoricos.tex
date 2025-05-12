@@ -1,0 +1,83 @@
+\capitulo{3}{Conceptos teóricos}
+
+
+Antes de adentrarse en los detalles técnicos del trabajo, es importante tener unos conocimientos básicos relacionados con el melanoma de piel, los factores ambientales que influyen en su desarrollo, y herramientas informáticas empleadas como la plataforma Shiny y las solicitudes APIs. Estos conceptos proporcionan un marco conceptual que facilita la comprensión del propósito del trabajo, asi como interpretar la metodología empleada y resultados obtenidos 
+
+\section{Melanoma de piel maligno}
+
+El \textit{melanoma} es un tipo de cáncer de piel originado principalmente en las células productoras de melanina, melanocitos. Aunque representa entre el 1\% y 4\% de todos los cánceres de piel, es el tipo más grave debido a su alta mortalidad. El \textit{melanoma} tiene alta agresividad y potencial para generar metástasis a nivel nodal y a distancia. 
+
+\subsection{Síntomas del \textit{melanoma}}
+Para un reconocimiento clínico de una lesión sospechosa de \textit{melanoma}, se emplea el método ABCD que significa:
+
+\begin{itemize}
+    \item Asimetría: la lesión es irregular o asimétrica.
+    \item Bordes: posee bordes irregulares o mal definidos.
+    \item Color: presenta variaciones de color, mas de dos colores en una misma lesión.
+    \item Diámetro: posesión de diámetro mayor de 6mm.
+    \item Evolución: cambios observables como en la forma o tamaño de la lesión.
+    \item \textit{Funny} o extraño: la lesión resalta por ser diferente o extraña.  
+\end{itemize}
+
+
+\subsubsection{Factores de riesgo}
+
+
+\begin{itemize}
+    \item Exposición a la luz solar, radiación ultravioleta: exposiciones intermitentes y quemaduras solares previas.
+    \item Fototipo de piel clara, de tipo I y II
+    \item Factores hormonales y reproductivos, los estrógenos y progesterona estimulan la proliferación melanocítica.
+    \item Historial familiar y personal, el antecedente familiar está presente en el 10\% de los casos.
+    \item Padecer enfermedades relacionadas con el \textit{nevus}, proliferación benigna de los melanócitos
+\end{itemize}
+
+\subsubsection{Tratamiento}
+Tras la confirmación del \textit{melanoma} mediante procedimientos como una biopsia o estudio histopatológico, se procede al tratamiento.
+El principal tratamiento y curativo del \textit{melanoma} es la cirugía. Consiste en la extirpación del tumor primario con márgenes de seguridad adecuado para asegurar de que no se produzca propagación al resto del organismo.
+
+\subsection{Medidas de prevención}
+Como medidas de prevención se debe reducir la exposición solar, fomentar más el cuidado y protección de la piel. Una detección precoz y un control dermatológico de quemaduras previas también evita complicaciones del \textit{melanoma} \cite{oyarzun2021cancer}.
+
+\section{Radiación ultravioleta \textit{UV}}
+La radiación ultravioleta es el principal factor de riesgo ambiental modificable en el desarrollo del melanoma cutáneo. Esta radiación es parte de la energía que proviene del sol y representa la porción más energética del espectro electromagnético que incide sobre la superficie terrestre.Tiene una capacidad para producir efectos biológicos significativos por su interacción directa con moléculas de importante significación como el ADN y proteínas.
+Existen tres tipos principales de radiación UV según su longitud de onda:
+\begin{itemize}
+    \item \textbf{UVC} cuya longitud varía desde 100 a 280 nm, posee la mayor parte de energía que es retenida por la capa de ozono, por lo que no llega naturalmente a la superficie terrestre.
+    \item \textbf{UVB} de longevidad 280 nm a 320 nm, es menos energética que la UVC pero es más dañina para la salud humana, causando quemaduras solares, daño genético directo.
+    \item \textbf{UVA} de mayor longitud 320 a 400 nm, posee menos energía que UVB pero es la que más abunda en la tierra, está penetra más profundamente en la piel y provoca envejecimiento prematuro. También genera daños genéticos indirectos por la formación de especies reactivas del oxígeno.
+\end{itemize}
+Produce lesiones directas en el ADN formando dímeros de pirimidina provocando distorsión local del ADN, impidiendo su correcto emparejamiento con sus bases complementarias. A pesar de que habitualmente estas lesiones se reparan, existen casos de persistencia lo que afecta a procesos celulares como el ciclo celular. 
+La acumulación progresiva de daños en la información genética puede acabar en mutaciones de genes de gran importancia, como lo es el gen p53, supresor de tumores. Su principal función es regular procesos clave como la reparación del ADN, parada del ciclo celular y la apoptosis,, que es la muerte celular programada.
+Cuando se produce la reparación inicial del ADN, el gen p53 promueve la apoptosis para prevenir el desarrollo de tumores. Sin embargo, la exposición excesiva a la radiación UV puede provocar mutaciones en este gen, que da como resultado el desarrollo del cáncer por una proliferación de células mutadas descontroladas.\cite{gonzalez2009radiacion}
+
+\section{Altitud}
+La altitud es la distancia vertical de un punto de la superficie terrestre o de la atmósfera respecto al nivel del mar. Se expresa en metros sobre el nivel del mar y se emplea para determinar la altura de un lugar en relación con el nivel del mar. A medida que aumenta la altitud, aumenta la radiación ultravioleta; por cada 300 m de altitud, la capacidad de radiación ultravioleta para producir quemaduras aumenta un 4\% porque el aire es menos denso, provocando su menor absorción.\cite{SolSusEfectos2021a}
+
+\section{Estado del arte y trabajos relacionados.}
+
+Esta sección realiza una revisión bibliográfica y de herramientas digitales en salud y educación preventiva sobre el \textit{melanoma} de piel, relacionadas con los objetivos de este proyecto.
+La combinación de tecnologías de visualización, acceso a datos abiertos y estrategias de prevención del cáncer de piel ha cobrado relevancia en los últimos años. Numerosos estudios y desarrollos tecnológicos han abordado, de manera parcial, la problemática de la exposición a la radiación ultravioleta (UV) y su relación con el \textit{melanoma}. Sin embargo, aún son escasas las soluciones integradas que combinen información educativa, alertas personalizadas y análisis climático a nivel provincial.
+
+\subsection{Aplicaciones web y sistemas de alerta por UV.}
+En los últimos años, el desarrollo de aplicaciones móviles orientadas a la prevención del cáncer de piel ha ido en aumento, destacando aquellas que informan sobre el índice de radiación ultravioleta (UV) y, por consiguiente, recomiendan medidas de protección.
+Algunas de estas aplicaciones son:
+\begin{itemize}
+    \item \textbf{UVLens App} \cite{UVLensKeepingYou}: se trata de una aplicación interactiva que nos indica el índice UV en tiempo real y ofrece recomendaciones según el tono de piel del usuario. Posee un alcance internacional pero depende de la disponibilidad de fuentes de datos locales para ofrecer datos e información precisa por lo que reduce su fiabilidad en zonas no cubiertas por redes internacionales, también carece de enfoque educativo.
+    \item \textbf{EPA UV Index App} \cite{usepaUVIndex2023}: desarrollada por la Agencia de Protección Ambiental de EE.UU. \cite{usepaUSEnvironmentalProtection2013} Proporciona el índice UV segun la localización del usuario. Su finalidad es unicamente informativa, no cuenta con contenido educativo y esta restringida a Estados Unidos.
+    \item \textbf{SunSmart App} \cite{sunsmartHomePageMeta}: elaborada por el Consejo del Cáncer de Vitoria y el Organismo Australiano de Seguridad Nuclear \cite{AplicacionSunSmartGlobal}, esta centrada en la prevencion del cáncer de piel, incluye pronosticos UV entre otras funciones como un recordatorio para reaplicar protección solar, a pesar de ser de las más completas esta limitada al contexto australiano.
+\end{itemize}
+
+Tras la visita de estas aplicaciones se observó que ninguna contempla el análisis integrado de otros factores de riesgo ambientales como lo hace este proyecto; asimismo, tampoco ofrece información a nivel nacional sobre tasas de incidencia o mortalidad. Por tanto, estas carencias justifican el desarrollo de una plataforma como la propuesta en este proyecto.
+
+\subsection{Aportación diferencial del presente Trabajo de Fin de Grado.}
+Este proyecto propone una aplicación web educativa e informativa, cuyo objetivo principal es sensibilizar a la población sobre el impacto ambiental en la salud dérmica, enfocándose en el \textit{melanoma}. 
+Se integran múltiples fuentes oficiales (AEMET, INE) para:
+\begin{itemize}
+    \item Visualizar índices UV y temperaturas por provincias
+    \item Alertar y recomendar protección solar cuando existan factores de riesgo para desarrollar cáncer de piel.
+    \item Presentar contenidos informativos sobre los sintomas y genética del \textit{melanoma} y como prevenirlo.
+    \item Almacenar y actualizar historial meteorológico para futuras líneas predictoras sobre el desarrollo de esta patología. 
+\end{itemize}
+
+La finalidad de esta integración multidimensional de datos nacionales es lo que diferencia esta herramienta frente a las previamente revisadas.
+
