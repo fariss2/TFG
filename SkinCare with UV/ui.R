@@ -24,7 +24,7 @@ shinyUI(
                                  tags$ul(
                                    tags$li("Obtener información relevante y de interes sobre el cancer de piel, tipo melanoma y como afecta la radiación UV a nuestra piel."),
                                    tags$li("Consultar el índice UV actual por provincia, entre otras funciones "),
-                                   tags$li("Vsualizacion de las variables que aumentan el riesgo de desarrollar un melanoma "),
+                                   tags$li("Visualizacion de las variables que aumentan el riesgo de desarrollar un melanoma "),
                                    tags$li("Calculo aproximado de sufrir esta patologia segun las condiciones actuales de tu zona geografica"),
                                    tags$li("Recomendador según tu piel y zona geografica, indicacion que seguir para prevenir el melanoma."),
                                    tags$li("Explorar datos ambientales y tasas de mortalidad."),
@@ -111,7 +111,7 @@ shinyUI(
                       tabsetPanel(
                         
                         tabPanel("¿Qué es la radiación UV?",
-                                 h3("La radiación ultravioleta (UV)"),
+                                 h3(strong("La radiación ultravioleta (UV)")),
                                  fluidRow(
                                    column(12,
                                           p("Es una fracción de la energía radiante que proviene del sol y representa la porción más energética del espectro electromagnético que incide sobre la superficie terrestre."),
@@ -143,11 +143,13 @@ shinyUI(
                                  p("Su función principal es controlar la reparación del ADN, la detención del ciclo celular y la apoptosis."),
                                  p("Promueve la apoptosis para evitar el desarrollo del cáncer cuando el daño en el ADN es demasiado severo y no se ha reparado."),
                                  img(src="p53.jpeg", width="500px"),
-                                 p("El exceso de radiación UV puede causar mutaciones específicas en este gen que alterarán su función protectora.")
+                                 p("El exceso de radiación UV puede causar mutaciones específicas en este gen que alterarán su función protectora."),
+                                 br(),
+                                 actionButton("volver_inicio_desde_dano_uv", "Volver a inicio", class = "btn btn-primary")
                         ),
                         
                         tabPanel("Niveles de riesgo UV",
-                                 h3("Escala del índice UV"),
+                                 h3(strong("Escala del índice UV")),
                                  p("Mide la intensidad de la radiación UV que alcanza la tierra. En la actualidad existe un índice de ultravioleta estandarizado por la OMS en colaboración con otras organizaciones, como la Organización Meteorológica Mundial."),
                                  tags$ul(
                                    tags$li(strong("0-2 BAJO - "), "Tener precaución en zonas donde puede reflejarse la radiación, ya que puede aumentar la exposición."),
@@ -156,11 +158,13 @@ shinyUI(
                                    tags$li(strong("8-10 MUY ALTO - "), "Tomar precauciones adicionales para evitar daños graves. Aplicar protector solar SPF 30+ cada dos horas y evitar exposición directa en horas pico."),
                                    tags$li(strong("11+ EXTREMO - "), "Riesgo extremo de daño por exposición solar. Evitar completamente la exposición directa entre las 10:00 y 16:00.")
                                  ),
-                                 img(src = "intervalos.png", width = "600px")
+                                 img(src = "intervalos.png", width = "600px"),
+                                 br(),
+                                 actionButton("volver_inicio_desde_intervalos", "Volver a inicio", class = "btn btn-primary")
                         ),
                         
                         tabPanel("Melanoma maligno de piel",
-                                 h3("¿Qué es?"),
+                                 h3(strong("¿Qué es?")),
                                  p("Es un tipo de cáncer de piel que se desarrolla cuando las células que nos aportan color a la piel, como se ha mencionado anteriormente los melanocitos, comienzan a crecer fuera de control. Es menos frecuente que otros tipos de cánceres de piel, pero más grave, ya que si no se detecta a tiempo puede propagarse al resto del cuerpo."),
                                  p("Este tipo de cáncer se suele desarrollar generalmente en la piel más expuesta a la luz solar como los brazos, cara, piernas o espalda cuando estamos tomando el sol."),
                                  p("La radiación UV es un factor muy importante y bien reconocido en la génesis del cáncer cutáneo, pero también existen otros factores de riesgo como la predisposición genética, y la combinación de otros factores ambientales como la altitud y las temperaturas máximas."),
@@ -172,7 +176,7 @@ shinyUI(
                                    column(4, img(src = "melanoma_3.png", width = "100%"))
                                  ),
                                  br(),
-                                 h3("Signos y síntomas tempranos del melanoma"),
+                                 h3(strong("Signos y síntomas tempranos del melanoma")),
                                  p("Los primeros síntomas del melanoma suelen ser cambios en la piel, tanto en el cambio de lunares o pecas ya existentes como la aparición de una nueva malformación pigmentada."),
                                  p("Todos sabemos cómo es el aspecto de un lunar sano, pero algunos presentan características anormales que indican melanomas u otros tipos de cáncer de piel."),
                                  p("Un lunar sano presenta un color uniforme, con borde definido de forma ovalada o redonda."),
@@ -185,7 +189,9 @@ shinyUI(
                                    tags$li("Bordes inusuales, no bien definidos, que tenga cortes en la forma.")
                                  ),
                                  p("Aquí una comparación visual de cómo es un lunar sano frente a uno maligno."),
-                                 img(src = "maligno_vs_benigno.png", width = "600px")
+                                 img(src = "maligno_vs_benigno.png", width = "600px"),
+                                 br(),
+                                 actionButton("volver_inicio_desde_info_melanoma", "Volver a inicio", class = "btn btn-primary")
                         )
                         
                       )
@@ -196,22 +202,29 @@ shinyUI(
              tabPanel("Mapa de Variables",
                       tabsetPanel(
                         tabPanel("Mapa Melanoma",
-                                 h3("Mapa de de muertes por Melanoma de piel maligno INE"),
+                                 h3(strong("Mapa tasa de incidencias/Muertes de Melanoma de piel maligno INE")),
                                  leafletOutput("mapa_melanoma",height = "800px",width = "100%"),
-                                 p("Integrar altitud y muertes, conclusiones")
+                                 br(),
+                                 actionButton("volver_inicio_desde_melanoma", "Volver a inicio", class = "btn btn-primary")
                         ),
                         tabPanel("Mapa UV ",
-                                 h3("Mapa actual del indice UV"),
-                                 leafletOutput("mapa_uv", height = "800px",width = "100%")
+                                 h3(strong("Mapa del indice UV-",Sys.Date())),
+                                 leafletOutput("mapa_uv", height = "800px",width = "100%"),
+                                 br(),
+                                 actionButton("volver_inicio_desde_uv", "Volver a inicio", class = "btn btn-primary")
                                  ),
                         tabPanel("Mapa temperaturas",
-                                 h3("Mapa de temperaturas hoy"),
-                                 leafletOutput("mapa_temp", height ="800px", width ="100%")
+                                 h3(strong("Mapa de temperaturas-", Sys.Date())),
+                                 leafletOutput("mapa_temp", height ="800px", width ="100%"),
+                                 br(),
+                                 actionButton("volver_inicio_desde_temp", "Volver a inicio", class = "btn btn-primary")
                                  
                         ),
                         tabPanel("Mapa altitud",
-                                 h3("Altitud de las provincias."),
-                                 leafletOutput("mapa_altitud", height = "800px",width = "100%")
+                                 h3(strong("Altitud de las provincias.")),
+                                 leafletOutput("mapa_altitud", height = "800px",width = "100%"),
+                                 br(),
+                                 actionButton("volver_inicio_desde_altitud", "Volver a inicio", class = "btn btn-primary")
                                  )
                       
                           
@@ -222,13 +235,14 @@ shinyUI(
              
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
-                        tabPanel("Aqui ira el riesgo acumulado tutoria ")
+                        tabPanel("Aqui ira el riesgo acumulado tutoria "),
+                        
                         
                       )
                      
              ),
              tabPanel("Recomendador",
-                      h3("Recomendación según tipo de piel y zona geográfica"),
+                      h3(strong("Recomendación según tipo de piel y zona geográfica")),
                       fluidRow(
                         column(6,
                                selectInput("provincia_usuario", "Selecciona tu provincia",
@@ -241,8 +255,10 @@ shinyUI(
                                textOutput("mensaje_recomendacion")
                         ),
                         column(6,
-                               h4("Diferentes fototipos de piel"),
-                               p("Según la capacidad de la piel para quemarse y broncearse se clasifica en 6 tipos:"),
+                               h3(strong("Escala de Fitzpatrick")),
+                               p("Esta escala es una clasificación de los tipos de piel según su capacidad para quemarse y broncearse."),
+                               img(src = "escala_de_fitz.png", width = "500px"),
+                               p("Existen 6 tipos:"),
                                tags$ul(
                                  tags$li(strong("Muy blanca:"), "Presente en individuos de piel muy clara, ojos azules, propia de pelirrojos con pecas en la piel. Presentan un color de piel blanco-lechoso. Se quema siempre de forma intensa sin presencia de bronceado y descama de forma ostensible."),
                                  tags$li(strong("Blanca:"), "Presente en individuos de piel clara, pelo rubio, ojos claros y con pecas, que no estan expuestas habitualmente al sol. Quemado intenso y fácil, con bronceado mínimo y descama de forma notoria "),
@@ -250,7 +266,23 @@ shinyUI(
                                  tags$li(strong("Morena clara:"), "Presente en individuos de piel morena con pelo y ojos oscuros. Se quema moderada o minímamente, bronceado o pigmentación inmediata y con bastante facilidad al exponerse al sol."),
                                  tags$li(strong("Morena oscura:"), "Presente en individuos de piel color marron. Se quema raramente y presentan bronceado muy intenso. "),
                                  tags$li(strong("Negra:"), " Fototipo propio de razas negras. Nunca se quema y pigmentación intensa.")
-                               )
+                               ),
+                               h3(strong("¿Qué es el SPF de las cremas?")),
+                               img(src="spf.jpg", width="400px"),
+                               p("Estas siglas significan facto de protección solar y es una medida relativa del tiempo que el protector solar bloquea los rayos ultravioleta."),
+                               p("Actua multiplicando el tiempo que puede estar una piel sin quemarse al sol, por ejemplo las pieles del fototipo I pueden estar hasta 10 minutos al sol"),
+                               p("sin crema solar, usando el SPF20 podrá estar al sol 200 minutos expuesta al sol sin quemarse."),
+                               img(src="spf1.jpg", width="500px"),
+                               p("Como se ha dicho antes esta medida es relativa y existen factores que disminuyen la eficacia, como:"),
+                               tags$ul(
+                                 tags$li(strong("Sudoración")),
+                                 tags$li(strong("Contacto con el agua")),
+                                 tags$li(strong("Arena en la playa")),
+                                 tags$li(strong("Fricción con la ropa")),
+                                 
+                               ),
+                               p("Por estas razones los especialistas recomiendan reaplicarse la crema cada 2h, y 30 minutos antes de la primera exposición al sol para asegurar una mejor absorción.")
+                               
                         )
                       )
              ),
@@ -260,21 +292,28 @@ shinyUI(
                         h3("Base climatica Actual"),
                         p("En la siguiente pestaña se muestra una base de datos que ses va actualizando con los datos que vamos recibiendo 
                           de las APIs de la AEMET. Nos mostrara la fecha de los valores de indice de radiación ultravioleta, temperatura máxima y mínima de cada provincia"),
-                        tableOutput("tabla_de_BC")
+                        tableOutput("tabla_de_BC"),
+                        br(),
+                        actionButton("volver_inicio_desde_datos", "Volver a inicio", class = "btn btn-primary")
                       )
              ),
              
              
              tabPanel("Acerca del proyecto",
                       fluidPage(
-                        h4("Trabajo de Fin de Grado de Ingeniería de la Salud"),
-                        img(src="Cabecera_Escudo_Salud.png", height = "800px" ),
+                        h4(strong("Trabajo de Fin de Grado de Ingeniería de la Salud")),
+                        div(style = "text-align: center;",
+                            img(src = "Cabecera_Escudo_Salud.png", height = "200px")
+                        ),
                         p("Autor/a: Nisrine Fariss Lamine"),
                         p("Tutor/a: Antonio Jesus Canepa Oneto"),
                         p(" Universidad de Burgos "),
                         p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
                         p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos con la base de datos climatico creada
-                          por la falta de información para predecir la probabilidad de padecer esta patología ")                      )
+                          por la falta de información para predecir la probabilidad de padecer esta patología "),
+                        br(),
+                        actionButton("volver_inicio_desde_acerca_de", "Volver a inicio", class = "btn btn-primary")
+                        )
              )
   )
 )

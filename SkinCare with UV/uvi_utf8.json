@@ -1,7 +1,7 @@
 {"ROOT": {
-  "FECHA_VALIDEZ": "2025-05-15T12:00:00",
-  "FECHA_MOD": "2025-05-11T12:00:00",
-  "FECHA_ELABORACION": "2025-05-12T02:32:02",
+  "FECHA_VALIDEZ": "2025-05-16T12:00:00",
+  "FECHA_MOD": "2025-05-12T12:00:00",
+  "FECHA_ELABORACION": "2025-05-13T02:32:02",
   "CIUDAD": [
     {
       "uv": 8,
@@ -22,13 +22,13 @@
       "id": "04013"
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Ávila",
       "canarias": 0,
       "id": "05019"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Badajoz",
       "canarias": 0,
       "id": "06015"
@@ -52,7 +52,7 @@
       "id": "09059"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Cáceres",
       "canarias": 0,
       "id": 10037
@@ -82,7 +82,7 @@
       "id": 13034
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Córdoba",
       "canarias": 0,
       "id": 14021
@@ -106,7 +106,7 @@
       "id": 17079
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Granada",
       "canarias": 0,
       "id": 18087
@@ -130,7 +130,7 @@
       "id": 22125
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Jaén",
       "canarias": 0,
       "id": 23050
@@ -166,7 +166,7 @@
       "id": 28079
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Málaga",
       "canarias": 0,
       "id": 29067
@@ -202,7 +202,7 @@
       "id": 34120
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Palma",
       "canarias": 0,
       "id": "07040"
@@ -220,7 +220,7 @@
       "id": "07032"
     },
     {
-      "uv": 10,
+      "uv": 11,
       "valor": "Palmas de Gran Canaria, Las",
       "canarias": 1,
       "id": 35016
@@ -238,7 +238,7 @@
       "id": 35004
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Pamplona/Iruña",
       "canarias": 0,
       "id": 31201
@@ -262,19 +262,19 @@
       "id": 20069
     },
     {
-      "uv": 9,
+      "uv": 10,
       "valor": "Santa Cruz de Tenerife",
       "canarias": 1,
       "id": 38038
     },
     {
-      "uv": 10,
+      "uv": 11,
       "valor": "San Sebastián de la Gomera",
       "canarias": 1,
       "id": 38036
     },
     {
-      "uv": 10,
+      "uv": 11,
       "valor": "Valverde",
       "canarias": 1,
       "id": 38048
@@ -292,13 +292,13 @@
       "id": 39075
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Segovia",
       "canarias": 0,
       "id": 40194
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Sevilla",
       "canarias": 0,
       "id": 41091

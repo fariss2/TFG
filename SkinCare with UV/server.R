@@ -219,6 +219,33 @@ shinyServer(function(input, output,session) {
   observeEvent(input$ir_datos, {
     updateTabsetPanel(session, inputId = "navegador", selected = "Base Climatica ")
   })
+  observeEvent(input$volver_inicio_desde_uv, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_melanoma, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_altitud, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_datos, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_temp, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_acerca_de, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_info_melanoma, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_intervalos, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
+  observeEvent(input$volver_inicio_desde_dano_uv, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Inicio")
+  })
 
 #--------  
   
