@@ -59,7 +59,7 @@ shinyUI(
                         
                         
                         div(class = "contenido-centrado",
-                            p("Esta web ofrece información educativa sobre el cáncer de piel, alertas personalizadas basadas en factores ambientales (radiación UV, temperatura máxima y altitud) y acceso a bases de datos climáticas para futuras actualizaciones.")
+                            p("Esta web ofrece información educativa sobre el cáncer de piel, alertas personalizadas basadas en factores ambientales (radiación UV, temperatura máxima y altitud) y acceso a bases de datos meteorológicos para futuras actualizaciones.")
                         ),
                         br(),
                         
@@ -67,13 +67,13 @@ shinyUI(
                           column(6,
                                  h3(strong("¿Qué puedes hacer?")),
                                  tags$ul(
-                                   tags$li("Obtener información relevante y de interes sobre el cancer de piel, tipo melanoma y como afecta la radiación UV a nuestra piel."),
+                                   tags$li("Obtener información relevante y de interes sobre el cáncer de piel, tipo melanoma y como afecta la radiación UV a nuestra piel."),
                                    tags$li("Consultar el índice UV actual por provincia, entre otras funciones "),
-                                   tags$li("Visualizacion de las variables que aumentan el riesgo de desarrollar un melanoma "),
-                                   tags$li("Calculo aproximado de sufrir esta patologia segun las condiciones actuales de tu zona geografica"),
-                                   tags$li("Recomendador según tu piel y zona geografica, indicacion que seguir para prevenir el melanoma."),
+                                   tags$li("Visualización de las variables que aumentan el riesgo de desarrollar un melanoma "),
+                                   tags$li("Cálculo aproximado de sufrir esta patología según las condiciones actuales de tu zona geográfica"),
+                                   tags$li("Recomendador según tu piel y zona geográfica, indicaciones que seguir para prevenir el melanoma."),
                                    tags$li("Explorar datos ambientales y tasas de mortalidad."),
-                                   tags$li("Acceder a una base climática actualizada para análisis futuros.")
+                                   tags$li("Acceder a un historial de datos meteorológicos actualizada para análisis futuros.")
                                  )
                           )
                           
@@ -257,7 +257,7 @@ shinyUI(
                                  leafletOutput("mapa_uv", height = "800px",width = "100%"),
                                  br(),
                                  actionButton("volver_inicio_desde_uv", "Volver a inicio", class = "btn btn-primary")
-                                 ),
+                        ),
                         tabPanel("Mapa temperaturas",
                                  h3(strong("Mapa de temperaturas-", Sys.Date())),
                                  leafletOutput("mapa_temp", height ="800px", width ="100%"),
@@ -270,13 +270,13 @@ shinyUI(
                                  leafletOutput("mapa_altitud", height = "800px",width = "100%"),
                                  br(),
                                  actionButton("volver_inicio_desde_altitud", "Volver a inicio", class = "btn btn-primary")
-                                 )
-                      
-                          
                         )
-                      ),
-                      
-                     
+                        
+                        
+                      )
+             ),
+             
+             
              
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
@@ -285,14 +285,14 @@ shinyUI(
                         
                         
                       )
-                     
+                      
              ),
              tabPanel("Recomendador",
                       h3(strong("Recomendación según tipo de piel y zona geográfica")),
                       fluidRow(
                         column(6,
                                selectInput("provincia_usuario", "Selecciona tu provincia",
-                                           choices = sort(unique(base_climatica$provincia))),
+                                           choices = sort(unique(datos_tiempo$provincia))),
                                selectInput("tipo_piel", "Selecciona tu tipo de piel",
                                            choices = c("Muy blanca", "Blanca", "Intermedia",
                                                        "Morena clara", "Morena oscura", "Negra")),
@@ -333,16 +333,38 @@ shinyUI(
                       )
              ),
              
-             tabPanel("Base Climatica ",
-                      fluidPage(
-                        h3("Base climatica Actual"),
-                        p("En la siguiente pestaña se muestra una base de datos que ses va actualizando con los datos que vamos recibiendo 
-                          de las APIs de la AEMET. Nos mostrara la fecha de los valores de indice de radiación ultravioleta, temperatura máxima y mínima de cada provincia"),
-                        tableOutput("tabla_de_BC"),
-                        br(),
-                        actionButton("volver_inicio_desde_datos", "Volver a inicio", class = "btn btn-primary")
+             tabPanel("Datos meteorológicos ",
+                      h3("Datos meteorológicos"),
+                      
+                      p("En la siguiente pestaña se muestra una base de datos que se va actualizando con los datos que vamos recibiendo de las APIs de la AEMET. Nos mostrará la fecha de los valores de índice de radiación ultravioleta, temperatura máxima y mínima de cada provincia."),
+                      
+                      sidebarLayout(
+                        sidebarPanel(
+                          selectInput("prov_select", "Selecciona las provincias a comparar:",
+                                      choices = sort(unique(datos_tiempo$provincia)),
+                                      multiple = TRUE,
+                                      selected = NULL),
+                          selectInput("var_select", "Selecciona variable a visualizar:",
+                                      choices = c("Temperatura máxima" = "Tmax",
+                                                  "Temperatura mínima" = "Tmin",
+                                                  "Índice UV" = "uv"))
+                        ),
+                        
+                        mainPanel(
+                          div(style = "display: flex; gap: 15px; margin-bottom: 20px;",
+                              downloadButton("descargar_excel", "Descargar en Excel (.xlsx)", class = "btn btn-secondary"),
+                              downloadButton("descargar_csv", "Descargar en CSV (.csv)", class = "btn btn-secondary")
+                          ),
+                          
+                          plotOutput("grafico_temporal", height = "600px"),
+                          
+                          br(),
+                          
+                          actionButton("volver_inicio_desde_datos", "Volver a inicio", class = "btn btn-primary")
+                        )
                       )
-             ),
+             )
+             ,
              
              
              tabPanel("Acerca del proyecto",
@@ -352,14 +374,13 @@ shinyUI(
                             img(src = "Cabecera_Escudo_Salud.png", height = "200px")
                         ),
                         p("Autor/a: Nisrine Fariss Lamine"),
-                        p("Tutor/a: Antonio Jesus Canepa Oneto"),
+                        p("Tutor/a: Antonio Jesús Canepa Oneto"),
                         p(" Universidad de Burgos "),
                         p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
-                        p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos con la base de datos climatico creada
-                          por la falta de información para predecir la probabilidad de padecer esta patología "),
+                        p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos meteorológicos para futuras líneas de investigaciones sobre predicciones de padecer esta patología "),
                         br(),
                         actionButton("volver_inicio_desde_acerca_de", "Volver a inicio", class = "btn btn-primary")
-                        )
+                      )
              )
   )
 )

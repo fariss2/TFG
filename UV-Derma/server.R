@@ -1,4 +1,3 @@
-
 library(shiny)
 library(httr)
 library(jsonlite)
@@ -419,12 +418,45 @@ shinyServer(function(input, output,session) {
   datos_tiempo<- base_climatica%>%
     mutate(provincia = recode(provincia, !!!equivalencias_base))
   
-  datos_tiempo$fecha<-as.Date(as.character(base_climatica$fecha))
+  datos_tiempo$fecha<-as.Date(as.character(datos_tiempo$fecha))
   #print(paste("Última fecha en base_climatica:", max(datos_tiempo$fecha)))
-  output$tabla_de_BC<- renderTable({
-    datos_tiempo
-  })
   #view(datos_tiempo)
+  output$grafico_temporal <- renderPlot({
+    req(input$prov_select, input$var_select)
+    
+    datos_filtrados <- datos_tiempo %>%
+      filter(provincia %in% input$prov_select) %>%
+      select(fecha, provincia, variable = all_of(input$var_select))
+    
+    ggplot(datos_filtrados, aes(x = fecha, y = variable, color = provincia)) +
+      geom_line(size = 1) +
+      geom_point(size = 2) +
+      labs(
+        title = paste("Evolución de", input$var_select, "por provincia"),
+        x = "Fecha",
+        y = input$var_select,
+        color = "provincia"
+      ) +
+      theme_minimal(base_size = 20)
+  })
+  
+  output$descargar_excel <- downloadHandler(
+    filename = function() {
+      paste0("datos_tirmpo_hasta", Sys.Date(), ".xlsx")
+    },
+    content = function(file) {
+      write_xlsx(datos_tiempo, path = file)
+    }
+  )
+  
+  output$descargar_csv <- downloadHandler(
+    filename = function() {
+      paste0("datos_tiempo_hasta", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      write.csv(datos_tiempo, file, row.names = FALSE)
+    }
+  )
   
   #------------------------
   datos_uv_hoy <- datos_tiempo %>%
@@ -651,10 +683,6 @@ shinyServer(function(input, output,session) {
                     )
     mensaje<- recomendacion(uv,tmax,fototipo_piel)
     output$mensaje_recomendacion<-renderText(mensaje)
-      
-      
-      
-      
     
   })
   
