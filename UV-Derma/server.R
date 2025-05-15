@@ -211,7 +211,8 @@ shinyServer(function(input, output,session) {
     "volver_inicio_desde_acerca_de",
     "volver_inicio_desde_info_melanoma",
     "volver_inicio_desde_intervalos",
-    "volver_inicio_desde_dano_uv"
+    "volver_inicio_desde_dano_uv",
+    "volver_inicio_desde_recomendador"
   )
   
   lapply(botones_volver, function(id_boton) {
@@ -429,7 +430,7 @@ shinyServer(function(input, output,session) {
       select(fecha, provincia, variable = all_of(input$var_select))
     
     ggplot(datos_filtrados, aes(x = fecha, y = variable, color = provincia)) +
-      geom_line(size = 1) +
+      geom_line(linewidth = 1) +
       geom_point(size = 2) +
       labs(
         title = paste("Evolución de", input$var_select, "por provincia"),
@@ -640,7 +641,6 @@ shinyServer(function(input, output,session) {
   
   
   
-  
   recomendacion<-function(uv,tmax,fototipo){
     alto_riesgo<- fototipo %in% c("I","II")
     riesgo_medio<- fototipo %in% c("III","IV")
@@ -650,7 +650,7 @@ shinyServer(function(input, output,session) {
     } else if (uv >= 6 && tmax >= 20 && (alto_riesgo || riesgo_medio)) {
       return("Riesgo MODERADO-ALTO: usa protector SPF50, evita la exposición al sol entre las 12-16h,use gafas y proteccón solar capilar.")
     } else if (uv >= 6 && fototipo %in% c("I", "II", "III")) {
-      return(" Riesgo MODERADO: protección recomendada SPF50, .")
+      return(" Riesgo ALTO: Se recomienda usar SPF50, evita la exposición al sol entre las 12-16h,use gafas y proteccón solar capilar..")
     } else if (uv < 4 && bajo_riesgo) {
       return("Riesgo BAJO: protección solar recomendada SPF30. No olvide proteger sus ojos, use gafas de sol .")
     } else if (tmax >= 35) {

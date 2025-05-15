@@ -1,7 +1,7 @@
 {"ROOT": {
-  "FECHA_VALIDEZ": "2025-05-17T12:00:00",
-  "FECHA_MOD": "2025-05-13T12:00:00",
-  "FECHA_ELABORACION": "2025-05-14T02:47:01",
+  "FECHA_VALIDEZ": "2025-05-18T12:00:00",
+  "FECHA_MOD": "2025-05-14T12:00:00",
+  "FECHA_ELABORACION": "2025-05-15T02:32:01",
   "CIUDAD": [
     {
       "uv": 8,
@@ -10,13 +10,13 @@
       "id": "02003"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Alacant/Alicante",
       "canarias": 0,
       "id": "03014"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Almería",
       "canarias": 0,
       "id": "04013"
@@ -34,7 +34,7 @@
       "id": "06015"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Barcelona",
       "canarias": 0,
       "id": "08019"
@@ -46,7 +46,7 @@
       "id": 48020
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Burgos",
       "canarias": 0,
       "id": "09059"
@@ -70,13 +70,13 @@
       "id": 12040
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Ceuta",
       "canarias": 0,
       "id": 51001
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Ciudad Real",
       "canarias": 0,
       "id": 13034
@@ -100,19 +100,19 @@
       "id": 16078
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Girona",
       "canarias": 0,
       "id": 17079
     },
     {
-      "uv": 8,
+      "uv": 9,
       "valor": "Granada",
       "canarias": 0,
       "id": 18087
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Guadalajara",
       "canarias": 0,
       "id": 19130
@@ -130,7 +130,7 @@
       "id": 22125
     },
     {
-      "uv": 8,
+      "uv": 9,
       "valor": "Jaén",
       "canarias": 0,
       "id": 23050
@@ -154,13 +154,13 @@
       "id": 27028
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Lleida",
       "canarias": 0,
       "id": 25120
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Madrid",
       "canarias": 0,
       "id": 28079
@@ -178,7 +178,7 @@
       "id": 52001
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Murcia",
       "canarias": 0,
       "id": 30030
@@ -214,31 +214,31 @@
       "id": "07026"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Maó",
       "canarias": 0,
       "id": "07032"
     },
     {
-      "uv": 11,
+      "uv": 9,
       "valor": "Palmas de Gran Canaria, Las",
       "canarias": 1,
       "id": 35016
     },
     {
-      "uv": 10,
+      "uv": 9,
       "valor": "Puerto del Rosario",
       "canarias": 1,
       "id": 35017
     },
     {
-      "uv": 10,
+      "uv": 9,
       "valor": "Arrecife",
       "canarias": 1,
       "id": 35004
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Pamplona/Iruña",
       "canarias": 0,
       "id": 31201
@@ -250,7 +250,7 @@
       "id": 36038
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Salamanca",
       "canarias": 0,
       "id": 37274
@@ -262,25 +262,25 @@
       "id": 20069
     },
     {
-      "uv": 10,
+      "uv": 8,
       "valor": "Santa Cruz de Tenerife",
       "canarias": 1,
       "id": 38038
     },
     {
-      "uv": 11,
+      "uv": 9,
       "valor": "San Sebastián de la Gomera",
       "canarias": 1,
       "id": 38036
     },
     {
-      "uv": 11,
+      "uv": 9,
       "valor": "Valverde",
       "canarias": 1,
       "id": 38048
     },
     {
-      "uv": 10,
+      "uv": 9,
       "valor": "Santa Cruz de la Palma",
       "canarias": 1,
       "id": 38037
@@ -310,7 +310,7 @@
       "id": 42173
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Tarragona",
       "canarias": 0,
       "id": 43148
@@ -322,13 +322,13 @@
       "id": 44216
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Toledo",
       "canarias": 0,
       "id": 45168
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Valencia",
       "canarias": 0,
       "id": 46250
@@ -340,13 +340,13 @@
       "id": 47186
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Vitoria-Gasteiz",
       "canarias": 0,
       "id": "01059"
     },
     {
-      "uv": 7,
+      "uv": 8,
       "valor": "Zamora",
       "canarias": 0,
       "id": 49275

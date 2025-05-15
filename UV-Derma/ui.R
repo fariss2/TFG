@@ -298,7 +298,9 @@ shinyUI(
                                                        "Morena clara", "Morena oscura", "Negra")),
                                actionButton("generar_recomendacion", "Obtener recomendación"),
                                br(), br(),
-                               textOutput("mensaje_recomendacion")
+                               textOutput("mensaje_recomendacion"),
+                               br(),
+                               actionButton("volver_inicio_desde_recomendador", "Volver a inicio", class = "btn btn-primary")
                         ),
                         column(6,
                                h3(strong("Escala de Fitzpatrick")),
@@ -336,14 +338,15 @@ shinyUI(
              tabPanel("Datos meteorológicos ",
                       h3("Datos meteorológicos"),
                       
-                      p("En la siguiente pestaña se muestra una base de datos que se va actualizando con los datos que vamos recibiendo de las APIs de la AEMET. Nos mostrará la fecha de los valores de índice de radiación ultravioleta, temperatura máxima y mínima de cada provincia."),
+                      p("En la siguiente pestaña se muestra un historico de datos meteorológicos que se va actualizando con los datos que vamos recibiendo de las APIs de la AEMET. Nos mostrará la fecha de los valores de índice de radiación ultravioleta, temperatura máxima y mínima de cada provincia."),
+                      p("En el siguiente grafico podemos visualizar la variación de la variable escogida y hacer una comparación visual de esta entre las diferentes provincias de España "),
                       
                       sidebarLayout(
                         sidebarPanel(
                           selectInput("prov_select", "Selecciona las provincias a comparar:",
                                       choices = sort(unique(datos_tiempo$provincia)),
                                       multiple = TRUE,
-                                      selected = NULL),
+                                      selected = "Albacete"),
                           selectInput("var_select", "Selecciona variable a visualizar:",
                                       choices = c("Temperatura máxima" = "Tmax",
                                                   "Temperatura mínima" = "Tmin",
@@ -357,7 +360,6 @@ shinyUI(
                           ),
                           
                           plotOutput("grafico_temporal", height = "600px"),
-                          
                           br(),
                           
                           actionButton("volver_inicio_desde_datos", "Volver a inicio", class = "btn btn-primary")
@@ -379,8 +381,11 @@ shinyUI(
                         p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
                         p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos meteorológicos para futuras líneas de investigaciones sobre predicciones de padecer esta patología "),
                         br(),
+                        #añadir contacto o alaguna sugerencia del usario
+                        #añadir repositorio git
                         actionButton("volver_inicio_desde_acerca_de", "Volver a inicio", class = "btn btn-primary")
                       )
              )
+             
   )
 )
