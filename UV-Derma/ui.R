@@ -280,7 +280,9 @@ shinyUI(
              
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
-                        tabPanel(strong("Riesgo Acumulado de Melanoma - "), Sys.Date()),
+                        tabPanel(strong("Riesgo Acumulado de Melanoma - ", Sys.Date())),
+                        p("Varios organismos cientificos afirman que la radiacion ultravioleta aumenta hasta un 10 % por cada 1000m de altitud, "),
+                        p("dado que la atmosfera es mas fina absorbe menos readiación UV "),
                         
                         
                         
@@ -289,8 +291,14 @@ shinyUI(
              ),
              tabPanel("Recomendador",
                       h3(strong("Recomendación según tipo de piel y zona geográfica")),
+                      p("Esta sección te recomendara medidas de protección frente a la presencia de factores de riesgo en tu zona geográfica."),
+                      p("Selecciona tu provincia y el recomendador analiza el índice de radiación ultravioleta y temperatura máxima de la zona y los riesgos que generan."),
                       fluidRow(
                         column(6,
+                               div(style = "text-align: center;",
+                                   img(src = "recomendador.avif",
+                                       style = "max-width: 100%; height: auto; margin-bottom: 20px;")
+                                   ),
                                selectInput("provincia_usuario", "Selecciona tu provincia",
                                            choices = sort(unique(datos_tiempo$provincia))),
                                selectInput("tipo_piel", "Selecciona tu tipo de piel",
