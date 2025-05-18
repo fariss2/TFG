@@ -280,15 +280,25 @@ shinyUI(
              
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
-                        tabPanel(strong("Riesgo Acumulado de Melanoma - ", Sys.Date())),
-                        p("Varios organismos cientificos afirman que la radiacion ultravioleta aumenta hasta un 10 % por cada 1000m de altitud, "),
-                        p("dado que la atmosfera es mas fina absorbe menos readiación UV "),
+                        tabPanel(strong("Factores del riesgo acumulado"),
+                                 h3(strong("¿Por que estas variables?")),
+                                 p("El desarrollo y la evolución del melanoma es el resultado de una interacción compleja de factores ambientales y características individuales como pueden ser los antecedentes familiares y el tipo de piel que poseemos."),
+                                 p("El principal factor ambiental reconocido científicamente como factor cancerígeno es la radiación ultravioleta, la cual aumenta con la altitud y a temperaturas altas, por ello estas dos últimas también son factores de riesgo."),
+                                 p("Como se ha mencionado antes las características individuales también forman parte del resultado de esta combinación, y la más visible a simple vista es el fototipo de piel de cada uno."),
+                                 h4(strong("Radiación Ultravioleta UV")),
+                                 h4(strong("Altitud")),
+                                 h4(strong("Temperatura")),
+                                 h4(strong("Fototipo de piel"))
+                                 ),
+                        tabPanel(strong("Calculadora de riesgo-",Sys.Date()),
+                                 p("panel usuario")
+                                 ),
                         
-                        
-                        
-                      )
                       
-             ),
+                    
+                      )
+             )
+             ,
              tabPanel("Recomendador",
                       h3(strong("Recomendación según tipo de piel y zona geográfica")),
                       p("Esta sección te recomendara medidas de protección frente a la presencia de factores de riesgo en tu zona geográfica."),
