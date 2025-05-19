@@ -204,7 +204,7 @@ shinyUI(
                                    tags$li(strong("11+ EXTREMO - "), "Riesgo extremo de daño por exposición solar. Evitar completamente la exposición directa entre las 10:00 y 16:00.")
                                  ),
                                  img(src = "intervalos.png", width = "600px"),
-                                 br(),
+                                 br(),br(),
                                  actionButton("volver_inicio_desde_intervalos", "Volver a inicio", class = "btn btn-primary")
                         ),
                         
@@ -318,7 +318,12 @@ shinyUI(
                                br(), br(),
                                textOutput("mensaje_recomendacion"),
                                br(),
-                               actionButton("volver_inicio_desde_recomendador", "Volver a inicio", class = "btn btn-primary")
+                               actionButton("volver_inicio_desde_recomendador", "Volver a inicio", class = "btn btn-primary"),
+                               br(),br(),
+                               p("Puede consultar los intervalos de la radiación ultravioleta UV en la siguiente pestaña"),
+                               actionButton("ir_intervalos_desde_recomendador", "Ir a Intervalos", class = "btn btn-secondary")
+                               
+                               
                         ),
                         column(6,
                                h3(strong("Escala de Fitzpatrick")),
