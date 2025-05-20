@@ -145,7 +145,7 @@ shinyUI(
                           actionButton("ir_alerta", "Mapa de Variables", class = "btn-success"),
                           actionButton("ir_riesgo", "Riesgo Acumulado", class = "btn-danger"),
                           actionButton("ir_recomendador", "Recomendador", class = "btn-warning"),
-                          actionButton("ir_datos", "Base Climatica", class = "btn-secondary")
+                          actionButton("ir_datos", "Datos Meteorológicos", class = "btn-secondary")
                       )
                       
              ),
@@ -177,7 +177,7 @@ shinyUI(
                                    )
                                  ),
                                  br(),
-                                 h3("Efectos de la radiación UV sobre el ADN"),
+                                 h3(strong("Efectos de la radiación UV sobre el ADN")),
                                  p("La incidencia directa de la radiación UV en combinación con otros factores de riesgo ambientales y genéticos altera el ADN de los melanocitos, son las células que pigmentan la piel."),
                                  p("El ADN de una célula son las instrucciones que debe seguir la célula para seguir multiplicándose y creciendo a un ritmo sano; y finalmente cuando sea indicado el momento de la apoptosis, muerte celular."),
                                  p("El resultado más común por la luz UV es la formación de dímeros de pirimidina, lo que induce a mutaciones en las células epidérmicas, y como consecuencia se crean células cancerosas."),
@@ -281,14 +281,28 @@ shinyUI(
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
                         tabPanel(strong("Factores del riesgo acumulado"),
+                                 br(),
                                  h3(strong("¿Por que estas variables?")),
                                  p("El desarrollo y la evolución del melanoma es el resultado de una interacción compleja de factores ambientales y características individuales como pueden ser los antecedentes familiares y el tipo de piel que poseemos."),
                                  p("El principal factor ambiental reconocido científicamente como factor cancerígeno es la radiación ultravioleta, la cual aumenta con la altitud y a temperaturas altas, por ello estas dos últimas también son factores de riesgo."),
                                  p("Como se ha mencionado antes las características individuales también forman parte del resultado de esta combinación, y la más visible a simple vista es el fototipo de piel de cada uno."),
+                                 br(),
                                  h4(strong("Radiación Ultravioleta UV")),
+                                 p("La OMS y la Agencia Internacional investigadora del Cáncer han declarado la radiación ultracioleta como el principal factor cancerígeno para el ser humano."),
+                                 p("Varios estudios científicos y de investigación han demostrado que es el principal agente ambiental relacionado con esta patología, melanoma. Por estos motivos se incluyen en esta calculadora de riesgo."),
+                                 br(),
                                  h4(strong("Altitud")),
+                                 p("Esta variable no es de efecto directo al desarrollo del melanoma, pero si que aumenta el riesgo de desarrollarlo ya que es directamente proporcional a la radiación ultravioleta."),
+                                 p("La radiación ultravioleta aumenta hasta un 12% por cada 1000 metros de altitud ascendidos. Esto se debe a que la atmósfera se hace cada vez más delgada a mayores altitudes y filtra y absorbe menos la radiación."),
+                                 p("Dado a que España se caracteriza por una geografía diversa con un amplio rango de paisajes y altitudes resulta interesante y relevante incluir esta variable."),
+                                 br(),
                                  h4(strong("Temperatura")),
-                                 h4(strong("Fototipo de piel"))
+                                 p("La temperatura no es una variable que tenga efecto directo sobre la piel pero si que influye en nuestros comportamientos."),
+                                 p("Esto significa que en los días calurosos tendemos a llevar menos prendas y por ende estamos mas expuestos a la radiación."),
+                                 br(),
+                                 h4(strong("Fototipo de piel")),
+                                 p("Según la escala de Fitzpatrick, los individuos con fototipos de piel claros, I/II,tienen mayor riesgo de sufrir quemaduras solares y desarrollar melanoma ya que presentan menor concentración de melanina, lo que reduce la defensa frente a esta radiación.")
+                
                                  ),
                         tabPanel(strong("Calculadora de riesgo-",Sys.Date()),
                                  p("panel usuario")
@@ -300,7 +314,7 @@ shinyUI(
              )
              ,
              tabPanel("Recomendador",
-                      h3(strong("Recomendación según tipo de piel y zona geográfica")),
+                      h3("Recomendación según tipo de piel y zona geográfica"),
                       p("Esta sección te recomendara medidas de protección frente a la presencia de factores de riesgo en tu zona geográfica."),
                       p("Selecciona tu provincia y el recomendador analiza el índice de radiación ultravioleta y temperatura máxima de la zona y los riesgos que generan."),
                       fluidRow(
@@ -318,15 +332,15 @@ shinyUI(
                                br(), br(),
                                textOutput("mensaje_recomendacion"),
                                br(),
-                               actionButton("volver_inicio_desde_recomendador", "Volver a inicio", class = "btn btn-primary"),
-                               br(),br(),
                                p("Puede consultar los intervalos de la radiación ultravioleta UV en la siguiente pestaña"),
-                               actionButton("ir_intervalos_desde_recomendador", "Ir a Intervalos", class = "btn btn-secondary")
+                               actionButton("ir_intervalos_desde_recomendador", "Ir a Intervalos", class = "btn btn-secondary"),
+                               br(),br(),br(),
+                               actionButton("volver_inicio_desde_recomendador", "Volver a inicio", class = "btn btn-primary"),
                                
                                
                         ),
                         column(6,
-                               h3(strong("Escala de Fitzpatrick")),
+                               h3("Escala de Fitzpatrick"),
                                p("Esta escala es una clasificación de los tipos de piel según su capacidad para quemarse y broncearse."),
                                img(src = "escala_de_fitz.png", width = "500px"),
                                p("Existen 6 tipos:"),
@@ -358,7 +372,7 @@ shinyUI(
                       )
              ),
              
-             tabPanel("Datos meteorológicos ",
+             tabPanel("Datos meteorológicos",
                       h3("Datos meteorológicos"),
                       
                       p("En la siguiente pestaña se muestra un historico de datos meteorológicos que se va actualizando con los datos que vamos recibiendo de las APIs de la AEMET. Nos mostrará la fecha de los valores de índice de radiación ultravioleta, temperatura máxima y mínima de cada provincia."),

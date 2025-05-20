@@ -43,16 +43,6 @@ actualizar_datos_climaticos<- function(){
   contenido_bruto<-readLines("temp.json", warn = FALSE, encoding = "ISO-8859-1")
   contenido_utf8<-iconv(contenido_bruto, from = "ISO-8859-1", to = "UTF-8")
   writeLines(contenido_utf8, "temp_utf8.json")
-'  datos_temp <- datos_brutos %>%
-    select(idema, ubi, tamin, tamax) %>%  
-    group_by(idema, ubi) %>%
-    summarise(
-      Tmin = ifelse(all(is.na(tamin)), NA, min(tamin, na.rm = TRUE)),
-      Tmax = ifelse(all(is.na(tamax)), NA, max(tamax, na.rm = TRUE)),
-      .groups = "drop"
-    ) %>%
-    filter(!is.na(Tmin) & !is.na(Tmax))
-  '
   datos_temp<-fromJSON("temp_utf8.json")%>%
     group_by(idema,ubi)%>%
     summarise(
@@ -234,7 +224,7 @@ shinyServer(function(input, output,session) {
     updateTabsetPanel(session, inputId = "navegador", selected = "Recomendador")
   })
   observeEvent(input$ir_datos, {
-    updateTabsetPanel(session, inputId = "navegador", selected = "Base Climatica ")
+    updateTabsetPanel(session, inputId = "navegador", selected = "Datos meteorológicos")
   })
   observeEvent(input$ir_intervalos_desde_recomendador, {
     updateTabsetPanel(session, inputId = "navegador", selected = "Contenido informativo")
@@ -645,9 +635,9 @@ shinyServer(function(input, output,session) {
   
   recomendacion <- function(uv, tmax, fototipo) {
     uv_cat<- cut(uv,
-                 breaks = c(0,2,5,7,10,15),
+                 breaks = c(0,2,6,8,11,15),
                  labels=c("bajo","moderado","alto","muy alto","extremo"),
-                 right=TRUE)
+                 right=FALSE)
     riesgo<- ifelse(fototipo %in% c("I","II"), "alto",
                     ifelse(fototipo %in% c("III","IV"), "medio", "bajo"))
     temp_cat<- cut(tmax,
