@@ -1,0 +1,96 @@
+\apendice{Plan de Proyecto Software}
+
+\section{Introducción}
+
+Para un buen desarrollo del proyecto se seguirá una planificación temporal para aportarnos una visión general de las tareas y plazos para facilitar el seguimiento de este trabajo y tener en cuenta complicaciones a las cuales nos debemos enfrentar. 
+En este anexo se desarrollará la planificación del actual trabajo desde un punto de vista temporal y económico
+
+
+
+\section{Planificación temporal}
+GitHub fue la herramienta empleada para controlar el avance del proyecto. En repositorio se asignaron unas tareas(issues) con ciertas etiquetas(labels) para una mejor identificación, agrupándolas más tarde en hitos(milestones).
+Los principales milestones son:
+\begin{enumerate}
+    \item \textbf{Adquisición y preprocesamiento del conjunto de datos}
+En este \textit{milestone} lo que se buscaba era obtener el conjunto de datos necesarios para la implementación de la web. Los datos que se han empleado son de dos tipos, los que se obtienen mediante solicitudes api que son los de las temperaturas e índices de radiación ultravioleta, también se emplea el paquete de la INE para obtener las defunciones; y finalmente para el entrenamiento del modelo de predicción los datos han sido solicitados mediante una consulta a la delegación de la AEMET de Castilla y León.
+\item \textbf{Web \textit{Shiny}}
+En este apartado se agrupan las \textit{issues} del desarrollo de la plataforma. Cada \textit{issue} representa una pestaña de la web en la que se iban dejando comentarios de los avances que se realizaban o el contenido que iba a tener dicha página. A parte, se encuentra otra \textit{issue} " DAR OTROS ENFOQUES A LA APP" en la que se redactaba lo que se hablaba con en las tutorías semanales.
+\item \textbf{Redacción de la memoria}
+Este bloque como su propio nombre dice, se encargaba de agrupar los capitulos de la memoria que cada uno de ellos consistía en un \textit{issue}.
+\item \textbf{Redaccion de los anexos}
+De igual manera que el anterior, este bloque agrupaba los diferentes apéndices de los anexos.
+%poner foto de la issues de cada bloque
+\end{enumerate}
+
+\section{Planificación económica}
+
+En esta sección se analizarán los costes que supondría la realización de este trabajo en un contexto real con su respectivo personal y recursos requeridos para el desarrollo técnico de la web interactiva.
+\textbf{
+\subsection{{Coste personal}}}
+En este proyecto solo ha habido una persona involucrada por lo que se calculará un coste de personal de un ingenierdo de la salud recien graduado. Dado a que no existe estimación exacta para un ingeniero de la salus, el coste se basara en el de un ingeniero biomedico ya que es la profesion que mas se asemeja a este grado. El sueldo mensual aproximado de un ingeniero biomedico recien graduado ronda alrededor de los 1500 a los 1900 euros brutos. \cite{CualEsSalario}
+Dado que se ha trabajado en este proyecto 6 meses a media jornada, el coste del empleado se reduce a los 850 euros, dejando su sueldo semestral a 5100euros. A esta cantidad hay que aplicarle las deducciones de la IRPF y cotizaciones a la Seguridad Social. \cite{sanchez-toledoCualEsDiferencia2024}
+
+Las retenciones del IRPF no son fijas y depende nosolo de tu salario, si no que también de tus circunstancias personales y familiares. En este caso lo hemos establecido a 10\% ya que el empleado no tiene ni hijos a cargo ni discapcidades. Se puede observar en la tabla \ref{tab:salario_neto} como se queda el sueldo tras las deducciones correspondientes.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrr}
+\hline
+\textbf{Concepto}                  & \textbf{Porcentaje} & \textbf{Cuota (€)} \\ 
+\hline
+Contingencias comunes              & 4,70 \%             & 39,95              \\
+Desempleo                          & 1,55 \%             & 13,18              \\
+Formación Profesional              & 0,10 \%             & 0,85               \\
+MEI                                & 0,12 \%             & 1,02               \\
+\hline
+\textbf{Total Seguridad Social}    &                     & 55,00              \\
+\hline
+Retención IRPF                     & 10,00 \%            & 85,00              \\
+\hline
+\textbf{Salario bruto}             &                     & 850,00             \\
+\textbf{Salario neto}              &                     & 710,00             \\
+\hline
+\end{tabular}
+\caption{Cálculo del sueldo neto del personal}
+\label{tab:salario_neto}
+\end{table}
+
+
+
+
+
+\textbf{
+\subsection{{Coste técnico}}}
+\subsubsection{Costes de Software}
+
+Todo el software empleado es de acceso abierto, por lo que no supuso ningún coste.
+
+\subsubsection{Costes de Hardware}
+En el caso de equipos externos, no se ha necesitado más que un ordenador portátil de la marca Lenovo, modelo exacto Lenovo Ideapad Slim 3 con un precio estimado de 624,49 euros, al que se le estima hasta 7  años de vida con buen mantenimiento y cuidado.
+La amortización \footnote{Es la pérdida de valor de un bien o propiedad a lo largo del tiempo} del portátil durante el trabajo se ha calculado empleando la fórmula de \ref{fig:amortizacion_anual}.
+\begin{figure}[h]
+  \centering
+  \[
+    \text{Amortización anual}
+    = \frac{\text{Valor de compra}}{\text{Vida útil estimada}}
+  \]
+  \caption{Fórmula de cálculo de la amortización anual}
+  \label{fig:amortizacion_anual}
+\end{figure}
+
+Siendo la vida util 7 años y el valor de 624,49 euros, la amortización anual se queda aproximadamente en 89,21 euros/año, en seis meses se queda la amortizacion de 45 euros aproximadamente.
+
+
+\section{Viabilidad legal}
+Al llevar a cabo este proyecto tecnológico, resulta imprescindible evaluar su viabilidad legal, no solo para proteger tanto el proceso como los derechos de propiedad intelectual, sino también para asegurar el cumplimiento de la normativa vigente actual.
+
+%arreglar siguiente parrafo
+
+\subsection{Datos y Consentimiento}
+
+\begin{itemize}
+    \item No se trata en ningún momento con datos personales identificables, por lo tanto no aplica la obligación de cumplimiento del Reglamento General de Protección de Datos.
+    \item Los datos empleados provienen de fuentes abiertas como la AEMET y la INE y su uso esta permitido con fines de investigación y docencia, siempre que se cite la fuente.
+\end{itemize}
+Respecto a los derechos de autor y propiedad intelectual, en España existen un conjunto de leyes y regulaciones sobre los derechos de autor y propiedad intelectual aplicables a la protección del software.
+
