@@ -418,6 +418,9 @@ shinyUI(
                         p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
                         p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos meteorológicos para futuras líneas de investigaciones sobre predicciones de padecer esta patología "),
                         br(),
+                        p("Toda la información redactada y mencionada en  esta plataforma se encuentra citada en la memororia y anexos de este trabajo que puede consultarlo en el GitHub."),
+                        tags$a(href="https://github.com/fariss2/TFG" , "Ir al Repositorio Github"),
+                        br(),br(),
                         #añadir contacto o alaguna sugerencia del usario
                         #añadir repositorio git
                         actionButton("volver_inicio_desde_acerca_de", "Volver a inicio", class = "btn btn-primary")
