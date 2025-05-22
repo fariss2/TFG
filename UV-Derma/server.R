@@ -303,6 +303,68 @@ shinyServer(function(input, output,session) {
     return(base_climatica)
     
   }
+  base_climatica<-actualizar_datos_climaticos()
+  equivalencias_base <- c(
+    "ALICANTE" = "Alicante/Alacant",
+    "A CORUÑA" = "Coruña, A",
+    "ALBACETE" = "Albacete",
+    "ALMERIA" = "Almería",
+    "AVILA" = "Ávila",
+    "BADAJOZ" = "Badajoz",
+    "BARCELONA" = "Barcelona",
+    "BIZKAIA" = "Bizkaia",
+    "BURGOS" = "Burgos",
+    "CACERES" = "Cáceres",
+    "CADIZ" = "Cádiz",
+    "CASTELLON" = "Castellón/Castelló",
+    "CEUTA" = "Ceuta",
+    "CIUDAD REAL" = "Ciudad Real",
+    "CORDOBA" = "Córdoba",
+    "CUENCA" = "Cuenca",
+    "GIPUZKOA" = "Gipuzkoa",
+    "GIRONA" = "Girona",
+    "GRANADA" = "Granada",
+    "GUADALAJARA" = "Guadalajara",
+    "HUELVA" = "Huelva",
+    "HUESCA" = "Huesca",
+    "JAEN" = "Jaén",
+    "LEON" = "León",
+    "LLEIDA" = "Lleida",
+    "LA RIOJA" = "Rioja, La",
+    "LUGO" = "Lugo",
+    "MADRID" = "Madrid",
+    "MALAGA" = "Málaga",
+    "MELILLA" = "Melilla",
+    "MURCIA" = "Murcia",
+    "OURENSE" = "Ourense",
+    "ASTURIAS" = "Asturias",
+    "PALENCIA" = "Palencia",
+    "BALEARES" = "Balears, Illes",
+    "LAS PALMAS" = "Palmas, Las",
+    "NAVARRA" = "Navarra",
+    "PONTEVEDRA" = "Pontevedra",
+    "SALAMANCA" = "Salamanca",
+    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
+    "CANTABRIA" = "Cantabria",
+    "SEGOVIA" = "Segovia",
+    "SEVILLA" = "Sevilla",
+    "SORIA" = "Soria",
+    "TARRAGONA" = "Tarragona",
+    "TERUEL" = "Teruel",
+    "TOLEDO" = "Toledo",
+    "VALENCIA" = "Valencia/València",
+    "VALLADOLID" = "Valladolid",
+    "ARABA/ALAVA" = "Araba/Álava",
+    "ZAMORA" = "Zamora",
+    "ZARAGOZA" = "Zaragoza"
+  )
+  datos_tiempo<- base_climatica%>%
+    mutate(provincia = recode(provincia, !!!equivalencias_base))
+  
+  datos_tiempo$fecha<-as.Date(as.character(datos_tiempo$fecha))
+  #print(paste("Última fecha en base_climatica:", max(datos_tiempo$fecha)))
+  #view(datos_tiempo)
+#----------
   obtener_datos_melanoma <- function() {
     datos_67900 <- get_tables(67900, resource = "data")
     
@@ -318,7 +380,7 @@ shinyServer(function(input, output,session) {
     return(datos_melanoma)
   }
   
-
+#--------------
   botones_volver <- c(
     "volver_inicio_desde_uv",
     "volver_inicio_desde_melanoma",
@@ -329,7 +391,9 @@ shinyServer(function(input, output,session) {
     "volver_inicio_desde_info_melanoma",
     "volver_inicio_desde_intervalos",
     "volver_inicio_desde_dano_uv",
-    "volver_inicio_desde_recomendador"
+    "volver_inicio_desde_recomendador",
+    "volver_inicio_desde_riesgo_factores"
+    
   )
   
   lapply(botones_volver, function(id_boton) {
@@ -354,6 +418,10 @@ shinyServer(function(input, output,session) {
   observeEvent(input$ir_datos, {
     updateTabsetPanel(session, inputId = "navegador", selected = "Datos meteorológicos")
   })
+  observeEvent(input$ir_acerca_de, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "Acerca del proyecto")
+  })
+  
   observeEvent(input$ir_intervalos_desde_recomendador, {
     updateTabsetPanel(session, inputId = "navegador", selected = "Contenido informativo")
     updateTabsetPanel(session, inputId = "navegador-interno", selected = "Niveles de riesgo UV")
@@ -481,67 +549,7 @@ shinyServer(function(input, output,session) {
   })
   #---------------------
   
-  base_climatica<-actualizar_datos_climaticos()
-  equivalencias_base <- c(
-    "ALICANTE" = "Alicante/Alacant",
-    "A CORUÑA" = "Coruña, A",
-    "ALBACETE" = "Albacete",
-    "ALMERIA" = "Almería",
-    "AVILA" = "Ávila",
-    "BADAJOZ" = "Badajoz",
-    "BARCELONA" = "Barcelona",
-    "BIZKAIA" = "Bizkaia",
-    "BURGOS" = "Burgos",
-    "CACERES" = "Cáceres",
-    "CADIZ" = "Cádiz",
-    "CASTELLON" = "Castellón/Castelló",
-    "CEUTA" = "Ceuta",
-    "CIUDAD REAL" = "Ciudad Real",
-    "CORDOBA" = "Córdoba",
-    "CUENCA" = "Cuenca",
-    "GIPUZKOA" = "Gipuzkoa",
-    "GIRONA" = "Girona",
-    "GRANADA" = "Granada",
-    "GUADALAJARA" = "Guadalajara",
-    "HUELVA" = "Huelva",
-    "HUESCA" = "Huesca",
-    "JAEN" = "Jaén",
-    "LEON" = "León",
-    "LLEIDA" = "Lleida",
-    "LA RIOJA" = "Rioja, La",
-    "LUGO" = "Lugo",
-    "MADRID" = "Madrid",
-    "MALAGA" = "Málaga",
-    "MELILLA" = "Melilla",
-    "MURCIA" = "Murcia",
-    "OURENSE" = "Ourense",
-    "ASTURIAS" = "Asturias",
-    "PALENCIA" = "Palencia",
-    "BALEARES" = "Balears, Illes",
-    "LAS PALMAS" = "Palmas, Las",
-    "NAVARRA" = "Navarra",
-    "PONTEVEDRA" = "Pontevedra",
-    "SALAMANCA" = "Salamanca",
-    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
-    "CANTABRIA" = "Cantabria",
-    "SEGOVIA" = "Segovia",
-    "SEVILLA" = "Sevilla",
-    "SORIA" = "Soria",
-    "TARRAGONA" = "Tarragona",
-    "TERUEL" = "Teruel",
-    "TOLEDO" = "Toledo",
-    "VALENCIA" = "Valencia/València",
-    "VALLADOLID" = "Valladolid",
-    "ARABA/ALAVA" = "Araba/Álava",
-    "ZAMORA" = "Zamora",
-    "ZARAGOZA" = "Zaragoza"
-  )
-  datos_tiempo<- base_climatica%>%
-    mutate(provincia = recode(provincia, !!!equivalencias_base))
   
-  datos_tiempo$fecha<-as.Date(as.character(datos_tiempo$fecha))
-  #print(paste("Última fecha en base_climatica:", max(datos_tiempo$fecha)))
-  #view(datos_tiempo)
   output$grafico_temporal <- renderPlot({
     req(input$prov_select, input$var_select)
     

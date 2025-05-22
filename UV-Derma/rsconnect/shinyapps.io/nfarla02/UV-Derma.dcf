@@ -1,0 +1,12 @@
+name: UV-Derma
+title: UV-Derma
+username: nfarla02
+account: nfarla02
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14808560
+bundleId: 10326684
+url: https://nfarla02.shinyapps.io/UV-Derma/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

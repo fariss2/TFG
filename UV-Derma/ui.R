@@ -105,47 +105,38 @@ shinyUI(
       margin-top: 20px;
       margin-bottom: 60px;
     }
-    
-    .btn-primary {
-      background-color: #1e88e5;
-      color: white;
+
+    .btn-personal {
       font-size: 16px;
       padding: 15px 25px;
-      border-radius: 10px;
-      border: none;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      border: 2px solid transparent;
+      font-weight: bold;
       transition: all 0.3s ease;
     }
 
-    .btn-primary:hover {
-      background-color: #1565c0;
-      transform: scale(1.05);
-    }
+    .btn-azul { background-color: #2196f3; color: white; border-color: #2196f3;}
+    .btn-amarillo { background-color: #fbc02d; color: white; border-color: #fbc02d;}
+    .btn-rojo { background-color: #e53935; color: white; border-color: #e53935;}
+    .btn-verde { background-color: #43a047; color: white; border-color: #43a047;}
+    .btn-gris { background-color: #546e7a; color: white; border-color: #546e7a;}
+    .btn-marron {background-color: #8d6e63; color: white; border-color: #8d6e63;}
 
-    .btn-success {
-      background-color: #f9a825;
-    }
-
-    .btn-danger:hover {
-      background-color: #f57f17;
-    }
-
-    .btn-warning {
-      background-color: #43a047;
-    }
-
-    .btn-secondary:hover {
-      background-color: #2e7d32;
+    .btn-personal:hover {
+      filter: brightness(0.9);
+      cursor: pointer;
     }
   "))
-                      ),
+                      )
+                      ,
                       
                       div(class = "inicio-botones",
-                          actionButton("ir_info", "Contenido informativo", class = "btn-primary"),
-                          actionButton("ir_alerta", "Mapa de Variables", class = "btn-success"),
-                          actionButton("ir_riesgo", "Riesgo Acumulado", class = "btn-danger"),
-                          actionButton("ir_recomendador", "Recomendador", class = "btn-warning"),
-                          actionButton("ir_datos", "Datos Meteorológicos", class = "btn-secondary")
+                          actionButton("ir_info", "Contenido informativo", class = "btn-personal btn-azul"),
+                          actionButton("ir_alerta", "Mapa de Variables", class = "btn-personal btn-amarillo"),
+                          actionButton("ir_riesgo", "Riesgo Acumulado", class = "btn-personal btn-rojo"),
+                          actionButton("ir_recomendador", "Recomendador", class = "btn-personal btn-verde"),
+                          actionButton("ir_datos", "Datos Meteorológicos", class = "btn-personal btn-marron"),
+                          actionButton("ir_acerca_de", "Acerca del Proyecto", class = "btn-personal btn-gris"),
                       )
                       
              ),
@@ -280,7 +271,7 @@ shinyUI(
              
              tabPanel("Riesgo Acumulado",
                       tabsetPanel(
-                        tabPanel(strong("Factores del riesgo acumulado"),
+                        tabPanel("Factores del riesgo acumulado",
                                  br(),
                                  h3(strong("¿Por que estas variables?")),
                                  p("El desarrollo y la evolución del melanoma es el resultado de una interacción compleja de factores ambientales y características individuales como pueden ser los antecedentes familiares y el tipo de piel que poseemos."),
@@ -301,22 +292,31 @@ shinyUI(
                                  p("Esto significa que en los días calurosos tendemos a llevar menos prendas y por ende estamos mas expuestos a la radiación."),
                                  br(),
                                  h4(strong("Fototipo de piel")),
-                                 p("Según la escala de Fitzpatrick, los individuos con fototipos de piel claros, I/II,tienen mayor riesgo de sufrir quemaduras solares y desarrollar melanoma ya que presentan menor concentración de melanina, lo que reduce la defensa frente a esta radiación.")
-                
-                                 ),
-                        tabPanel(strong("Calculadora de riesgo-",Sys.Date()),
-                                 p("panel usuario")
+                                 p("Según la escala de Fitzpatrick, los individuos con fototipos de piel claros, I/II,tienen mayor riesgo de sufrir quemaduras solares y desarrollar melanoma ya que presentan menor concentración de melanina, lo que reduce la defensa frente a esta radiación."),
+                                 br(),
+                                 h4(strong("¿Por qué una calculadora de riesgo acumulado del melanoma?")),
+                                 p("El melanoma es una enfermedad influenciada por múltiples factores ambientales y personales, entre ellas las descritas previamente."),
+                                 p("El objetivo de esta calculadora es realizar una estimación aproximada del riesgo existente, facilitando su prevención adaptada al contexto geográfico y biológico de cada usuario. "),
+                                 p("La estructura interna de esta herramienta se fundamenta en metodologías ampliamente validadas y usadas en medicina preventiva,como los modelo de predicción desarrollados en el estudio del corazón en Framingham (Framingham Risk Score) para enfermedades cardiovasculares, o el FINDRISC para el diagnóstico de diabetes tipo 2."),
+                                 p("Estos modelos convierten variables clínicas en categorías puntuadas según su riesgo aportado a cada enfermedad."),
+                                 p("UV-Derma adopta este enfoque para cuantificar el riesgo del melanoma, asignando puntuaciones a cada variable según su impacto documentado en los estudios científicos existentes."),
+                                 p("Esta suma de factores ofrece una estimación aproximada comprensible y útil por la población general, sin perder su base científica. "),
+                                 p("De esta manera, al igual que los modelos mencionados, permite implementar medidas preventivas contra el melanoma."),
+                                 br(),br(),
+                                 actionButton("volver_inicio_desde_riesgo_factores", "Volver a inicio", class = "btn btn-primary")
+                                 
                                  ),
                         
-                      
-                    
+                        tabPanel("Calculadora de riesgo ",
+                                 p("panel usuario")
+                                 )
                       )
-             )
-             ,
+             ),
+                        
              tabPanel("Recomendador",
                       h3("Recomendación según tipo de piel y zona geográfica"),
                       p("Esta sección te recomendara medidas de protección frente a la presencia de factores de riesgo en tu zona geográfica."),
-                      p("Selecciona tu provincia y el recomendador analiza el índice de radiación ultravioleta y temperatura máxima de la zona y los riesgos que generan."),
+                      p("Selecciona tu provincia y el recomendador analiza el índice de radiación ultravioleta y temperatura máxima de la zona y los riesgos que generan para hoy", Sys.Date()),
                       fluidRow(
                         column(6,
                                div(style = "text-align: center;",
@@ -418,11 +418,13 @@ shinyUI(
                         p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
                         p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos meteorológicos para futuras líneas de investigaciones sobre predicciones de padecer esta patología "),
                         br(),
-                        p("Toda la información redactada y mencionada en  esta plataforma se encuentra citada en la memororia y anexos de este trabajo que puede consultarlo en el GitHub."),
-                        tags$a(href="https://github.com/fariss2/TFG" , "Ir al Repositorio Github"),
+                        h4(strong("Contacto")),
+                        p("Toda la información redactada y mencionada en  esta plataforma se encuentra citada en la memoria y anexos de este trabajo que puede consultarlo en el repositorio GitHub del mismo trabajo."),
+                        p("También puede consultarlo para más información sobre la estructura interna de la aplicación. En caso de tener alguna otra sugerencia o algún problema al acceder a alguna pestaña web, dejanoslo saber en una issue del mismo repositorio."),
+                        tags$a(href="https://github.com/fariss2/TFG" , "Ir al Repositorio Github🔗"),
+                      
                         br(),br(),
-                        #añadir contacto o alaguna sugerencia del usario
-                        #añadir repositorio git
+                        
                         actionButton("volver_inicio_desde_acerca_de", "Volver a inicio", class = "btn btn-primary")
                       )
              )
