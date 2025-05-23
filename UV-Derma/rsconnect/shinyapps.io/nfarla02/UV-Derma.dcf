@@ -5,7 +5,7 @@ account: nfarla02
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 14808560
-bundleId: 10326684
+bundleId: 10329787
 url: https://nfarla02.shinyapps.io/UV-Derma/
 version: 1
 asMultiple: FALSE

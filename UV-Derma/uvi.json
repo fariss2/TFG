@@ -1,7 +1,7 @@
 {"ROOT": {
-  "FECHA_VALIDEZ": "2025-05-25T12:00:00",
-  "FECHA_MOD": "2025-05-21T12:00:00",
-  "FECHA_ELABORACION": "2025-05-22T02:32:02",
+  "FECHA_VALIDEZ": "2025-05-26T12:00:00",
+  "FECHA_MOD": "2025-05-22T12:00:00",
+  "FECHA_ELABORACION": "2025-05-23T02:32:02",
   "CIUDAD": [
     {
       "uv": 9,
@@ -40,13 +40,13 @@
       "id": "08019"
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Bilbao",
       "canarias": 0,
       "id": 48020
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Burgos",
       "canarias": 0,
       "id": "09059"
@@ -82,7 +82,7 @@
       "id": 13034
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Córdoba",
       "canarias": 0,
       "id": 14021
@@ -136,7 +136,7 @@
       "id": 23050
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "León",
       "canarias": 0,
       "id": 24089
@@ -196,7 +196,7 @@
       "id": 33044
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Palencia",
       "canarias": 0,
       "id": 34120
@@ -250,13 +250,13 @@
       "id": 36038
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Salamanca",
       "canarias": 0,
       "id": 37274
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Donostia-San Sebastián",
       "canarias": 0,
       "id": 20069
@@ -286,7 +286,7 @@
       "id": 38037
     },
     {
-      "uv": 8,
+      "uv": 7,
       "valor": "Santander",
       "canarias": 0,
       "id": 39075
@@ -304,7 +304,7 @@
       "id": 41091
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Soria",
       "canarias": 0,
       "id": 42173
@@ -322,7 +322,7 @@
       "id": 44216
     },
     {
-      "uv": 8,
+      "uv": 9,
       "valor": "Toledo",
       "canarias": 0,
       "id": 45168
@@ -334,7 +334,7 @@
       "id": 46250
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Valladolid",
       "canarias": 0,
       "id": 47186
@@ -346,7 +346,7 @@
       "id": "01059"
     },
     {
-      "uv": 9,
+      "uv": 8,
       "valor": "Zamora",
       "canarias": 0,
       "id": 49275

@@ -82,7 +82,7 @@ shinyUI(
                         
                         h3(strong("¿Sabías que...?")),
                         img(src = "sabias_que.png", width = "550px"),
-                        
+                        br(),
                         tags$ul(
                           tags$li("Una quemadura solar en la infancia puede duplicar el riesgo de melanoma."),
                           tags$li("La radiación UV puede ser intensa incluso en días nublados."),
