@@ -1,0 +1,104 @@
+\capitulo{4}{Metodología}
+Una vez definidos los conceptos principales que conforman el marco teórico de este proyecto, en este capítulo se describirán las metodologías y herramientas empleadas para alcanzar los objetivos establecidos. Se incluirá la obtención y caracterización de los datos, las herramientas software y los entornos empleados durante el desarrollo del trabajo.
+
+
+\section{Descripción de los datos.}
+Para la elaboración del proyecto se ha construido una base de datos propia a partir de fuentes de datos oficiales y APIs públicas, con el fin de analizar factores ambientales relacionados con el riesgo de desarrollar melanoma maligno de piel.
+los datos empleados se clasifican en  tres categorías:
+
+ \begin{enumerate}
+     \item \textbf{Datos meteorológicos}
+     Se obtienen mediante la API pública de la agencia estatal de meteorologia(AEMET) \cite{AEMETOpenDataa}, empleando el paquete de R climaemet, y se actualizan diariamente con el lanzamiento de la aplicación web. las variables recogidas son las siguientes:
+     \begin{itemize}
+         \item Índice de radiación ultravioleta (UV): representa la intensidad de la radiación UV solar que se predice que va a incidir sobre la superficie terrestre en cada provincia.
+         \item Temperatura máxima y mínima diaria: valor máximo y mínimo  registrado en grados Celsius por provincia 
+     \end{itemize}
+     \item \textbf{Datos geográficos}
+     Mediante el mismo paquete, Climaemet \cite{R-climaemet}, se accede a metadatos de las estaciones meteorológicas oficiales que incluyen la altitud entre otros registros. Esta altitud representa la elevación de la estación meteorológica sobre el nivel del mar y se obtiene una altitud media por el conjunto de estaciones meteorológicas que pertenecen a cada provincia.
+     \item \textbf{Datos de las defunciones por melanoma maligno de piel}
+     Estos registros se extraen mediante el paquete estadístico de la INE en R \cite{INE_R}, que conecta con su misma API de esta manera cuando se realiza la actualización anual de estos datos, se verá reflejada en los mismos. Al igual que el conjunto de datos anteriores se recogen por provincias. 
+ \end{enumerate} 
+Toda esta información se consolida automáticamente en una base de datos que sirve de soporte para el correcto funcionamiento de la aplicación web. Esta plataforma no registra ni almacena información personal, sino que en su lugar actuará como recomendador donde el usuario elige su zona geográfica y fototipo de piel  y se le imprimirá una sugerencia personalizada según los parámetros escogidos.
+Este sistema se plantea como una herramienta educativa y preventiva, con potencial para informar a la población sobre la exposición solar y sus efectos adversos en un contexto social donde la moda del bronceado está en su máximo auge.  
+
+En el futuro, la recopilación continua y estructurada de estos datos climáticos abrirá camino a estudios estadísticos más integrados y precisos. La base de datos creada puede servir como punto de partida para analizar el efecto combinado de factores ambientales en el desarrollo del melanoma maligno de piel. Además al incorporar variables individuales como el fototipo cutáneo, se podrá realizar un análisis más personalizado, contribuyendo a una comprensión más profunda del papel que juegan las condiciones ambientales en la aparición y evolución de esta patología.
+ 
+
+\section{Técnicas y herramientas.}
+En este apartado se realiza una recopilación de técnicas y herramientas empleadas o valoradas en el desarrollo del presente proyecto. 
+
+\subsection{Aplicaciones empleadas.}
+
+ Para la realización del proyecto se han empleado diversas aplicaciones gratuitas \ref{fig:Herramientas} que hemos utilizado durante el grado y otras que se han ido descubriendo a medida que se realiza este proyecto.
+ \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/herramientas.png}
+        \caption{Herramientas empleadas. Elaboración Porpia}
+        \label{fig:Herramientas}
+    \end{figure}
+
+ 
+ 
+\subsubsection{GitHub}
+Se trata de una plataforma gratuita en línea de código abierto , que permite el alojamiento de código fuente de las aplicaciones de cualquier desarrollador, la colaboración y la planificación de tareas del desarrollo de proyectos. Es una herramienta fundamental para el desarrollo \textit{software}, proporcionando un entorno colaborativo, seguro y eficiente para la gestión y generación de repositorios públicos o privados. \cite{fernandezQueEsGithub2019}
+
+Se ha hecho uso de esta herramienta para generar un repositorio en el que se encuentra detallado el código fuente de la aplicación resultado del proyecto, junto con su documentación necesaria; también se ha empleado para el seguimiento organizado de este trabajo.
+
+\subsubsection{R Studio}
+Se trata de un entorno de desarrollo integrado empleado para el lenguaje de programación R \cite{RStudio2025}, el cual fue utilizado para desarrollar la aplicación web.
+
+\subsubsection{Chat GPT}
+Herramienta de inteligencia artificial utilizada de apoyo para la solución de \textit{bugs} que iban apareciendo en el desarrollo de la aplicación y para generar la foto de la portada de esta misma .
+
+\subsubsection{Overelaf}
+Se trata de un editor \textit{LaTeX} online que permite escribir, visualizar y compartir artículos e investigaciones científicas. \cite{OverleafEdicionDocumentos} 
+
+
+\subsubsection{Zotero}
+
+Se trata de un gestor de referencias bibliográficas, libre, abierto y gratuito. Permite guardar referencias bibliográficas, insertar citas y genera bibliografías para la redacción en \textit{LaTeX} \cite{ZoteroRedBibliotecas}. Yo lo usé en versión escritorio con una extensión en el navegador para adquirir las referencias más fácilmente.
+
+
+\subsubsection{Google Documents}
+ Se trata de un procesador de texto en línea que te permite crear documentos y darles formato.\cite{ComoUsarDocumentos} Lo he usado para ir redactando el borrador de la memoria y la información redactada en la aplicación web.
+
+\subsubsection{Google académico}
+Google Académico (Google Scholar) es un buscador que permite localizar documentos de carácter académico como artículos, tesis, libros, patentes, documentos relativos a congresos y resúmenes. \cite{bibliotecaBiblioguiasGoogleAcademico}
+
+\subsection{Lenguajes utilizados }
+\begin{itemize}
+    \item \textbf{LaTeX}: se trata de un sistema de composición de textos de alta calidad, ampliamente usado para la creación de documentos científicos y técnicos. Permite un manejo detallado de la estructura y presentación del contenido. En este proyecto, LaTeX ha sido utilizado para la creación de este documento. \cite{LaTeXDocumentPreparation}.
+    \item \textbf{R}: es un lenguaje de programación de código abierto diseñado para el análisis estadístico y la visualización de datos. \cite{IntroduccionPrimerosPasos} Fue usado para el desarrollo de la aplicación web.
+    \item \textbf{Lenguajes web complementarios}: para dotar a la aplicación web de un aspecto más atractivo para el usuario se usó \textit{JavaScript} para la creación de mapas para aportar interactividad a la plataforma, y \textit{HTML}, \textit{CSS} para el diseño tipográfico y físico de la interfaz. 
+\end{itemize}
+\subsection{Técnicas y librerías}
+
+ \subsubsection{Aplicación web}
+ Una aplicación web consiste en un software que se ejecuta en el navegador web. Hoy en día se emplean como solución práctica para acceder a funcionalidades complejas sin necesidad de instalar o configurar un software. Esto la convierte en una opción más práctica y versátil que las aplicaciones de escritorio tradicionales. Entre sus principales ventajas se encuentran:
+ \begin{itemize}
+     \item \textbf{Accesibilidad}: Las aplicaciones web son accesibles desde todos los navegadores web y desde diferentes dispositivos personales con diferentes sistemas operativos y con conexion a internet,garantizando una experiencia homogénea para todos los usuarios y simplificando el desarrollo de esta.
+     \item \textbf{Desarrollo eficiente}: presenta un desarrollo sencillo y rentable como solución ya que al presentar compatibilidad con todos los sistemas operativos no requiere un desarrollo complejo.
+     \item \textbf{Simplicidad para el usuario}: Los usuarios no necesitan descargar las aplicaciones web, lo que hace que sean fáciles de acceder a la vez que se prescinde de mantenimiento y no consume espacio local . Las aplicaciones web reciben actualizaciones de software y seguridad de manera automática, lo que significa que siempre están actualizadas y presentan menor riesgo de sufrir brechas de seguridad.\cite{QueEsAplicacion}
+     
+ \end{itemize}
+\subsubsection{\textit{Framework} Shiny}
+Para desarrollar la web, por recomendación de mi tutor y compatibilidad con mi lenguaje de desarrollo utilizado, opté por el \textit{framework} \footnote{Un \textit{framework} es una estructura predefinida que 
+ facilita el desarrollo de aplicaciones proporcionando un conjunto de herramientas y componentes reutilizables.} Shiny\cite{shiny}. Es un paquete de RStudio que facilita la creación de aplicaciones web interactivas desde el entorno de R\cite{ShinyWelcomeShinya}. Las aplicaciones creadas se encuentran en una carpeta cuyos componentes son:
+ \begin{itemize}
+     \item La interfaz del usuario, ui.R . Esta controla el diseño y la apariencia de la aplicación.
+     \item El script de la lógica de la página web, server.R . Contiene las instrucciones que requiere el equipo para la compilación de la aplicación.
+     \item Carpeta de imágenes que aparecerán en la web, www.
+ \end{itemize}
+\subsubsection{Librerías}
+Las principales librerías empleadas en UV-Derma  que cubren todas las fases del flujo del proyecto fueron las siguientes :
+\begin{itemize}
+    \item \textit{Shiny} \cite{shiny}: Para la estructura reactiva de la aplicación
+    \item \textit{Leaflet}: Para los mapas interactivos
+    \item \textit{Httr, Jsonlite}: Para las solicitudes a la API y parsear las respuestas recibidas en formato JSON.
+    \item \textit{Dplyr, Tidyverse, Readxl, Writexl, DT}: Para la fase de limpieza y preparación de los datos, \textit{dplyr y tidyverse} ofrecen gramáticas coherentes para filtrar, agrupar y unir tablas, mientras que \textit{readxl y writexl} permiten leer y exportar ficheros Excel, y \textit{DT} nos permite una mejor visualización de los datos como tablas.
+    \item \textit{Ggplot2}: Para la generación de gráficos.
+    \item \textit{Sf, MapSpain}: Para el manejo de información geográfica nos proporcionan geometrías provinciales y funciones para construir mapas de España.
+    \item \textit{Climaemet, INEbaseR}: para descargar datos climatológico y estadísticos respectivamente.
+    \item \textit{Htmltools} para la generación de elementos dinámicos proporcionando una interfaz más atractiva.
+\end{itemize}
+
