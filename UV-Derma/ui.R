@@ -103,7 +103,7 @@ shinyUI(
                  
                  "))
              ),
-             tabPanel(strong("Inicio"),
+             tabPanel(strong("Inicio"),value = "inicio",
                       fluidPage(
                         div(class = "hero-container",
                             img(src = "posible_portada1.png", class = "img-fluid"),
@@ -293,44 +293,37 @@ shinyUI(
                                  wellPanel(
                                    h3(strong("Riesgo acumulado de Melanoma")),
                                    p("Esta herramienta proporciona una estimación orientativa del riesgo acumulado de melanoma del presente día de hoy."),
-                                   p("Introduce tus datos para calcular tu riesgo acumulado de melanoma según tus datos geográficos y fototipo de piel."),
+                                   p("Introduce tus datos para calcular tu riesgo acumulado de melanoma."),
                                    
                                  ),
                                  fluidRow(
                                    column(
                                      width = 6,
                                      wellPanel(
-                                       
                                        fluidRow(
                                          column(width = 2,
                                                 img(src = "provincias.png", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                          ),
                                          column(width = 10,
-                                                selectInput("provincia_usuario_riesgo", "Provincia:",
-                                                            choices = sort(unique(datos_tiempo$provincia)))
+                                                selectInput("provincia_usuario_riesgo", "Provincia:",choices = sort(unique(datos_tiempo$provincia)))
                                          )
                                        ),
-                                       
                                        fluidRow(
                                          column(width = 2,
                                                 img(src="Fitzpatrick.jpg", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                                 ),
                                          column(width = 10,
-                                                selectInput("fototipo_usuario_riesgo", "Tipo de piel:",
-                                                            choices = c("Muy blanca", "Blanca", "Intermedia", "Morena clara", "Morena oscura", "Negra"))
+                                                selectInput("fototipo_usuario_riesgo", "Tipo de piel:",choices = c("Muy blanca", "Blanca", "Intermedia", "Morena clara", "Morena oscura", "Negra"))
                                          )
                                        ),
-                                       
                                        fluidRow(
                                          column(width = 2,
                                                 img(src="sexo.png", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                                 ),
                                          column(width = 10,
-                                                selectInput("sexo", "Sexo:",
-                                                            choices = c("Femenino", "Masculino"))
+                                                selectInput("sexo", "Sexo:",choices = c("Femenino", "Masculino"))
                                          )
                                        ),
-                                       
                                        fluidRow(
                                          column(width = 2,
                                                 img(src = "edad.avif", style = "max-width: 100%; height: 40px; margin-top: 8px;")
@@ -339,31 +332,29 @@ shinyUI(
                                                 sliderInput("edad", "Edad:", min = 0, max = 100, value = 30)
                                          )
                                        ),
-                                       
                                        fluidRow(
                                          column(width = 2,
                                                 img(src = "lunares3.png", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                          ),
                                          column(width = 10,
-                                                selectInput("lunares", "Presencia de lunares:",
-                                                            choices = c("Pocos", "Moderados", "Muchos"))
+                                                selectInput("lunares", "Presencia de lunares:",choices = c("Pocos", "Moderados", "Muchos"))
                                          )
                                        ),
-                                       
                                        fluidRow(
                                          column(width = 2,
                                                 img(src = "fam.png", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                          ),
                                          column(width = 10,
-                                                selectInput("antecedentes", "Antecedentes familiares:",
-                                                            choices = c("No", "Sí"))
+                                                selectInput("antecedentes", "Antecedentes familiares:", choices = c("No", "Sí"))
                                          )
                                        ),
                                        
                                        br(),
                                        actionButton("calcular_riesgo", "Calcular Riesgo 🧮", class = "btn btn-danger")
-                                       
-                                     )
+                                     ),
+                                     br(),br(),
+                                     actionButton("volver_inicio_desde_calculadora", "Volver a inicio", class = "btn btn-primary")
+                                     
                                    ),
                                    column(
                                      width = 6,

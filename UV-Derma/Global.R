@@ -2,6 +2,7 @@ library(dplyr)
 library(climaemet)   
 library(httr)
 library(jsonlite)
+library(readxl)  
 
 # ----------------------------------------------------------------------
 actualizar_datos_climaticos<- function(){
@@ -138,7 +139,6 @@ actualizar_datos_climaticos<- function(){
 }
 # ----------------------------------------------------------------------
 
-
 base_climatica <- actualizar_datos_climaticos()
 equivalencias_base <- c(
   "ALICANTE" = "Alicante/Alacant",
@@ -205,3 +205,226 @@ datos_tiempo <- base_climatica %>%
   mutate(provincia = recode(provincia, !!!equivalencias_base),
          fecha     = as.Date(as.character(fecha))) %>%
   arrange(fecha)
+
+#-------------------------
+
+recomendacion <- function(uv, tmax, fototipo) {
+  uv_cat<- cut(uv,
+               breaks = c(0,3,6,8,11,15),
+               labels=c("bajo","moderado","alto","muy alto","extremo"),
+               right=FALSE)
+  
+  riesgo<- ifelse(fototipo %in% c("I","II"), "alto",
+                  ifelse(fototipo %in% c("III","IV"), "medio", "bajo"))
+  temp_cat<- cut(tmax,
+                 breaks = c(-Inf,15,25,30,35,Inf),
+                 labels = c("fresco","templado","cálido","caluroso","extremo"),
+                 right = TRUE)
+  
+  mensajes <- list(
+    extremo = list(
+      alto = list(
+        fresco=" Índice UV extremo🚨, temperaturas bajas: Máxima protección UV. Usa SPF50+, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV extremo🚨, temperaturas templadas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV extremo🚨, temperaturas cálidas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV extremo🚨, temperaturas altas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV extremo🚨, temperaturas extremas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      medio = list(
+        fresco=" Índice UV extremo🚨, temperaturas bajas: Máxima protección UV. Usa SPF50+, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV extremo🚨, temperaturas templadas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV extremo🚨, temperaturas cálidas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV extremo🚨, temperaturas altas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV extremo🚨, temperaturas extremas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      bajo = list(
+        fresco=" Índice UV extremo🚨, temperaturas bajas: Aunque su fototipo de piel es resistente, máxima protección UV. Usa SPF50+, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV extremo🚨, temperaturas templadas: Aunque su fototipo de piel es resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV extremo🚨, temperaturas cálidas: Aunque su fototipo de piel es resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV extremo🚨, temperaturas altas: Aunque su fototipo de piel es resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV extremo🚨, temperaturas extremas: Aunque su fototipo de piel es resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      )
+    ),
+    "muy alto" = list(
+      alto = list(
+        fresco=" Índice UV muy alto 📢, temperaturas bajas:Protección recomendada SPF50+, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV muy alto 📢, temperaturas templadas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV muy alto 📢, temperaturas cálidas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV muy alto 📢, temperaturas altas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV muy alto 📢, temperaturas extremas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      medio = list(
+        fresco=" Índice UV muy alto 📢, temperaturas bajas:Protección recomendada SPF50+, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV muy alto 📢, temperaturas templadas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV muy alto 📢, temperaturas cálidas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV muy alto 📢, temperaturas altas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV muy alto 📢, temperaturas extremas: Protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      bajo = list(
+        fresco=" Índice UV muy alto 📢, temperaturas bajas:Aun que su fototipo de piel sea resistente, protección recomendada SPF50+, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV muy alto 📢, temperaturas templadas: Aunque su fototipo de piel sea resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV muy alto 📢, temperaturas cálidas: Aunque su fototipo de piel sea resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV muy alto 📢, temperaturas altas: Aunque su fototipo de piel sea resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV muy alto 📢, temperaturas extremas: Aunque su fototipo de piel sea resistente, protección recomendada SPF50+, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      )
+    ),
+    alto = list(
+      alto = list(
+        fresco=" Índice UV alto ⚠️, temperaturas bajas: Protección recomendada SPF50, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV alto ⚠️, temperaturas templadas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV alto ⚠️, temperaturas cálidas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV alto ⚠️, temperaturas altas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV alto ⚠️, temperaturas extremas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      medio = list(
+        fresco=" Índice UV alto ⚠️, temperaturas bajas: Protección recomendada SPF50, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV alto ⚠️, temperaturas templadas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV alto ⚠️, temperaturas cálidas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV alto ⚠️, temperaturas altas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV alto ⚠️, temperaturas extremas: Protección recomendada SPF50, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      bajo = list(
+        fresco=" Índice UV alto ⚠️, temperaturas bajas: Aun que su fototipo de piel sea resistente, protección recomendada SPF30, gorro🧢 y ropa larga🧥.️",
+        templado=" Índice UV alto ⚠️, temperaturas templadas: Aun que su fototipo de piel sea resistente, protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV alto ⚠️, temperaturas cálidas: Aun que su fototipo de piel sea resistente, protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV alto ⚠️, temperaturas altas: Aun que su fototipo de piel sea resistente, protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV alto ⚠️, temperaturas extremas: Aun que su fototipo de piel sea resistente, protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      )
+    ),
+    moderado = list(
+      alto = list(
+        fresco=" Índice UV moderado 🔆, temperaturas bajas: Protección recomendada SPF30, gorro🧢  y ropa larga🧥 opcional.️",
+        templado=" Índice UV moderado 🔆, temperaturas templadas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV moderado 🔆, temperaturas cálidas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV moderado 🔆️, temperaturas altas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV moderado 🔆, temperaturas extremas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      medio = list(
+        fresco=" Índice UV moderado 🔆, temperaturas bajas: Protección recomendada SPF30, gorro🧢  y ropa larga🧥 opcional.️",
+        templado=" Índice UV moderado 🔆, temperaturas templadas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV moderado 🔆, temperaturas cálidas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV moderado 🔆️, temperaturas altas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV moderado 🔆, temperaturas extremas: Protección recomendada SPF30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      bajo = list(
+        fresco=" Índice UV moderado 🔆, temperaturas bajas: Aun que su fototipo de piel sea resistente, protección recomendada SPF20-30, gorro🧢  y ropa larga🧥 opcional.️",
+        templado=" Índice UV moderado 🔆, temperaturas templadas: Aun que su fototipo de piel sea resistente, protección recomendada SPF20-30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢 . Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV moderado 🔆, temperaturas cálidas: Aun que su fototipo de piel sea resistente, protección recomendada SPF20-30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV moderado 🔆️, temperaturas altas: Aun que su fototipo de piel sea resistente, protección recomendada SP20-F30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV moderado 🔆, temperaturas extremas: Aun que su fototipo de piel sea resistente, protección recomendada SPF20-30, gafas UV 🕶, ropa ligera y protectora y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      )
+    ),
+    bajo = list(
+      alto = list(
+        fresco=" Índice UV bajo ✅, temperaturas bajas: Protección recomendada SPF20-30.",
+        templado=" Índice UV bajo ✅, temperaturas templadas: Protección recomendada SPF20-30, gafas UV 🕶 opcionales. Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV bajo ✅, temperaturas cálidas: Protección recomendada SPF20-30, gafas UV 🕶. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV bajo ✅️, temperaturas altas: Protección recomendada SP20-F30, gafas UV 🕶 y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV bajo ✅, temperaturas extremas: Protección recomendada SPF20-30, gafas UV 🕶 y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      medio = list(
+        fresco=" Índice UV bajo ✅, temperaturas bajas: Protección recomendada SPF15-20.",
+        templado=" Índice UV bajo ✅, temperaturas templadas: Protección recomendada SPF15-20, gafas UV 🕶 opcionales. Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV bajo ✅, temperaturas cálidas: Protección recomendada SPF15-20, gafas UV 🕶. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV bajo ✅️, temperaturas altas: Protección recomendada SPF15-20, gafas UV 🕶 y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV bajo ✅, temperaturas extremas: Protección recomendada SPF15-20, gafas UV 🕶 y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      ),
+      bajo = list(
+        fresco=" Índice UV bajo ✅, temperaturas bajas: No hay  factores de riesgo presentes.",
+        templado=" Índice UV bajo ✅, temperaturas templadas: Protección recomendada gafas UV 🕶 opcionales. Limita exposición durante las horas 12-16pm ☀️.",
+        cálido=" Índice UV bajo ✅, temperaturas cálidas: Protección recomendada gafas UV 🕶. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧. ",
+        caluroso=" Índice UV bajo ✅️, temperaturas altas: Protección recomendada SPF15-20, gafas UV 🕶 y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧.",
+        extremo=" Índice UV bajo ✅, temperaturas extremas: Protección recomendada SPF15-20, gafas UV 🕶 y gorro 🧢. Limita exposición durante las horas 12-16pm ☀️ y mantengase hidratado 💧."
+      )
+    )
+  )
+  
+  mensaje <- mensajes[[as.character(uv_cat)]][[as.character(riesgo)]][[as.character(temp_cat)]]
+  return(mensaje)
+}
+
+#---------------------------------
+obtener_datos_melanoma <- function() {
+  datos_67900 <- get_tables(67900, resource = "data")
+  
+  datos_melanoma <- datos_67900 %>%
+    filter(grepl("021 Melanoma maligno de la piel", Nombre)) %>%
+    filter(grepl("Ambos sexos", Nombre) & !grepl("Total", Nombre)) %>%
+    mutate(
+      provincia = str_extract(Nombre, "[^,]+$"),
+      melanoma = map_dbl(Data, ~ .x$Valor[1])
+    ) %>%
+    select(provincia, melanoma)
+  
+  return(datos_melanoma)
+}
+
+
+#---------------------
+  calcular_riesgo_melanoma <- function(uv, tmax, altitud_indice, fototipo, edad, sexo, lunares, antecedentes) {
+    puntos_uv <- case_when(
+      uv < 3~ 0,
+      uv < 6~ 1,
+      uv < 8 ~ 2,
+      uv < 11~ 4,
+      TRUE ~ 6
+    )
+    
+    puntos_temp <- case_when(
+      tmax < 20 ~ 0,
+      tmax < 30 ~ 1,
+      tmax < 35 ~ 2,
+      tmax >= 35 ~ 3
+    )
+    
+    puntos_alt <- as.numeric(altitud_indice) - 1
+    
+    puntos_fototipo <- case_when(
+      fototipo == "I" ~ 5,
+      fototipo == "II"~ 4,
+      fototipo == "III"~ 3,
+      fototipo == "IV"~ 2,
+      fototipo == "V"~ 1,
+      fototipo == "VI"~ 0,
+      TRUE~ NA_real_
+    )
+    
+    puntos_edad <- case_when(
+      edad < 30 ~ 1,
+      edad < 50 ~ 2,
+      edad < 70 ~ 3,
+      TRUE ~0
+    )
+    
+    puntos_sexo <- case_when(
+      sexo == "Femenino" & edad < 50 ~ 2,
+      sexo == "Femenino" & edad >= 50 ~ 1,
+      sexo == "Masculino" & edad < 50 ~ 1,
+      sexo == "Masculino" & edad >= 50 ~ 2,
+      TRUE~ 0
+    )
+    
+    
+    puntos_lunares <- case_when(
+      lunares == "Pocos" ~ 0,
+      lunares == "Moderados" ~ 1,
+      lunares == "Muchos" ~ 2
+    )
+    
+    puntos_antecedentes <- ifelse(antecedentes == "Sí", 2, 0)
+    
+    riesgo_total <- puntos_uv + puntos_temp + puntos_alt + puntos_fototipo +
+      puntos_edad + puntos_sexo + puntos_lunares + puntos_antecedentes
+    
+    nivel_riesgo <- case_when(
+      riesgo_total <= 6 ~ "Bajo",
+      riesgo_total <= 12~ "Moderado",
+      riesgo_total <= 18~ "Alto",
+      riesgo_total > 18 ~ "Muy alto"
+    )
+    
+    return(list(
+      puntuacion_total = riesgo_total,
+      clasificacion = nivel_riesgo
+    ))
+  }
