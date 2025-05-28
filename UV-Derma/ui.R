@@ -90,16 +90,16 @@ shinyUI(
                   }
                   
                   .resalto-rojo {
-                  background-color:#d9534f;
+                  background-color:#FF0000;
                   }
-                  .restalto-amarillo {
-                  background-color:#f0ad4e;
+                  .resalto-amarillo {
+                  background-color:#FFFF00;
                   }
                   .resalto-verde {
-                  background-color:#5cb85c;
+                  background-color:#008000;
                   }
                   .resalto-naranja{
-                  background-color:#f0ad4e;}
+                  background-color:#FFA500;}
                  
                  "))
              ),
