@@ -3,32 +3,79 @@
 \section{Resumen de resultados.}
 En relación con los objetivos planteados al principio de este documento, los resultados obtenidos con el desarrollo de la plataforma propuesta son los siguientes:
 \begin{itemize}
-    \item \textbf{Desarrollar una aplicación web interactiva con Shiny}:\ref{fig:portada}
-     \begin{figure}[h]
+    \item \textbf{Desarrollar una aplicación web interactiva con Shiny}:Se implementó una app Shiny con mapas de mortalidad y tasas de incidencia provinciales por melanoma y mapas con variables meteorologicas, también se incluyo historicos de estos datos para futuras líneas entre otras funcionalidades, desplegada en Shiny Server y accesible públicamente.\ref{fig:portada}
+     \begin{figure}[H]
         \centering
         \includegraphics[scale=1]{img/portada.png}
         \caption{Pestaña inicial UV-Derma. Elaboración Porpia}
         \label{fig:portada}
     \end{figure}
-    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en salud}: \ref{fig:info1}
-    
-    \begin{figure}[h]
+    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en salud}:Se incorporó un panel informativo interactivo con descripciones sobre el melanoma, también se efectos mencionan los efectos de los factores de riesgo mencionados en la plataforma. \ref{fig:info1}, \ref{fig:info}
+     \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{img/Captura de pantalla 2025-05-28 005537.png}
+        \caption{Pestaña Contenido Informativo. Elaboración Porpia}
+        \label{fig:info}
+    \end{figure}
+    \begin{figure}[H]
         \centering
         \includegraphics[scale=1]{img/info1.png}
         \caption{Pestaña Marco Teorico. Elaboración Porpia}
         \label{fig:info1}
     \end{figure}
-    \item \textbf{Alertar al usuario sobre factores de riesgo en una zona geográfica determinada}:
-    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET)}:
-    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma}:
-    \item \textbf{Contribuir al ámbito de la epidemiología ambiental}:
+    \item \textbf{Recomendar al usuario medidas preventivas del melanoma segun los factores de riesgo en una zona geográfica y fototipo de piel determinado}: Se desarrolló un módulo de recomendaciones geolocalizadas que, en función de los valores de radiación UV, temperatura de la ubicación y fototipo del usuario seleccionado, sugiere medidas de protección.\ref{fig:alerta}
+     \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{img/recomendacion.png}
+        \caption{Pestaña Recomendador. Elaboración Porpia}
+        \label{fig:alerta}
+    \end{figure}
+    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET)}: Se limpiaron y procesaron los datos meteorológicos y de mortalidad para adaptarlos a la generación de mapas interactivos y su posterior consumo por otras funciones de la aplicación. \ref{fig:tasa_incidencias} \ref{fig:temperaturas}, \ref{fig:Indices_UV}
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/tasaincidencias.png}
+        \caption{Pestaña Mapa defunciones INE. Elaboración Porpia}
+        \label{fig:tasa_incidencias}
+    \end{figure}
+     \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{img/temp.png}
+        \caption{Pestaña Mapa Temperaturas. Elaboración Porpia}
+        \label{fig:temperaturas}
+    \end{figure}
+     \begin{figure}[H]
+        \centering
+        \includegraphics[scale=1]{img/mapauv.png}
+        \caption{Pestaña Mapa Índices UV. Elaboración Porpia}
+        \label{fig:Indices_UV}
+    \end{figure}
+    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma}: Se implementó un módulo de cálculo de riesgo acumulado basado en la zona geofráfica y factores personales que devuelve una estimación orientativa del riesgo acumulado de desarrollar melanoma.
+    \ref{fig:Riesgo}
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/riesgo.png}
+        \caption{Pestaña Riesgo Acumulado. Elaboración Porpia}
+        \label{fig:Riesgo}
+    \end{figure}
+    \item \textbf{Contribuir al ámbito de la epidemiología ambiental}: Esta plataforma se ha puesto a disposición del público fomentando una educación y prevención del melanoma. También estará disponible todo su desarrollo en un repositorio GitHub si se quiere profundizar en la investigación en las herramientas proporcionadas.
 
 \end{itemize}
  
 
 
 
+\clearpage
+\section{Discusión}
+Viendo el apartado anterior se puede observar que los resultados obtenidos reflejan una correspondecia directa con objetivos propuestos al inicio de este proyecto, ofreciendo tanto un desarrollo técnico y atractivo  como una herramienta de divulgación y prevención accesible para el melanoma cutáneo.
 
-\section{Discusión.}
+El proceso de limpieza y preparación de los datos procedentes de INE y AEMET garantizó la fiabilidad de las visualizaciones y el correcto funcionamiento de las llamadas a API. Sin embargo, la dependencia de servicios externos introduce vulnerabilidades ante posibles cambios en los \textit{endpoints} \footnote{En desarrollo de software, un \textit{endpoint} es la dirección URL o punto de acceso de una API o servicio web al que la aplicación envía solicitudes para obtener o enviar datos.} lo cual debe tenerse en cuenta en la estabilidad actual del sistema.
 
-Discusión y análisis de los resultados obtenidos.
+El módulo de recomendaciones geolocalizadas ha mostrado ser efectivo para comunicar medidas preventivas adaptadas al índice UV y la temperatura local. Por su parte, el cálculo del índice de riesgo acumulado ofrece una valoración clara y orientativa, facilitando su comprensión por el público general. No obstante, al tratarse de una estimación aproximada diseñada para simplificar la interpretación de riesgos poco perceptibles, no sustituye una evaluación clínica. 
+
+Por otro lado, esta plataforma cumple con los requisitos del GDPR ya que no se trata en ningun momento con datos personales del usuario.
+
+Finalmentee, como contribucion a la epidemiología ambiental se dispone de un repositorio público como recurso reutilizable por desarrolladores e investigadores para mejorar las metodologías de prevencion y asistencia sanitaria.
+
+En resumen,UV-Derma demuestra su valía como herramienta de apoyo a la prevención del melanoma, cumpliendo los objetivos de desarrollo, divulgación y accesibilidad. 
+
+
