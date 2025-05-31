@@ -2,67 +2,70 @@
 
 \section{Resumen de resultados.}
 En relación con los objetivos planteados al principio de este documento, los resultados obtenidos con el desarrollo de la plataforma propuesta son los siguientes:
+
 \begin{itemize}
-    \item \textbf{Desarrollar una aplicación web interactiva con Shiny}:Se implementó una app Shiny con mapas de mortalidad y tasas de incidencia provinciales por melanoma y mapas con variables meteorologicas, también se incluyo historicos de estos datos para futuras líneas entre otras funcionalidades, desplegada en Shiny Server y accesible públicamente.\ref{fig:portada}
-     \begin{figure}[H]
-        \centering
-        \includegraphics[scale=1]{img/portada.png}
-        \caption{Pestaña inicial UV-Derma. Elaboración Porpia}
-        \label{fig:portada}
-    \end{figure}
-    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en salud}:Se incorporó un panel informativo interactivo con descripciones sobre el melanoma, también se efectos mencionan los efectos de los factores de riesgo mencionados en la plataforma. \ref{fig:info1}, \ref{fig:info}
-     \begin{figure}[H]
-        \centering
-        \includegraphics[scale=1]{img/Captura de pantalla 2025-05-28 005537.png}
-        \caption{Pestaña Contenido Informativo. Elaboración Porpia}
-        \label{fig:info}
-    \end{figure}
+    
+    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en la salud:} Se incorporó un panel informativo interactivo que describe el melanoma maligno de piel, su relación con la radiación ultravioleta, la altitud y la temperatura, así como sus efectos sobre el ADN y factores de riesgo adicionales. Este contenido tiene un enfoque divulgativo y accesible, complementado con imágenes, tablas y referencias científicas.
+    
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=1]{img/info1.png}
-        \caption{Pestaña Marco Teorico. Elaboración Porpia}
-        \label{fig:info1}
-    \end{figure}
-    \item \textbf{Recomendar al usuario medidas preventivas del melanoma segun los factores de riesgo en una zona geográfica y fototipo de piel determinado}: Se desarrolló un módulo de recomendaciones geolocalizadas que, en función de los valores de radiación UV, temperatura de la ubicación y fototipo del usuario seleccionado, sugiere medidas de protección.\ref{fig:alerta}
+        \includegraphics[width=0.6\textwidth]{img/Captura de pantalla 2025-05-31 200320.png}
+        \caption{Panel informativo}
+        \label{fig:panel}
+    \end{figure} 
+    
+    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma:}  Se desarrolló una herramienta de cálculo que estima un riesgo orientativo de melanoma para el día actual. Esta estimación se basa en la combinación de factores personales y ambientales , mediante una estructura heurística de puntuación inspirada en modelos médicos preventivos.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/calculo.png}
+        \caption{Calculadora riesgo acumulado}
+        \label{fig:riesgo}
+    \end{figure} 
+
+    \item \textbf{Recomendar al usuario medidas preventivas personalizadas:} Se implementó un módulo de recomendaciones automáticas que analiza la ubicación geográfica y el tipo de piel seleccionado por el usuario para generar consejos adaptados sobre protección solar. Estos se ajustan a los valores actuales de radiación UV y temperatura, y se presentan en un lenguaje claro, breve y visual.\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/intervalos.png}
+        \caption{Ejemplo de recomendación.}
+        \label{fig:Recomendacion}
+    \end{figure} 
+
+    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET):} Se procesaron y estandarizaron los datos meteorológicos procedentes de la API de AEMET y las estadísticas de mortalidad por melanoma del INE. Se diseñó un sistema de actualización automática y se estructuraron los datos para alimentar tanto los mapas interactivos como los módulos de cálculo y análisis.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/uv.png}
+        \caption{Mapa de los índices UV.}
+        \label{fig:uv}
+    \end{figure} 
      \begin{figure}[H]
         \centering
-        \includegraphics[scale=1]{img/recomendacion.png}
-        \caption{Pestaña Recomendador. Elaboración Porpia}
-        \label{fig:alerta}
-    \end{figure}
-    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET)}: Se limpiaron y procesaron los datos meteorológicos y de mortalidad para adaptarlos a la generación de mapas interactivos y su posterior consumo por otras funciones de la aplicación. \ref{fig:tasa_incidencias} \ref{fig:temperaturas}, \ref{fig:Indices_UV}
+        \includegraphics[width=0.6\textwidth]{img/altitud.png}
+        \caption{Mapa de la altitud.}
+        \label{fig:uv}
+    \end{figure} 
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/defunciones.png}
+        \caption{Mapa de la tasa de incidencia y mortalidad.}
+        \label{fig:uv}
+    \end{figure} 
      \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{img/tasaincidencias.png}
-        \caption{Pestaña Mapa defunciones INE. Elaboración Porpia}
-        \label{fig:tasa_incidencias}
-    \end{figure}
-     \begin{figure}[H]
+        \includegraphics[width=0.6\textwidth]{img/temperaturas.png}
+        \caption{Mapa de temperaturas.}
+        \label{fig:temp}
+    \end{figure} 
+    \item \textbf{Contribuir al ámbito de la epidemiología ambiental:} El proyecto ha sido puesto a disposición pública a través de una aplicación web accesible desde cualquier navegador. Su código fuente está disponible en un repositorio GitHub, facilitando así su uso como herramienta educativa, de divulgación o futura investigación en salud pública.
+    
+    \item \textbf{Desarrollar una aplicación web interactiva con Shiny:} Como resultado integrador de los objetivos anteriores, se implementó una aplicación Shiny funcional, con distintos módulos temáticos, visualizaciones interactivas, sistemas de descarga de datos y funcionalidades adaptadas al usuario. Esta aplicación fue desplegada en un servidor Shiny Server y está disponible públicamente para su consulta y uso general.
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=1]{img/temp.png}
-        \caption{Pestaña Mapa Temperaturas. Elaboración Porpia}
-        \label{fig:temperaturas}
-    \end{figure}
-     \begin{figure}[H]
-        \centering
-        \includegraphics[scale=1]{img/mapauv.png}
-        \caption{Pestaña Mapa Índices UV. Elaboración Porpia}
-        \label{fig:Indices_UV}
-    \end{figure}
-    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma}: Se implementó un módulo de cálculo de riesgo acumulado basado en la zona geofráfica y factores personales que devuelve una estimación orientativa del riesgo acumulado de desarrollar melanoma.
-    \ref{fig:Riesgo}
-     \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\textwidth]{img/riesgo.png}
-        \caption{Pestaña Riesgo Acumulado. Elaboración Porpia}
-        \label{fig:Riesgo}
-    \end{figure}
-    \item \textbf{Contribuir al ámbito de la epidemiología ambiental}: Esta plataforma se ha puesto a disposición del público fomentando una educación y prevención del melanoma. También estará disponible todo su desarrollo en un repositorio GitHub si se quiere profundizar en la investigación en las herramientas proporcionadas.
+        \includegraphics[width=0.6\textwidth]{img/posible_portada1.png}
+        \caption{Portada aplicación.}
+        \label{fig:portada}
+    \end{figure} 
 
 \end{itemize}
  
-
-
 
 \clearpage
 \section{Discusión}
