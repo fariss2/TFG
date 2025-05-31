@@ -1,57 +1,218 @@
 \capitulo{3}{Conceptos teóricos}
 
 
-Antes de adentrarse en los detalles técnicos del trabajo, es importante tener unos conocimientos básicos relacionados con el melanoma de piel, los factores ambientales que influyen en su desarrollo, y herramientas informáticas empleadas como la plataforma Shiny y las solicitudes APIs. Estos conceptos proporcionan un marco conceptual que facilita la comprensión del propósito del trabajo, asi como interpretar la metodología empleada y resultados obtenidos 
+Antes de adentrarse en los detalles técnicos del trabajo, es importante tener unos conocimientos básicos relacionados con el \textit{melanoma} de piel y  los factores ambientales que influyen en su desarrollo. Estos conceptos proporcionan un marco conceptual que facilita la comprensión del propósito del trabajo, así como interpretar la metodología empleada y los resultados obtenidos. 
 
-\section{Melanoma de piel maligno}
+\section{\textbf{Melanoma de piel maligno}}
 
-El \textit{melanoma} es un tipo de cáncer de piel originado principalmente en las células productoras de melanina, melanocitos. Aunque representa entre el 1\% y 4\% de todos los cánceres de piel, es el tipo más grave debido a su alta mortalidad. El \textit{melanoma} tiene alta agresividad y potencial para generar metástasis a nivel nodal y a distancia. 
+\subsection{\textbf{Definición melanoma}}
 
-\subsection{Síntomas del \textit{melanoma}}
-Para un reconocimiento clínico de una lesión sospechosa de \textit{melanoma}, se emplea el método ABCD que significa:
+El \textit{melanoma} es un tipo de cáncer de piel originado en los melanocitos, las células de la epidermis \ref{fig:Melanoma} encargadas de producir el pigmento melanina \cite{QueEsCancer} . Aunque representa entre el 1\% y 4\% de todos los cánceres de piel \cite{oyarzun2021cancer},  presenta una alta probabilidad de crecimiento rápido y de propagación a otras partes del organismo si no se detecta a tiempo, conllevando a la muerte. Además de la piel, los melanomas pueden desarrollarse en localizaciones menos habituales como los ojos y mucosas \cite{QueEsCancer}. 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/melanoma.png}
+        \caption{ Melanoma \cite{MelanomaCutaneoAIM}. }
+        \label{fig:Melanoma}
+    \end{figure}
+    
+\subsection{\textbf{Incidencia del melanoma}}
+
+El melanoma cútaneo representa aproximadamente el 1,5\% de todos los tumores, posicionándose entre los cinco más frecuentes en hombres y el sexto en mujeres. Anualmente se diagnostican unos 160000 casos mundiales, predominando más en raza caucásica, vinculando el 81\% de los casos por exposición solar y métodos de bronceado artificial \cite{EpidemiologiaCancerPiel}. En España, en 2024 se diagnosticaron 7881 casos de melanoma cutáneo \cite{MelanomaCancerPiel} y su incidencia aumentó aproximadamente hasta un 40\% en los últimos 4 años según Asociación Española de Dermatología y Venereología \cite{CancerPielPresentaciona}. 
+Este tumor sigue siendo uno de los tumores con mejor pronóstico si se diagnostica en sus fases iniciales,con una supervivencia de cinco años del 98\% sin diseminación y la mortalidad se sigue manteniendo estable gracias a los avances en prevención, diagnóstico y tratamiento \cite{EpidemiologiaCancerPiel}.
+
+\subsection{\textbf{Factores de riesgo}}
+Segun \cite{oyarzun2021cancer}, los principales factores de riesgo asociados al desarrollo del melanoma cutáneo maligno (CPM) son:
+
+\begin{itemize}
+    \item \textbf{Exposición solar y quemaduras solares previas}: La radiaciacion ultravioleta (UV) constituye el factor de riesgo mas significativo para el desarrollo del melanoma cutaneo maligno. Se hablará más en detalle de esta radiación y sus efectos sobre la salud humana.
+    
+    \item \textbf{Fototipo de piel}:Aquellas personas con fototipo de piel clara (I,II) presentan mayor susceptibilidad a la readiacion UV y un riesgo elevado a quemaduras solares tipo A,  debido a su baja concentracion de melanina y por ende su baja resistencia a esta radiacion.
+
+    \item \textbf{Factores hormonales y reproductivos}: 
+    los estrógenos y progesterona estimulan la proliferación melanocítica.
+
+    \item \textbf{Sindrome del Nevus Displásico}:
+    Se trata de la presencia de mas de 100 lunares atipicos de mas de 6-8 mm que aumenta la probabilidad de desarrollar melanoma antes de los 50 años.
+
+    \item \textbf{Xeroderma pigmentoso}: se trata de una condicion hereditaria, enfermedad genetica rara, que causa una extrema sensibilidad a la radiacion UV y una incapacidad de reparar el daño causado por esta 
+    \item \textbf{Antecedentes familiares}:El historial de parientes de primer grado duplica el riesgo, está presente en el 10\% de los casos de CPM.
+
+    \item \textbf{Mutaciones geneticas especificas}: las mencionadas posteriormente estan asociadas a una mayor predisposicion al melanoma.
+\end{itemize}
+
+
+
+\subsection{\textbf{Síntomas del \textit{melanoma}}}
+Para un reconocimiento clínico de una lesión sospechosa de \textit{melanoma}, se emplea el método ABCD \ref{fig:ABCDE} que segun \cite{oyarzun2021cancer} significa:
 
 \begin{itemize}
     \item Asimetría: la lesión es irregular o asimétrica.
     \item Bordes: posee bordes irregulares o mal definidos.
     \item Color: presenta variaciones de color, mas de dos colores en una misma lesión.
     \item Diámetro: posesión de diámetro mayor de 6mm.
+    \end{itemize}
+Mas adelante se añadieron:
+    \begin{itemize}
     \item Evolución: cambios observables como en la forma o tamaño de la lesión.
     \item \textit{Funny} o extraño: la lesión resalta por ser diferente o extraña.  
 \end{itemize}
 
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/ABCD.jpg}
+        \caption{Diagnostico Clinico del Melanoma \cite{ABCDE}. }
+        \label{fig:ABCDE}
+    \end{figure}
+    
+\subsection{\textbf{Tipos de melanomas} }
+El melanoma cutáneo se origina en los melanocitos de la epidermis y puede evolucionar hacia formas invasivas y metastásicas.
+Existen varios tipos y son \cite{MelanomaCutaneoAIM}:
+\begin{itemize}
+    \item \textbf{Melanoma de extension superficial}:Es el mas frecuente, representa hasta el 70\% de los casos, diagnosticado con mayor frecuencia entre los 30 y 50 años. Comienza su desarrollo de manera horizontal en la epidermis hasta alcanzar capas mas profundas, aparece como una lesion plana con bordes irregulares y variaciones de colores. Es comun en el tronco en hombres y en piernas en mujeres.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/extension.jpg}
+        \caption{Melanoma de extension superficial \cite{MelanomaMedlinePlusEnciclopedia}. }
+        \label{fig:melanoma_extension}
+    \end{figure}    
+    \item \textbf{Melanoma nodular}:Segundo tipo mas comun, hasta el 15\% de los casos, y es el mas agresivo. Crece de manera rapida verticalmente conllevando a la invasion a la hora de diagnosticar, presenta un color negro azulado afectando mas a hombres en el tronco, cabeza o cuello.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/nodular.jpg}
+        \caption{Melanoma nodular \cite{ImagenesCancerPiel}. }
+        \label{fig:melanoma_nodular}
+    \end{figure}
+    \item \textbf{Melanoma lentigo maligno}: Aparece sobre lesiones solares preexistentes llamadas lentigos, caracteristico en zonas del cuerpo fotoexpuestas en personas de avanzada edad apareciendo como un parche grande con tonalidades variables. Se desarrolla lentamente formando el 5\% de lo casos de melanomas.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/lentigo.jpg}
+        \caption{Melanoma lentigo maligno \cite{MelanomaMedlinePlusEnciclopedia}. }
+        \label{fig:lentigo}
+    \end{figure}
+    \item \textbf{Melanoma lentiginoso acral}:Tipo poco frecuente, pero el mas comun en personas de piel oscura y origen asiatico. Se localiza en palmas, plantas y bajo de las uñas confundiednose con hematomas y por ello se diagnostica en fases avanzadas, tambien debido a falsas creencias sobre el riesgo de desarrollar melanomas en personas no causasicas. 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/acral.jpg}
+        \caption{Melanoma lentiginoso acral \cite{ImagenesCancerPiel}. }
+        \label{fig:melanoma_acral}
+    \end{figure}    
+    \item \textbf{Melanoma amelanotico}:Tipo que representa aproximadamente el 4 \% de los casos. Pasa desapercibido por ausencia de pigmento y por ellos se diagnostica tarde. Comun en zonas fotoexpuestas. 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/amelanotico.png}
+        \caption{Melanoma amelanotico \cite{ImagenesCancerPiel}. }
+        \label{fig:melanoma_amelanotico}
+    \end{figure}
+    \item \textbf{Melanoma desmoplasico}: Tipo muy raro que representa menos del 4\% de los casos. Esta asociado a la exposicion cronica a la radiacion UV y por ello aparece en zonas como la cabeza, cuello y tronco. Afecta a personas mayores apareciendo como una lesion no pigmentada similar a una cicatriz dificultando su deteccion clinica.
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/desmoplasico.jpg}
+        \caption{Melanoma desmoplásico \cite{MelanomaDesmoplasico}. }
+        \label{fig:melanoma_desmoplasico}
+    \end{figure} 
+    
+\end{itemize}
 
-\subsubsection{Factores de riesgo}
+
+
+
+
+\subsection{ \textbf{Fisiopatologia del melanoma}}
+Esta patología se caracteriza por alteraciones genéticas que activan la vía de señalización MAPK(mitogen-activated protein kinase) que es esencial en la regulación de la proliferación, diferenciación y supervivencia celular. Las mutaciones mas representativas se encuentran en los gener BRAF,NRAS,KIT  \cite{MutacionesKITNRAS2015} y en menor medida en el TP53 y CDKN2A \cite{Mutaciones_CDNK2A}.
 
 
 \begin{itemize}
-    \item Exposición a la luz solar, radiación ultravioleta: exposiciones intermitentes y quemaduras solares previas.
-    \item Fototipo de piel clara, de tipo I y II
-    \item Factores hormonales y reproductivos, los estrógenos y progesterona estimulan la proliferación melanocítica.
-    \item Historial familiar y personal, el antecedente familiar está presente en el 10\% de los casos.
-    \item Padecer enfermedades relacionadas con el \textit{nevus}, proliferación benigna de los melanócitos
+    \item Gen BRAF: codifica una proteina quinasa involucrada en la via MAPK. Esta mutacion esta presente en aproximadamente el 40-60 \% de los melanomas, se trata de una sustitucion del acido glutamico (E) por una valina (V) en el aminocido 600 (V600E). Eta alteracion activa la via MAPK favoreciendo el crecimiento celular descontrolado. Mutacion propia del subtipo de melanoma de extension superficial \cite{MutacionesKITNRAS2015}.
+    \item  Gen NRAS: gen que tambien contribuye a la activacion de la via MAPK y su alteracion esta presente aproximadamente hasta en el 25\% de casos, especialmente de melanomas nodulares. Se producen modificaciones en el aminoacido del codon 61 que normalmente codifica glutamina pero mutado puede dar resultado a arginina, lisina o leucina \cite{MutacionesKITNRAS2015}.
+    \item Gen KIT: codifica  una tirosina quinasa esencial para la supervivencia y proliferacion melanocitica. Sus mutaciones son menos comunes afectando alrededor del 10\% de casos, especialmente los subtipos de melanoma mucoso y el lentiginoso acral \cite{MutacionesKITNRAS2015}.
+    \item Gen TP53 y CDKN2A: Regulan la apoptorsis, muerte celular programada, y el ciclo celular respectivamente y su alteracion favorece la acumulacion de daño genetico y la progresion tumoral \cite{Mutaciones_CDNK2A}.
+\end{itemize}
+ 
+Gracias al descubrimiento de estas alteraciones geneticas ha favorecido el desarrollo de los tratamientos personalizados siendo estas las dianas terapeuticas \cite{MutacionesKITNRAS2015}.
+
+\subsection{\textit{Etapas del melanoma}}
+Tras el diagnostico de melanoma, los medicos deberan saber si el cancer ha propagado o no y si es asi, a quedistancia. Este proceso se denomina estadificacion, cada estadio del un cancer describe cuanto cancer hay en el cuerpo y como tratarlo. Las etapas se identifican por numeros y cuanto mas bajo sea el numero menos se ha propagado el cancer.
+Segun la Sociedad Americana del Cancer \cite{EtapasCancerPiel} el sistema de estadificacion mas usado es el sistema TNM basado en:
+\begin{itemize}
+    \item La  extension del tumor principal, T:
+    \begin{itemize}
+        \item Grosos del tumoor que se le denomina medicion de Breslow. Aquellos melanomas con un grosor menor de un milimetro tienen menor probabilidad de propagacion.
+        \item Ulceracion:Se trata de una ruptura de la piel que se encuentra encima del melanoma, empeorando su pronostico.
+    \end{itemize}
+    \item La propagacion a los ganglios( nodulos) linfaticos(N).
+    \item La propagacion(metastasis) a sitios distantes (M)
+\end{itemize}
+En este sistema se detallan los avances del cancer en caada etapa añadiendo numeros y letras despues de T,N y M \ref{tab:etapas_cancer}.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|p{13cm}|}
+\hline
+\textbf{Etapa} & \textbf{Descripción clínica} \\
+\hline
+0 & Melanoma \textit{in situ}. Limitado a la epidermis (Tis, N0, M0). Sin invasión ni metástasis. \\
+\hline
+I & Grosor menor a 2 mm, con o sin ulceración (T1–T2a). Sin afectación de ganglios linfáticos ni metástasis (N0, M0). \\
+\hline
+II & Grosor mayor a 1 mm hasta más de 4 mm (T2b–T4). Puede o no estar ulcerado. No hay afectación ganglionar ni metástasis (N0, M0). \\
+\hline
+III (A–D) & Hay afectación ganglionar regional (N1–N3) o metástasis locales (tumores satélites o canales linfáticos). Se subdivide en IIIA (afectación microscópica) hasta IIID (macroscópica, agrupada). \\
+\hline
+IV & Metástasis a ganglios linfáticos distantes u órganos como pulmón, hígado o cerebro (M1). Etapa más avanzada y de peor pronóstico. \\
+\hline
+\end{tabular}
+\caption{Clasificación clínica por etapas del melanoma cutáneo según el sistema TNM  \cite{EtapasCancerPiel}. }
+\label{tab:etapas_cancer}
+\end{table}
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/etapas-del-melanoma.jpg}
+        \caption{Etapas del melanoma \cite{MelanomaMalignoQue}. }
+        \label{fig:melanoma_etapas}
+    \end{figure} 
+
+\subsection{\textbf{Tratamiento}}
+Tras la confirmación del \textit{melanoma} mediante procedimientos como una biopsia o estudio histopatológico, se procede al tratamiento.
+El tratamiento  del melanoma varia en funcion de la etapa de la enfermedad, siendo el principal la cirugia en etapas tempranas \cite{oyarzun2021cancer} . Ademas \cite{oyarzun2021cancer} menciona la existencia de los siguientes:
+\begin{itemize}
+    \item Inmunoterapia para tratar melanomas en etapas avanzadas, usando farmacos que estimulan al sistema inmune para reconocer y atacar celulas tumorales.
+    \item Terapias dirigidas para aquellos pacientes con mutaciones en el gen BRAF.
+    \item Radioterapia solo para aquellos pacientes con metastasis cerebrales como tratamiento paliativo.
+    \item Quimioterapia tradicional.
 \end{itemize}
 
-\subsubsection{Tratamiento}
-Tras la confirmación del \textit{melanoma} mediante procedimientos como una biopsia o estudio histopatológico, se procede al tratamiento.
-El principal tratamiento y curativo del \textit{melanoma} es la cirugía. Consiste en la extirpación del tumor primario con márgenes de seguridad adecuado para asegurar de que no se produzca propagación al resto del organismo.
 
-\subsection{Medidas de prevención}
-Como medidas de prevención se debe reducir la exposición solar, fomentar más el cuidado y protección de la piel. Una detección precoz y un control dermatológico de quemaduras previas también evita complicaciones del \textit{melanoma} \cite{oyarzun2021cancer}.
+\subsection{\textbf{Medidas de prevención}}
+Como medidas de prevención se debe reducir la exposición solar, fomentar más el cuidado y protección de la piel. Una detección precoz y un control dermatológico de quemaduras previas también evitan complicaciones del \textit{melanoma} \cite{oyarzun2021cancer}.
 
-\section{Radiación ultravioleta \textit{UV}}
-La radiación ultravioleta es el principal factor de riesgo ambiental modificable en el desarrollo del melanoma cutáneo. Esta radiación es parte de la energía que proviene del sol y representa la porción más energética del espectro electromagnético que incide sobre la superficie terrestre.Tiene una capacidad para producir efectos biológicos significativos por su interacción directa con moléculas de importante significación como el ADN y proteínas.
+\section{\textbf{Radiación ultravioleta \textit{UV}}}
+La radiación ultravioleta es el principal factor de riesgo ambiental modificable en el desarrollo del \textit{melanoma} cutáneo. Esta radiación es parte de la energía que proviene del sol y representa la porción más energética del espectro electromagnético que incide sobre la superficie terrestre.Tiene una capacidad para producir efectos biológicos significativos por su interacción directa con moléculas de importante significación como el ADN y proteínas.
 Existen tres tipos principales de radiación UV según su longitud de onda:
 \begin{itemize}
     \item \textbf{UVC} cuya longitud varía desde 100 a 280 nm, posee la mayor parte de energía que es retenida por la capa de ozono, por lo que no llega naturalmente a la superficie terrestre.
     \item \textbf{UVB} de longevidad 280 nm a 320 nm, es menos energética que la UVC pero es más dañina para la salud humana, causando quemaduras solares, daño genético directo.
-    \item \textbf{UVA} de mayor longitud 320 a 400 nm, posee menos energía que UVB pero es la que más abunda en la tierra, está penetra más profundamente en la piel y provoca envejecimiento prematuro. También genera daños genéticos indirectos por la formación de especies reactivas del oxígeno.
+    \item \textbf{UVA} de mayor longitud 320 a 400 nm, posee menos energía que UVB pero es la que más abunda en la tierra, está penetra más profundamente en la piel y provoca envejecimiento prematuro. También genera daños genéticos indirectos por la formación de especies reactivas del oxígeno.    
 \end{itemize}
-Produce lesiones directas en el ADN formando dímeros de pirimidina provocando distorsión local del ADN, impidiendo su correcto emparejamiento con sus bases complementarias. A pesar de que habitualmente estas lesiones se reparan, existen casos de persistencia lo que afecta a procesos celulares como el ciclo celular. 
-La acumulación progresiva de daños en la información genética puede acabar en mutaciones de genes de gran importancia, como lo es el gen p53, supresor de tumores. Su principal función es regular procesos clave como la reparación del ADN, parada del ciclo celular y la apoptosis,, que es la muerte celular programada.
-Cuando se produce la reparación inicial del ADN, el gen p53 promueve la apoptosis para prevenir el desarrollo de tumores. Sin embargo, la exposición excesiva a la radiación UV puede provocar mutaciones en este gen, que da como resultado el desarrollo del cáncer por una proliferación de células mutadas descontroladas.\cite{gonzalez2009radiacion}
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/dañouv.jpg}
+        \caption{Incidencia radiación UV en la piel \cite{CancerPielMelanoma}.}
+        \label{fig:ruv}
+    \end{figure} 
+Produce lesiones directas en el ADN formando dímeros de pirimidina, provocando distorsión local del ADN e impidiendo su correcto emparejamiento con sus bases complementarias. A pesar de que habitualmente estas lesiones se reparan, existen casos de persistencia lo que afecta a procesos celulares como el ciclo celular. 
+La acumulación progresiva de daños en la información genética puede acabar en mutaciones de genes de gran importancia, como lo es el gen p53, supresor de tumores. Su principal función es regular procesos clave como la reparación del ADN, parada del ciclo celular y la apoptosis, que es la muerte celular programada.
+Cuando se produce la reparación inicial del ADN, el gen p53 promueve la apoptosis para prevenir el desarrollo de tumores. Sin embargo, la exposición excesiva a la radiación UV puede provocar mutaciones en este gen, que da como resultado el desarrollo del cáncer por una proliferación de células mutadas descontroladas\cite{gonzalez2009radiacion}.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/radiacon.jpg}
+        \caption{Daño de la radiación UV en el ADN \cite{Daño_uv}.}
+        \label{fig:ruv}
+    \end{figure} 
 
 \section{Altitud}
-La altitud es la distancia vertical de un punto de la superficie terrestre o de la atmósfera respecto al nivel del mar. Se expresa en metros sobre el nivel del mar y se emplea para determinar la altura de un lugar en relación con el nivel del mar. A medida que aumenta la altitud, aumenta la radiación ultravioleta; por cada 300 m de altitud, la capacidad de radiación ultravioleta para producir quemaduras aumenta un 4\% porque el aire es menos denso, provocando su menor absorción.\cite{SolSusEfectos2021a}
+La altitud es la distancia vertical de un punto de la superficie terrestre o de la atmósfera respecto al nivel del mar. Se expresa en metros sobre el nivel del mar y se emplea para determinar la altura de un lugar en relación con el nivel del mar. A medida que aumenta la altitud, aumenta la radiación ultravioleta; por cada 300 m de altitud, la capacidad de radiación ultravioleta para producir quemaduras aumenta un 4\% porque el aire es menos denso, provocando su menor absorción \cite{SolSusEfectos2021a}.
 
 \section{Estado del arte y trabajos relacionados.}
 
@@ -62,11 +223,11 @@ La combinación de tecnologías de visualización, acceso a datos abiertos y est
 En los últimos años, el desarrollo de aplicaciones móviles orientadas a la prevención del cáncer de piel ha ido en aumento, destacando aquellas que informan sobre el índice de radiación ultravioleta (UV) y, por consiguiente, recomiendan medidas de protección.
 Algunas de estas aplicaciones son:
 \begin{itemize}
-    \item \textbf{UVLens App} \cite{UVLensKeepingYou}: se trata de una aplicación interactiva que nos indica el índice UV en tiempo real y ofrece recomendaciones según el tono de piel del usuario. Posee un alcance internacional pero depende de la disponibilidad de fuentes de datos locales para ofrecer datos e información precisa por lo que reduce su fiabilidad en zonas no cubiertas por redes internacionales, también carece de enfoque educativo.
-    \item \textbf{EPA UV Index App} \cite{usepaUVIndex2023}: desarrollada por la Agencia de Protección Ambiental de EE.UU. \cite{usepaUSEnvironmentalProtection2013} Proporciona el índice UV segun la localización del usuario. Su finalidad es unicamente informativa, no cuenta con contenido educativo y esta restringida a Estados Unidos.
+    \item \textbf{UVLens App}: \cite{UVLensKeepingYou} se trata de una aplicación interactiva que nos indica el índice UV en tiempo real y ofrece recomendaciones según el tono de piel del usuario. Posee un alcance internacional pero depende de la disponibilidad de fuentes de datos locales para ofrecer datos e información precisa por lo que reduce su fiabilidad en zonas no cubiertas por redes internacionales, también carece de enfoque educativo.
+    \item \textbf{EPA UV Index App}: \cite{usepaUVIndex2023} desarrollada por la Agencia de Protección Ambiental de EE.UU \cite{usepaUSEnvironmentalProtection2013}. Proporciona el índice UV segun la localización del usuario. Su finalidad es unicamente informativa, no cuenta con contenido educativo y esta restringida a Estados Unidos.
     \item \textbf{SunSmart App} \cite{sunsmartHomePageMeta}: elaborada por el Consejo del Cáncer de Vitoria y el Organismo Australiano de Seguridad Nuclear \cite{AplicacionSunSmartGlobal}, esta centrada en la prevencion del cáncer de piel, incluye pronosticos UV entre otras funciones como un recordatorio para reaplicar protección solar, a pesar de ser de las más completas esta limitada al contexto australiano.
-    \item \textbf{SKCIN App}:Desarrollada por la organización benéfica Skcin (Reino Unido), esta aplicación educativa y de autogestión está dedicada a la prevención y detección temprana del cáncer de piel. Ofrece herramientas para evaluar el riesgo personal, información sobre protección solar y recordatorios para autoexámenes cutáneos. Además, proporciona alertas del índice UV y recursos educativos para fomentar comportamientos seguros al sol.
-    \item \textbf{ First Primary Melanoma Risk Prediction Tool}: Desarrollada por el Melanoma Institute Australia, esta herramienta en línea permite a los profesionales de la salud estimar el riesgo individual de desarrollar un primer melanoma invasivo. Basada en un modelo de predicción validado, facilita discusiones informadas sobre hábitos de protección solar y vigilancia cutánea.
+    \item \textbf{SKCIN App}:\cite{SkcinApp}Desarrollada por la organización benéfica Skcin (Reino Unido), esta aplicación educativa y de autogestión está dedicada a la prevención y detección temprana del cáncer de piel. Ofrece herramientas para evaluar el riesgo personal, información sobre protección solar y recordatorios para autoexámenes cutáneos. Además, proporciona alertas del índice UV y recursos educativos para fomentar comportamientos seguros al sol.
+    \item \textbf{ First Primary Melanoma Risk Prediction Tool}:\cite{MelanomaRiskAssessment} Desarrollada por el Melanoma Institute Australia, esta herramienta en línea permite a los profesionales de la salud estimar el riesgo individual de desarrollar un primer \textit{melanoma} invasivo. Basada en un modelo de predicción validado, facilita discusiones informadas sobre hábitos de protección solar y vigilancia cutánea.
 \end{itemize}
 
 Tras la visita de estas aplicaciones se observó que ninguna contempla el análisis integrado de otros factores de riesgo ambientales como lo hace este proyecto; asimismo, tampoco ofrece información a nivel nacional sobre tasas de incidencia o mortalidad. También se observa que la mayoría están diseñadas para su uso en países específicos y no ofrecen información adaptada a las provincias españolas.
