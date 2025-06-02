@@ -5,22 +5,21 @@ Una vez definidos los conceptos principales que conforman el marco teórico de e
 
 \section{Descripción de los datos.}
 Para la elaboración del proyecto se ha construido una base de datos  propia a partir de fuentes de datos oficiales y APIs públicas, con el fin de analizar factores ambientales relacionados con el riesgo de desarrollar melanoma maligno de piel.
-La base de datos fue construida en R y almacenada en formato .rds , lo que permite almacenar y recuperar objetos complejos como data frames. Se integraron datos provenientes de las respuestas de la API.
+Tras el proceso de limpieza de resultados obtenidos de la respuesta de la API de la AEMET se consiguen los datos asociados a cada provincia. Mediante este atributo común se realiza una unión de datos correspondientes a las temperaturas y al índice de radiación ultravioleta para obtener una un único dataframe consolidado para la visualización en mapas. Un \textit{datarame}  en R es una estructura de datos bidimensional que se emplea para almacenar y visualizar datos en forma similar a una tabla \cite{gonzalez-vidalTabularColaTabulacionDatos2019}. Una vez, realizado el proceso de unión, se almacena localmente esta especie de base de datos empleando el formato \textit{.rds} mediante la función \textit{saveRDS()}, comprime los datos que almacena ocupando menos espacio \cite{RParaPrincipiantes}. En el contexto de R estos archivos permiten guardar objetos como dataframes manteniendo su estructura y tipos que tenían originalmente, evitando la pérdida de información. Para la recuperación de este archivo se usa la función \textit{readRDS()} y de esta manera se evita la pérdida de los registros de días pasados y se añaden los nuevos datos del día actual. 
+
 Los datos empleados se clasifican en  tres categorías:
 
  \begin{enumerate}
-     \item \textbf{Datos meteorológicos}
-     Se obtienen mediante la API pública de la agencia estatal de meteorologia(AEMET) \cite{AEMETOpenDataa}, empleando el paquete de \textit{R climaemet} \cite{R-climaemet}, y se actualizan diariamente con el lanzamiento de la aplicación web. las variables recogidas son las siguientes:
+     \item \textbf{Datos meteorológicos}: se obtienen mediante la API pública de la agencia estatal de meteorología (AEMET) \cite{AEMETOpenDataa}, empleando el paquete de \textit{R climaemet} \cite{R-climaemet}, y se actualizan diariamente con el lanzamiento de la aplicación web. las variables recogidas son las siguientes:
      \begin{itemize}
          \item Índice de radiación ultravioleta (UV): representa la intensidad de la radiación UV solar que se predice que va a incidir sobre la superficie terrestre en cada provincia.
          \item Temperatura máxima y mínima diaria: valor máximo y mínimo  registrado en grados Celsius por provincia 
      \end{itemize}
      \item \textbf{Datos geográficos}
-     Mediante el mismo paquete, \textit{climaemet} \cite{R-climaemet}, se accede a metadatos de las estaciones meteorológicas oficiales que incluyen la altitud entre otros registros. Esta altitud representa la elevación de la estación meteorológica sobre el nivel del mar y se obtiene una altitud media por el conjunto de estaciones meteorológicas que pertenecen a cada provincia.
-     \item \textbf{Datos de las defunciones por melanoma maligno de piel}
-     Estos registros se extraen mediante el paquete estadístico de la INE en \textit{R} \cite{INE_R}, que conecta con su misma API de esta manera cuando se realiza la actualización anual de estos datos, se verá reflejada en los mismos. Al igual que el conjunto de datos anteriores se recogen por provincias. 
+     mediante el paquete, \textit{climaemet} \cite{R-climaemet}, se accede a metadatos de las estaciones meteorológicas oficiales que incluyen la altitud entre otros registros. Esta altitud representa la elevación de la estación meteorológica sobre el nivel del mar y se obtiene una altitud media por el conjunto de estaciones meteorológicas que pertenecen a cada provincia.
+     \item \textbf{Datos de las defunciones por melanoma maligno de piel}: estos registros se extraen del Instituto Nacional de Estadística a través de su respectivo paquete \textit{R} \cite{INE_R}, que conecta con su misma API de esta manera cuando se realiza la actualización anual de estos datos, se verá reflejada en los mismos. Al igual que el conjunto de datos anteriores se recogen por provincias. 
  \end{enumerate} 
-Toda esta información se consolida automáticamente en una base de datos que sirve de soporte para el correcto funcionamiento de la aplicación web. Esta plataforma no registra ni almacena información personal sino , en su lugar, actuará como recomendador donde el usuario elige su zona geográfica y fototipo de piel  y se le imprimirá una sugerencia personalizada según los parámetros escogidos.
+Toda esta información se consolida automáticamente en una base de datos que sirve de soporte para el correcto funcionamiento de la aplicación web. Esta plataforma no registra ni almacena información personal sino, en su lugar, actuará como recomendador donde el usuario elige su zona geográfica y fototipo de piel  y se le imprimirá una sugerencia personalizada según los parámetros escogidos.
 Este sistema se plantea como una herramienta educativa y preventiva, con potencial para informar a la población sobre la exposición solar y sus efectos adversos en un contexto social donde la moda del bronceado está en su máximo auge.  
 
 En el futuro, la recopilación continua y estructurada de estos datos climáticos abrirá camino a estudios estadísticos más integrados y precisos. La base de datos creada puede servir como punto de partida para analizar el efecto combinado de factores ambientales en el desarrollo del melanoma maligno de piel. Además, al incorporar variables individuales como el fototipo cutáneo, se podrá realizar un análisis más personalizado, contribuyendo a una comprensión más profunda del papel que juegan las condiciones ambientales en la aparición y evolución de esta patología.
@@ -42,35 +41,34 @@ En este apartado se realiza una recopilación de técnicas y herramientas emplea
  
  
 \subsubsection{GitHub}
-Se trata de una plataforma gratuita en línea de código abierto , que permite el alojamiento de código fuente de las aplicaciones de cualquier desarrollador, la colaboración y la planificación de tareas del desarrollo de proyectos. Es una herramienta fundamental para el desarrollo \textit{software}, proporcionando un entorno colaborativo, seguro y eficiente para la gestión y generación de repositorios públicos o privados. \cite{fernandezQueEsGithub2019}
+Se trata de un servicio basado en la nube que permite el alojamiento de código fuente de las aplicaciones de cualquier desarrollador, la colaboración y la planificación de tareas del desarrollo de proyectos. Es una herramienta fundamental para el desarrollo \textit{software}, proporcionando un entorno colaborativo, seguro y eficiente para la gestión y generación de repositorios públicos o privados \cite{QueEsGitHub2019}.
 
 Se ha hecho uso de esta herramienta para generar un repositorio en el que se encuentra detallado el código fuente de la aplicación resultado del proyecto, junto con su documentación necesaria; también se ha empleado para el seguimiento organizado de este trabajo.
 
 \subsubsection{R Studio}
 Se trata de un entorno de desarrollo integrado empleado para el lenguaje de programación R \cite{RStudio2025}, el cual fue utilizado para desarrollar la aplicación web.
 
-\subsubsection{Chat GPT}
-Herramienta de inteligencia artificial utilizada de apoyo para la solución de \textit{bugs} que iban apareciendo en el desarrollo de la aplicación y para generar la foto de la portada de esta misma .
-
 \subsubsection{Overelaf}
-Se trata de un editor \textit{LaTeX} online que permite escribir, visualizar y compartir artículos e investigaciones científicas. \cite{OverleafEdicionDocumentos} 
-
+Se trata de un editor \textit{LaTeX} online que permite escribir, visualizar y compartir artículos e investigaciones científicas \cite{OverleafEdicionDocumentos}.
 
 \subsubsection{Zotero}
 
-Se trata de un gestor de referencias bibliográficas, libre, abierto y gratuito. Permite guardar referencias bibliográficas, insertar citas y genera bibliografías para la redacción en \textit{LaTeX} \cite{ZoteroRedBibliotecas}. Yo lo usé en versión escritorio con una extensión en el navegador para adquirir las referencias más fácilmente.
+Se trata de un gestor de referencias bibliográficas, libre, abierto y gratuito. Permite guardar referencias bibliográficas, insertar citas y generar bibliografías para la redacción en \textit{LaTeX} \cite{ZoteroRedBibliotecas}. Yo lo usé en versión escritorio con una extensión en el navegador para adquirir las referencias más fácilmente.
 
 
 \subsubsection{Google Documents}
- Se trata de un procesador de texto en línea que te permite crear documentos y darles formato.\cite{ComoUsarDocumentos} Lo he usado para ir redactando el borrador de la memoria y la información redactada en la aplicación web.
+ Se trata de un procesador de texto en línea que te permite crear documentos y darles formato\cite{ComoUsarDocumentos}. Lo he usado para ir redactando el borrador de la memoria y la información redactada en la aplicación web.
 
 \subsubsection{Google académico}
-Google Académico (Google Scholar) es un buscador que permite localizar documentos de carácter académico como artículos, tesis, libros, patentes, documentos relativos a congresos y resúmenes. \cite{bibliotecaBiblioguiasGoogleAcademico}
+Google Académico (Google Scholar) es un buscador que permite localizar documentos de carácter académico como artículos, tesis, libros, patentes, documentos relativos a congresos y resúmenes \cite{bibliotecaBiblioguiasGoogleAcademico}.
+
+\subsubsection{Chat GPT}
+Herramienta de inteligencia artificial utilizada de apoyo para la solución de \textit{bugs} que iban apareciendo en el desarrollo de la aplicación y para generar la foto de la portada de la aplicación.
 
 \subsection{Lenguajes utilizados }
 \begin{itemize}
     \item \textbf{LaTeX}: se trata de un sistema de composición de textos de alta calidad, ampliamente usado para la creación de documentos científicos y técnicos. Permite un manejo detallado de la estructura y presentación del contenido. En este proyecto, LaTeX ha sido utilizado para la creación de este documento. \cite{LaTeXDocumentPreparation}.
-    \item \textbf{R}: es un lenguaje de programación de código abierto diseñado para el análisis estadístico y la visualización de datos. \cite{IntroduccionPrimerosPasos} Fue usado para el desarrollo de la aplicación web.
+    \item \textbf{R}: es un lenguaje de programación de código abierto, diseñado especialmente para el análisis estadístico y la visualización de datos \cite{IntroduccionPrimerosPasos}. No obstante, su entorno incluye herramientas y compatibilidad para el desarrollo de aplicaciones web mediante el\textit{ framework Shiny}, utilizado para este proyecto.
     \item \textbf{Lenguajes web complementarios}: para dotar a la aplicación web de un aspecto más atractivo para el usuario se usó \textit{JavaScript} para la creación de mapas para aportar interactividad a la plataforma, y \textit{HTML}, \textit{CSS} para el diseño tipográfico y físico de la interfaz. 
 \end{itemize}
 \subsection{Técnicas y librerías}
@@ -78,87 +76,45 @@ Google Académico (Google Scholar) es un buscador que permite localizar document
  \subsubsection{Aplicación web}
  Una aplicación web consiste en un \textit{software} que se ejecuta en el navegador web. Hoy en día se emplean como solución práctica para acceder a funcionalidades complejas sin necesidad de instalar o configurar un \textit{software}. Esto la convierte en una opción más práctica y versátil que las aplicaciones de escritorio tradicionales. Entre sus principales ventajas se encuentran:
  \begin{itemize}
-     \item \textbf{Accesibilidad}: Las aplicaciones web son accesibles desde todos los navegadores web y desde diferentes dispositivos personales con diferentes sistemas operativos y con conexion a internet,garantizando una experiencia homogénea para todos los usuarios y simplificando el desarrollo de esta.
+     \item \textbf{Accesibilidad}: Las aplicaciones web son accesibles desde todos los navegadores web y desde diferentes dispositivos personales con diferentes sistemas operativos y con conexión a internet, garantizando una experiencia homogénea para todos los usuarios y simplificando el desarrollo de esta.
      \item \textbf{Desarrollo eficiente}: presenta un desarrollo sencillo y rentable como solución ya que al presentar compatibilidad con todos los sistemas operativos no requiere un desarrollo complejo.
-     \item \textbf{Simplicidad para el usuario}: Los usuarios no necesitan descargar las aplicaciones web, lo que hace que sean fáciles de acceder a la vez que se prescinde de mantenimiento y no consume espacio local . Las aplicaciones web reciben actualizaciones de \textit{software} y seguridad de manera automática, lo que significa que siempre están actualizadas y presentan menor riesgo de sufrir brechas de seguridad.\cite{QueEsAplicacion}
+     \item \textbf{Simplicidad para el usuario}: los usuarios no necesitan descargar las aplicaciones web, lo que hace que sean fáciles de acceder a la vez que se prescinde de mantenimiento y no consume espacio local. Las aplicaciones web reciben actualizaciones de \textit{software} y seguridad de manera automática, lo que significa que siempre están actualizadas y presentan menor riesgo de sufrir brechas de seguridad \cite{QueEsAplicacion}.
 
      
  \end{itemize}
  
 Uv-Derma es la aplicación web desarrollada cuyo lenguaje de programación es R en el \textit{framework shiny}, su objetivo principal es informar, concienciar y prevenir el desarrollo del melanoma maligno de piel mediante el uso de datos ambientales y características personales del usuario. Dado al contenido del grado de Ingeniería de la salud, esta se sitúa en la intersección entre la salud pública y desarrollo de tecnologías para la prevención y el cuidado de la salud pública.
-Esta plataforma presenta varias pestañas con distinto contenido accesibles desde la barra de navegacion o los botones de acceso rápido presentes en la pagina principal de esta. Las pestañas mas destacables son:
+Esta plataforma presenta varias pestañas con distinto contenido accesibles desde la barra de navegación o los botones de acceso rápido presentes en la página principal de esta. Las pestañas más destacables son:
 
 \begin{itemize}
-    \item  \textbf{Mapa de variables}: Este módulo permite la visualización de la variabilidad geografica de las variables ambientales clave asociadas al riesgo de melanoma: el índice UV diario, la temperatura máxima diaria y la altitud media por provincia. Tambien muestra la tasa de incidencia del melanoma en España según la utlima actualizacion de la INE. Esta pestaña esta diseñada para que el usuario pueda explorar visualmente las difrencias existentes entre estos factores entre las provincias.
+    \item  \textbf{Mapa de variables}: Este módulo permite la visualización de la variabilidad geográfica de las variables ambientales claves asociadas al riesgo de melanoma: el índice UV diario, la temperatura máxima diaria y la altitud media por provincia. También muestra la tasa de incidencia del melanoma en España según la última actualización de la INE. Esta pestaña está diseñada para que el usuario pueda explorar visualmente las diferencias existentes entre estos factores entre las provincias.
     
-    \item \textbf{Calculadora de riesgo de melanoma}: Se trata de una  herramienta inspirada en la calculadora de predicción del Instituto Australiano del Melanoma \cite{MelanomaRiskAssessment}.  El objetivo de esta es realizar una estimación aproximada del riesgo existente con la información disponible, facilitando su prevención adaptada al contexto geográfico y biológico de cada usuario. En ningún momento sustituye la asistencia médica ya que el riesgo personal puede diferir de la estimación por factores externos.
-    La estructura interna de esta herramienta se fundamenta en metodologías ampliamente validadas y usadas en medicina preventiva, como los modelos de predicción desarrollados en el estudio del corazón en Framingham (Framingham Risk Score) para enfermedades cardiovasculares \cite{lloyd-jonesFraminghamRiskScore2004}, o el FINDRISC para el diagnóstico de diabetes tipo 2 \cite{bernabe-ortizDiagnosticAccuracyFinnish2018}. Estos modelos convierten variables clínicas en categorías puntuadas según su riesgo aportado a cada enfermedad.
-    La categorización de los atributos incluidos en la calculadora se ha realizado segun el efecto que tienen en el desarrollo del melanoma.
+    \item \textbf{Calculadora de riesgo de melanoma}: Se trata de una  herramienta inspirada en la calculadora de predicción del Instituto Australiano del Melanoma \cite{MelanomaRiskAssessment}. El objetivo de esta es realizar una estimación aproximada del riesgo existente con la información disponible, facilitando su prevención adaptada al contexto geográfico y biológico de cada usuario. En ningún momento sustituye la asistencia médica ya que el riesgo personal puede diferir de la estimación por factores externos.
+    
+    La estructura interna de esta herramienta se fundamenta en metodologías ampliamente validadas y usadas en medicina preventiva, como los modelos de predicción desarrollados en el estudio del corazón en Framingham (Framingham Risk Score) para enfermedades cardiovasculares \cite{lloyd-jonesFraminghamRiskScore2004}, o el FINDRISC para el diagnóstico de diabetes tipo 2 \cite{bernabe-ortizDiagnosticAccuracyFinnish2018}. Estos modelos convierten variables clínicas en categorías puntuadas según su riesgo aportado a su respectiva enfermedad analizada.
+    
+    En mi caso, la fórmula aplicada se basa en una suma ponderada de factores de riesgo categorizados según su influencia vista en los artículos científicos. Dado a que no se dispone de estudios cuantitativos que asignen un peso estadístico exacto a cada factor, se ha optado por una aproximación heurística. Esta consiste en la asignación de puntos relativos a cada factor según su grado de asociación con el el desarrollo del melanoma, basándose en la evidencia cualitativa mencionada en los estudios parciales. La puntuación total acumulada permite ubicar al usuario en un intervalo de clasificación del riesgo relativo, lo cual puede orientar decisiones preventivas.
     \begin{itemize}
-        \item \textbf{Radiación Uv}: Segun \cite{aceituno-maderaMelanomaAltitudeUVB2011}, la radiación UV es el principal factor de riesgo modificable para el desarrollo de melanoma cutáneo, ya se encuentra clasificado por la OMS \cite{rehfuessGlobalSolarUV2002} segun su efecto sobre la piel, por ello se le han asignado hasta un maximo de 6 puntos si este valor alcanza unos niveles elevados \ref{fig:riesgouv}.
-        \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\textwidth]{img/riesgouv.png }
-        \caption{Bloque de puntuacion de radiación UV. Fuente: propia.}
-        \label{fig:riesgouv}
-    \end{figure}
+    \item \textbf{Radiación Uv}: según \citet{aceituno-maderaMelanomaAltitudeUVB2011}, la radiación UV es el principal factor de riesgo modificable para el desarrollo de melanoma cutáneo, ya se encuentra clasificado por la OMS \cite{rehfuessGlobalSolarUV2002} según su efecto sobre la piel, por ello se le han asignado hasta un máximo de 6 puntos si este valor alcanza unos niveles elevados.
     
-    \item \textbf{Temperaturas máximas}: El estudio que examinó difernetes causas de exposición a la radiación UV mencionado en 
-    \cite{bharathImpactClimateChange2009} demostró el efecto indirecto de la temperatura, ya que a temperaturas elevadas menos capas de ropa llevamos y lo que aumenta la exposición a la radiación UV.Su puntuación fue la siguiente \ref{fig:temp}:
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/reisgotmax.png }
-    \caption{Bloque de puntuacion de Temperaturas Máximas. Fuente: propia.}
-    \label{fig:temp}
-    \end{figure}
+    \item \textbf{Temperaturas máximas}: el estudio que examinó difernetes causas de exposición a la radiación UV mencionado en 
+    \cite{bharathImpactClimateChange2009} demostró el efecto indirecto de la temperatura, ya que a temperaturas elevadas menos capas de ropa llevamos y lo que aumenta la exposición a la radiación UV.
     
-    \item \textbf{Altitud}: Como se ha mencionado anteriormente en los conceptos teoricos, la altitud aumenta la radiación UV y por ello se le ha asignado la siguiente puntuación \ref{fig:riesgoaltitud}.
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/altitudriiesgo.png }
-    \caption{Bloque de puntuacion de Altitud. Fuente: propia.}
-    \label{fig:riesgoaltitud}
-    \end{figure}
+    \item \textbf{Altitud}: como se ha mencionado anteriormente en los conceptos teóricos, la altitud aumenta la radiación UV y por ello, a medida q aumenta la altitud aumenta la puntuación.
     
-    \item \textbf{Fototipo de piel}:El estudio multivariante llevado a cabo en \cite{ballesterMulticenterCaseControlStudy2012} demostro que aquellas personas con fototipoas claros (I,II) tienen el doble de probabilidades de desarrollar un melanoma. Su puntuación fue \ref{fig:riesgofototipo} ya que los de fototipo claro tienen mayor riesgo presentaran mayor puntuación. 
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/riesgofototipo.png }
-    \caption{Bloque de puntuacion según fototipo de piel. Fuente: propia.}
-    \label{fig:riesgofototipo}
-    \end{figure}
+    \item \textbf{Fototipo de piel}: el estudio multivariante llevado a cabo en \citet{ballesterMulticenterCaseControlStudy2012} demostró que aquellas personas con fototipos claros (I,II) tienen el doble de probabilidades de desarrollar un melanoma.
 
     
-    \item \textbf{Edad}:Dado a que el sistema inmunitario se debilita con la edad, y siendo este sistema el que nos ayuda a combatir los cánceres, personas con avanzada edad tienen más probabilidades de padecer esta patología \cite{FactoresRiesgoPara}. Puntuación dada\ref{fig:riesgoeda}.
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/riesgoedad.png }
-    \caption{Bloque de puntuacion Segun la edad. Fuente: propia.}
-    \label{fig:riesgoeda}
-    \end{figure}
+    \item \textbf{Edad}: dado a que el sistema inmunitario se debilita con la edad, y siendo este sistema el que nos ayuda a combatir los cánceres, personas con avanzada edad tienen más probabilidades de padecer esta patología \cite{FactoresRiesgoPara}. 
     
-    \item \textbf{Sexo}: Según\cite{FactoresRiesgoPara},los hombres tienen una tasa mayor de melanoma que las mujeres, aunque esto varía según la edad. Antes de los 50 años, el riesgo es mayor para las mujeres; después de los 50, el riesgo es mayor para los hombres.Puntuación dada \ref{fig:riesgosexo}.
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/riesgosexo.png }
-    \caption{Bloque de puntuación según el sexo del usuario. Fuente: propia.}
-    \label{fig:riesgosexo}
-    \end{figure}
+    \item \textbf{Sexo}: según \citet{FactoresRiesgoPara}, los hombres tienen una tasa mayor de melanoma que las mujeres, aunque esto varía según la edad. Antes de los 50 años, el riesgo es mayor para las mujeres; después de los 50, el riesgo es mayor para los hombres.
     
-    \item \textbf{Presencia de lunares}: Según \cite{ballesterMulticenterCaseControlStudy2012} aquellas personas con lunares o nevos \footnote{Un nevo, también conocido como lunar, es una lesión benigna de la piel formada por un grupo de melanocitos.} menaloniticos presentaban un OR=3,1 lo que significa que tienen una probabilidad 3,5 veces mayor de desarrolar un melanoma. El valor asociado fue el de la figura \ref{fig:riesgolunares}.
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{img/riesgolunares.png }
-    \caption{Bloque de puntuacion segín presencia de lunares. Fuente: propia.}
-    \label{fig:riesgolunares}
-    \end{figure}
+    \item \textbf{Presencia de lunares}: según \citet{ballesterMulticenterCaseControlStudy2012} aquellas personas con lunares o nevos \footnote{Un nevo, también conocido como lunar, es una lesión benigna de la piel formada por un grupo de melanocitos.} melanocíticos presentaban un OR=3,1 lo que significa que tienen una probabilidad 3,5 veces mayor de desarrolar un melanoma.
     
-    \item \textbf{Antecedentes familiares}: El mismo estudio demostró 
-
-\cite{ballesterMulticenterCaseControlStudy2012}, que aquellas personas con familiares de primer grado con patologías en la piel presentaban un OR=3,1 lo que significa que tienen una probabilidad 3,5 veces mayor de desarrolar un melanoma y por eso se le asocio una puntuacion de dos puntos en caso afirmativo.
+    \item \textbf{Antecedentes familiares}: el mismo estudio \citet{ballesterMulticenterCaseControlStudy2012} demostró, que aquellas personas con familiares de primer grado con patologías en la piel presentaban un OR=3,1 lo que significa que tienen una probabilidad 3,5 veces mayor de desarrollar un melanoma y por eso se le asocio una puntuación de dos puntos en caso afirmativo.
 
     \end{itemize}
-    \item \textbf{Recomendador}: En esta pestaña se genera una reacomendación  según el fototipo de piel y las variables meteorológicas del usuario. Se clasificó  los fototipos en tres clases según su riesgo, la temperatura según el tiempo y finalmente los indices de radiacion UV se usan igual que estan clasificados por la OMS \ref{tabla:clasificacion_variables}. En la misma pestaña se presentan explicaciones de conceptos desconocidos del mismo recomendador o del mensaje resultado.
+    \item \textbf{Recomendador}: en esta pestaña se genera una recomendación según el fototipo de piel y las variables meteorológicas del usuario. Se clasificó  los fototipos en tres clases según su riesgo, la temperatura según el tiempo y finalmente los índices de radiación UV se usan igual que están clasificados por la OMS \ref{tabla:clasificacion_variables}. En la misma pestaña se presentan explicaciones de conceptos desconocidos del mismo recomendador o del mensaje resultado.
     
 \begin{table}[H]
 \centering
@@ -197,27 +153,27 @@ Tipo V y VI: bajo riesgo
 \end{tabular}
 \label{tabla:clasificacion_variables}
 \end{table}
-\item \textbf{Datos meteorológicos}: Finalmente este módulo permite consultar y explorar variables meteorológicas visualmente a lo largo del tiempo, y en caso de necesidad poder descargarlos.
+\item \textbf{Datos meteorológicos}: finalmente, este módulo permite consultar y explorar variables meteorológicas visualmente a lo largo del tiempo, y en caso de necesidad poder descargarlos.
 \end{itemize}
  
-\subsubsection{\textit{Framework} Shiny}
+\subsubsection{\textit{Framework}\textit{ Shiny}}
 Para desarrollar la web, por recomendación de mi tutor y compatibilidad con mi lenguaje de desarrollo utilizado, opté por el \textit{framework} \footnote{Un \textit{framework} es una estructura predefinida que 
- facilita el desarrollo de aplicaciones proporcionando un conjunto de herramientas y componentes reutilizables.} Shiny\cite{shiny}. Es un paquete de RStudio que facilita la creación de aplicaciones web interactivas desde el entorno de R\cite{ShinyWelcomeShinya}. Las aplicaciones creadas se encuentran en una carpeta cuyos componentes son:
+ facilita el desarrollo de aplicaciones proporcionando un conjunto de herramientas y componentes reutilizables.} \textit{Shiny}\cite{shiny}. Es un paquete de \textit{R Studio} que facilita la creación de aplicaciones web interactivas desde el entorno de \textit{R}  \cite{ShinyWelcomeShinya}. Las aplicaciones creadas se encuentran en una carpeta cuyos componentes son:
  \begin{itemize}
-     \item La interfaz del usuario, ui.R . Esta controla el diseño y la apariencia de la aplicación.
-     \item El script de la lógica de la página web, server.R . Contiene las instrucciones que requiere el equipo para la compilación de la aplicación.
-     \item Carpeta de imágenes que aparecerán en la web, www.
+     \item La interfaz del usuario, \textit{ui.R}. Esta controla el diseño y la apariencia de la aplicación.
+     \item El script de la lógica de la página web, \textit{server.R}. Contiene las instrucciones que requiere el equipo para la compilación de la aplicación.
+     \item Carpeta de imágenes que aparecerán en la web, \textit{www}.
  \end{itemize}
  
 \subsubsection{Librerías}
-Las principales librerías empleadas en UV-Derma  que cubren todas las fases del flujo del proyecto fueron las siguientes :
+Las principales librerías empleadas en UV-Derma  que cubren todas las fases del flujo del proyecto fueron las siguientes:
 \begin{itemize}
-    \item \textit{Shiny} \cite{shiny}: Para la estructura reactiva de la aplicación
-    \item \textit{Leaflet}: Para los mapas interactivos.
-    \item \textit{Httr, Jsonlite}: Para las solicitudes a la API y parsear las respuestas recibidas en formato JSON.
-    \item \textit{Dplyr, Tidyverse, Readxl, Writexl, DT}: Para la fase de limpieza y preparación de los datos, \textit{dplyr y tidyverse} ofrecen gramáticas coherentes para filtrar, agrupar y unir tablas, mientras que \textit{readxl y writexl} permiten leer y exportar ficheros Excel, y \textit{DT} nos permite una mejor visualización de los datos como tablas.
-    \item \textit{Ggplot2}: Para la generación de gráficos.
-    \item \textit{Sf, MapSpain}: Para el manejo de información geográfica nos proporcionan geometrías provinciales y funciones para construir mapas de España.
+    \item \textit{Shiny} \cite{shiny}: para la estructura reactiva de la aplicación
+    \item \textit{Leaflet}: para los mapas interactivos.
+    \item \textit{Httr, Jsonlite}: para las solicitudes a la API y parsear las respuestas recibidas en formato JSON.
+    \item \textit{Dplyr, Tidyverse, Readxl, Writexl, DT}: para la fase de limpieza y preparación de los datos, \textit{dplyr y tidyverse} ofrecen gramáticas coherentes para filtrar, agrupar y unir tablas, mientras que \textit{readxl y writexl} permiten leer y exportar ficheros Excel, y \textit{DT} nos permite una mejor visualización de los datos como tablas.
+    \item \textit{Ggplot2}: para la generación de gráficos.
+    \item \textit{Sf, MapSpain}: para el manejo de información geográfica nos proporcionan geometrías provinciales y funciones para construir mapas de España.
     \item \textit{Climaemet, INEbaseR}: para descargar datos climatológico y estadísticos respectivamente.
     \item \textit{Htmltools} para la generación de elementos dinámicos proporcionando una interfaz más atractiva.
 \end{itemize}

@@ -5,7 +5,7 @@ En relación con los objetivos planteados al principio de este documento, los re
 
 \begin{itemize}
     
-    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en la salud:} Se incorporó un panel informativo interactivo que describe el melanoma maligno de piel, su relación con la radiación ultravioleta, la altitud y la temperatura, así como sus efectos sobre el ADN y factores de riesgo adicionales. Este contenido tiene un enfoque divulgativo y accesible, complementado con imágenes, tablas y referencias científicas.
+    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en la salud:} se incorporó un panel informativo interactivo que describe el melanoma maligno de piel, su relación con la radiación ultravioleta, la altitud y la temperatura, así como sus efectos sobre el ADN y factores de riesgo adicionales. Este contenido tiene un enfoque divulgativo y accesible, complementado con imágenes, tablas y referencias científicas.
     
     \begin{figure}[H]
         \centering
@@ -14,7 +14,7 @@ En relación con los objetivos planteados al principio de este documento, los re
         \label{fig:panel}
     \end{figure} 
     
-    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma:}  Se desarrolló una herramienta de cálculo que estima un riesgo orientativo de melanoma para el día actual. Esta estimación se basa en la combinación de factores personales y ambientales , mediante una estructura heurística de puntuación inspirada en modelos médicos preventivos.
+    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma:}  se desarrolló una herramienta de cálculo que estima un riesgo orientativo de melanoma para el día actual. Esta estimación se basa en la combinación de factores personales y ambientales, mediante una estructura heurística de puntuación inspirada en modelos médicos preventivos.
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/calculo.png}
@@ -22,14 +22,14 @@ En relación con los objetivos planteados al principio de este documento, los re
         \label{fig:riesgo}
     \end{figure} 
 
-    \item \textbf{Recomendar al usuario medidas preventivas personalizadas:} Se implementó un módulo de recomendaciones automáticas que analiza la ubicación geográfica y el tipo de piel seleccionado por el usuario para generar consejos adaptados sobre protección solar. Estos se ajustan a los valores actuales de radiación UV y temperatura, y se presentan en un lenguaje claro, breve y visual.\begin{figure}[H]
+    \item \textbf{Recomendar al usuario medidas preventivas personalizadas:} se implementó un módulo de recomendaciones automáticas que analiza la ubicación geográfica y el tipo de piel seleccionado por el usuario para generar consejos adaptados sobre protección solar. Estos se ajustan a los valores actuales de radiación UV y temperatura, y se presentan en un lenguaje claro, breve y visual.\begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/intervalos.png}
         \caption{Ejemplo de recomendación.}
         \label{fig:Recomendacion}
     \end{figure} 
 
-    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET):} Se procesaron y estandarizaron los datos meteorológicos procedentes de la API de AEMET y las estadísticas de mortalidad por melanoma del INE. Se diseñó un sistema de actualización automática y se estructuraron los datos para alimentar tanto los mapas interactivos como los módulos de cálculo y análisis.
+    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET):} se procesaron y estandarizaron los datos meteorológicos procedentes de la API de AEMET y las estadísticas de mortalidad por melanoma del INE. Se diseñó un sistema de actualización automática y se estructuraron los datos para alimentar tanto los mapas interactivos como los módulos de cálculo y análisis.
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/uv.png}
@@ -54,9 +54,9 @@ En relación con los objetivos planteados al principio de este documento, los re
         \caption{Mapa de temperaturas.}
         \label{fig:temp}
     \end{figure} 
-    \item \textbf{Contribuir al ámbito de la epidemiología ambiental:} El proyecto ha sido puesto a disposición pública a través de una aplicación web accesible desde cualquier navegador. Su código fuente está disponible en un repositorio GitHub, facilitando así su uso como herramienta educativa, de divulgación o futura investigación en salud pública.
+    \item \textbf{Contribuir al ámbito de la epidemiología ambiental:} el proyecto ha sido puesto a disposición pública a través de una aplicación web accesible desde cualquier navegador. Su código fuente está disponible en un repositorio GitHub, facilitando así su uso como herramienta educativa, de divulgación o futura investigación en salud pública.
     
-    \item \textbf{Desarrollar una aplicación web interactiva con Shiny:} Como resultado integrador de los objetivos anteriores, se implementó una aplicación Shiny funcional, con distintos módulos temáticos, visualizaciones interactivas, sistemas de descarga de datos y funcionalidades adaptadas al usuario. Esta aplicación fue desplegada en un servidor Shiny Server y está disponible públicamente para su consulta y uso general.
+    \item \textbf{Desarrollar una aplicación web interactiva con Shiny:} como resultado integrador de los objetivos anteriores, se implementó una aplicación funcional, con distintos módulos temáticos, visualizaciones interactivas, sistemas de descarga de datos y funcionalidades adaptadas al usuario. Esta aplicación fue desplegada en un servidor \textit{Shiny} y está disponible públicamente para su consulta y uso general.
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/posible_portada1.png}
@@ -69,16 +69,18 @@ En relación con los objetivos planteados al principio de este documento, los re
 
 \clearpage
 \section{Discusión}
-Viendo el apartado anterior se puede observar que los resultados obtenidos reflejan una correspondecia directa con objetivos propuestos al inicio de este proyecto, ofreciendo tanto un desarrollo técnico y atractivo  como una herramienta de divulgación y prevención accesible para el melanoma cutáneo.
 
-El proceso de limpieza y preparación de los datos procedentes de INE y AEMET garantizó la fiabilidad de las visualizaciones y el correcto funcionamiento de las llamadas a API. Sin embargo, la dependencia de servicios externos introduce vulnerabilidades ante posibles cambios en los \textit{endpoints} \footnote{En desarrollo de software, un \textit{endpoint} es la dirección URL o punto de acceso de una API o servicio web al que la aplicación envía solicitudes para obtener o enviar datos.} lo cual debe tenerse en cuenta en la estabilidad actual del sistema.
+Viendo el apartado anterior se puede observar que los resultados obtenidos reflejan una correspondencia directa con los objetivos propuestos al inicio de este proyecto, ofreciendo tanto un desarrollo técnico y atractivo  como una herramienta de divulgación y prevención accesible para el melanoma cutáneo.
 
-El módulo de recomendaciones geolocalizadas ha mostrado ser efectivo para comunicar medidas preventivas adaptadas al índice UV y la temperatura local. Por su parte, el cálculo del índice de riesgo acumulado ofrece una valoración clara y orientativa, facilitando su comprensión por el público general. No obstante, al tratarse de una estimación aproximada diseñada para simplificar la interpretación de riesgos poco perceptibles, no sustituye una evaluación clínica. 
+En comparación con las aplicaciones mencionadas anteriormente, se ha logrado obtener una plataforma con un enfoque más integral adaptado al marco geográfico español.
+La aplicación  incorpora variables ambientales adicionales como la altitud y temperatura, que aumentan la radiación UV y por tanto, el riesgo de desarrollar melanoma. Además, se incluye una pestaña que ofrece un cálculo heurístico del riesgo acumulado, inspirado en modelos preventivos de otras enfermedades, aportando un componente educativo y predictivo orientada a la sensibilización ciudadana sobre el cuidado de la piel.
+En comparación con UV-Derma de la AEDV y la Universidad de Málaga, este proyecto no se limita a informar sobre la exposición solar, sino que permite personalizar la experiencia del usuario en el uso de la aplicación mediante la selección de factores individuales.
 
-Por otro lado, esta plataforma cumple con los requisitos del GDPR ya que no se trata en ningun momento con datos personales del usuario.
+Desde el punto de vista legal y ético, la plataforma cumple con los requisitos del Reglamento General de Protección de Datos (RGPD), ya que en ningún momento se recopilan ni almacenan datos personales del usuario.
 
-Finalmentee, como contribucion a la epidemiología ambiental se dispone de un repositorio público como recurso reutilizable por desarrolladores e investigadores para mejorar las metodologías de prevencion y asistencia sanitaria.
+En cuanto a la calidad de los datos, el proceso de limpieza y estandarización de las fuentes provenientes del INE y AEMET garantiza la fiabilidad de las visualizaciones y el correcto funcionamiento de las llamadas a API. No obstante, la dependencia de servicios externos introduce vulnerabilidades ante posibles cambios en los endpoints\footnote{En desarrollo de software, un endpoint es la dirección URL o punto de acceso de una API o servicio web al que la aplicación envía solicitudes para obtener o enviar datos.}, lo cual podría comprometer la estabilidad operativa del sistema en el futuro.
 
-En resumen,UV-Derma demuestra su valía como herramienta de apoyo a la prevención del melanoma, cumpliendo los objetivos de desarrollo, divulgación y accesibilidad. 
+Finalmente, como contribución al ámbito de la epidemiología ambiental se dispone de un repositorio público como recurso reutilizable por desarrolladores e investigadores para mejorar las metodologías de prevención y asistencia sanitaria.
 
+En resumen, UV-Derma se presenta como una solución accesible que incorpora mejoras clave de las herramientas existentes al integrar datos climáticos nacionales, personalización del riesgo y contenido educativo en un único entorno interactivo.
 
