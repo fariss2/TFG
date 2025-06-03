@@ -1,0 +1,616 @@
+library(shiny)
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(ggplot2)
+library(sf)
+library(mapSpain)
+library(tidyverse)
+library(climaemet)
+library(DT)
+library(readxl)
+library(writexl)
+library(INEbaseR)
+library(stringr)
+library(purrr)
+library(leaflet)
+library(htmltools)
+
+#OBTENCION ALTITUDES
+#aemet_api_key("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJORkwxMDA2QEFMVS5VQlUuRVMiLCJqdGkiOiI2OTZlZDkyMy1iNzQ4LTQwMWMtYjdjMy05ODBlMjFjODc1ZTAiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc0MDU4MjQ2NCwidXNlcklkIjoiNjk2ZWQ5MjMtYjc0OC00MDFjLWI3YzMtOTgwZTIxYzg3NWUwIiwicm9sZSI6IiJ9.QcTwevd3p81An2p2iQXsfy185D5Z54l_jhGYpjSE-Q0",install=TRUE, overwrite = TRUE)
+#estaciones<- aemet_stations()
+#datatable(estaciones)
+#colnames(estaciones)
+#estaciones_filtradas <- estaciones %>%
+  #select(provincia, altitud)
+#promedio_altitud_provincia <- estaciones_filtradas %>%
+ # group_by(provincia) %>%         
+ # summarise(promedio_altitud = mean(altitud, na.rm = TRUE)) 
+#datatable(promedio_altitud_provincia)
+#write_xlsx(promedio_altitud_provincia, "promedio_altitud_provincia.xlsx")
+
+
+
+
+shinyServer(function(input, output,session) { 
+  
+
+  botones_volver <- c(
+    "volver_inicio_desde_uv",
+    "volver_inicio_desde_melanoma",
+    "volver_inicio_desde_temp",
+    "volver_inicio_desde_altitud",
+    "volver_inicio_desde_datos",
+    "volver_inicio_desde_acerca_de",
+    "volver_inicio_desde_info_melanoma",
+    "volver_inicio_desde_intervalos",
+    "volver_inicio_desde_dano_uv",
+    "volver_inicio_desde_recomendador",
+    "volver_inicio_desde_riesgo_factores",
+    "volver_inicio_desde_calculadora"
+    
+  )
+  
+  lapply(botones_volver, function(id_boton) {
+    observeEvent(input[[id_boton]], {
+      updateTabsetPanel(session, inputId = "navegador", selected = "inicio")
+    })
+  })
+  
+  
+  observeEvent(input$ir_info, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "info")
+  })
+  observeEvent(input$ir_alerta, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "mapas")
+  })
+  observeEvent(input$ir_riesgo, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "riesgo")
+  })
+  observeEvent(input$ir_recomendador, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "recomendador")
+  })
+  observeEvent(input$ir_datos, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "datos")
+  })
+  observeEvent(input$ir_acerca_de, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "acerca_de")
+  })
+  
+  observeEvent(input$ir_intervalos_desde_recomendador, {
+    updateTabsetPanel(session, inputId = "navegador", selected = "info")
+    updateTabsetPanel(session, inputId = "navegador-interno", selected = "intervalos")
+  })
+
+#--------  
+  
+  datos_melanoma <- obtener_datos_melanoma()
+  poblacion<-read_xlsx("densidad.xlsx")
+  equivalencias_densidad <- c(
+    "ALICANTE" = "Alicante/Alacant",
+    "A CORUÑA" = "Coruña, A",
+    "ALBACETE" = "Albacete",
+    "ALMERIA" = "Almería",
+    "AVILA" = "Ávila",
+    "BADAJOZ" = "Badajoz",
+    "BARCELONA" = "Barcelona",
+    "BIZKAIA" = "Bizkaia",
+    "BURGOS" = "Burgos",
+    "CACERES" = "Cáceres",
+    "CADIZ" = "Cádiz",
+    "CASTELLON" = "Castellón/Castelló",
+    "CEUTA" = "Ceuta",
+    "CIUDAD REAL" = "Ciudad Real",
+    "CORDOBA" = "Córdoba",
+    "CUENCA" = "Cuenca",
+    "GIPUZKOA" = "Gipuzkoa",
+    "GIRONA" = "Girona",
+    "GRANADA" = "Granada",
+    "GUADALAJARA" = "Guadalajara",
+    "HUELVA" = "Huelva",
+    "HUESCA" = "Huesca",
+    "JAEN" = "Jaén",
+    "LEON" = "León",
+    "LLEIDA" = "Lleida",
+    "LA RIOJA" = "Rioja, La",
+    "LUGO" = "Lugo",
+    "MADRID" = "Madrid",
+    "MALAGA" = "Málaga",
+    "MELILLA" = "Melilla",
+    "MURCIA" = "Murcia",
+    "OURENSE" = "Ourense",
+    "ASTURIAS" = "Asturias",
+    "PALENCIA" = "Palencia",
+    "ILLES BALEARS" = "Balears, Illes",
+    "LAS PALMAS" = "Palmas, Las",
+    "NAVARRA" = "Navarra",
+    "PONTEVEDRA" = "Pontevedra",
+    "SALAMANCA" = "Salamanca",
+    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
+    "CANTABRIA" = "Cantabria",
+    "SEGOVIA" = "Segovia",
+    "SEVILLA" = "Sevilla",
+    "SORIA" = "Soria",
+    "TARRAGONA" = "Tarragona",
+    "TERUEL" = "Teruel",
+    "TOLEDO" = "Toledo",
+    "VALENCIA" = "Valencia/València",
+    "VALLADOLID" = "Valladolid",
+    "ARABA/ALAVA" = "Araba/Álava",
+    "ZAMORA" = "Zamora",
+    "ZARAGOZA" = "Zaragoza"
+  )
+  
+  
+  poblacion <- poblacion %>%
+    mutate(provincia = recode(provincia, !!!equivalencias_densidad))
+  
+  datos_melanoma <- datos_melanoma %>%
+    mutate(provincia =str_trim(provincia))%>%
+    filter(provincia!="Extranjero")%>%
+    mutate(provincia = str_replace(provincia, "Valencia/Val\u008ancia", "Valencia/València"))
+  datos_melanoma <- datos_melanoma %>%
+    mutate(provincia = recode(provincia,
+                              "Illes" = "Balears, Illes",
+                              "Las" = "Palmas, Las",
+                              "Avila" = "Ávila",
+                              "A" = "Coruña, A",
+                              "Araba/Alava" = "Araba/Álava",
+                              "La" = "Rioja, La"
+    ))
+  
+  tasa_mortalidad<-inner_join(datos_melanoma,poblacion,by="provincia")
+  tasa_mortalidad<-tasa_mortalidad%>%
+    mutate(tasa=round((melanoma / poblacion) * 100000, 2))
+  
+  
+  
+  output$mapa_melanoma <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
+    
+    provincias_leaflet <- inner_join(Provs, tasa_mortalidad, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    pal <- colorNumeric("PuBu", domain = provincias_leaflet$tasa)
+    
+    leaflet(provincias_leaflet) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(tasa),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        label = ~lapply(
+          paste0(
+            "<strong>", provincia, "</strong><br/>",
+            "Muertes: ", melanoma, "<br/>",
+            "Tasa: ", tasa, " por 100.000 Habitantes"
+          ), 
+          HTML
+        ),
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.7,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~tasa,
+        title = "Tasa de mortalidad por 100.000 habitantes ",
+        position = "bottomright"
+      )
+  })
+  #---------------------
+  
+  
+  output$grafico_temporal <- renderPlot({
+    req(input$prov_select, input$var_select)
+    nombre_variable <- c(
+      "Tmax" = "Temperatura máxima",
+      "Tmin" = "Temperatura mínima",
+      "uv" = "Radiación ultravioleta"
+    )
+    datos_filtrados <- datos_tiempo %>%
+      filter(provincia %in% input$prov_select) %>%
+      select(c(fecha, provincia, all_of(input$var_select)))%>%
+      pivot_longer(cols = all_of(input$var_select),
+                   names_to = "variable",
+                   values_to = "valor") %>%
+      mutate(variable= nombre_variable[variable])
+    
+    ggplot(datos_filtrados, aes(x = fecha, y = valor, color = provincia)) +
+      geom_line(linewidth = 1) +
+      geom_point(size = 2) +
+      facet_wrap(~variable, scales= "free_y" )+
+      labs(
+        title = paste("Evolución de variables meteorológicas por provincia"),
+        x = "Fecha",
+        y = NULL,
+        color = "provincia"
+      ) +
+      theme_minimal(base_size = 20)
+  })
+  
+  output$descargar_excel <- downloadHandler(
+    filename = function() {
+      paste0("datos_tirmpo_hasta", Sys.Date(), ".xlsx")
+    },
+    content = function(file) {
+      write_xlsx(datos_tiempo, path = file)
+    }
+  )
+  
+  output$descargar_csv <- downloadHandler(
+    filename = function() {
+      paste0("datos_tiempo_hasta", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      write.csv(datos_tiempo, file, row.names = FALSE)
+    }
+  )
+  
+  #------------------------
+  datos_uv_hoy <- datos_tiempo %>%
+    filter(fecha == Sys.Date()) %>%
+    select(provincia, uv)
+  
+  output$mapa_uv <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
+    
+    provincias_uv <- inner_join(Provs, datos_uv_hoy, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    centroides <- st_centroid(provincias_uv)  
+    
+    pal <- colorNumeric(palette = "YlOrRd", domain = provincias_uv$uv)
+    
+    leaflet(provincias_uv, options = leafletOptions(
+      zoomControl = TRUE,
+      dragging = TRUE,
+      scrollWheelZoom = TRUE
+    )) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(uv),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.9,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLabelOnlyMarkers(
+        data = centroides,
+        lng = ~st_coordinates(geometry)[, 1],
+        lat = ~st_coordinates(geometry)[, 2],
+        label = ~as.character(uv),
+        labelOptions = labelOptions(
+          noHide = TRUE,
+          direction = "center",
+          textOnly = TRUE,
+          style = list(
+            "font-weight" = "bold",
+            "font-size" = "12px",
+            "background-color" = "white",
+            "border" = "1px solid gray",
+            "padding" = "2px"
+          )
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~uv,
+        title = paste("Índice UV -", Sys.Date()),
+        position = "bottomright"
+      ) %>%
+      setView(lng = -3, lat = 40, zoom = 5)
+  })
+  
+  
+  
+  altitud<- read_excel("promedio_altitud_provincia.xlsx")
+  equivalencias_mapa_altitud <- c(
+    "ALICANTE" = "Alicante/Alacant",
+    "A CORUÑA" = "Coruña, A",
+    "ALBACETE" = "Albacete",
+    "ALMERIA" = "Almería",
+    "AVILA" = "Ávila",
+    "BADAJOZ" = "Badajoz",
+    "BARCELONA" = "Barcelona",
+    "BIZKAIA" = "Bizkaia",
+    "BURGOS" = "Burgos",
+    "CACERES" = "Cáceres",
+    "CADIZ" = "Cádiz",
+    "CASTELLON" = "Castellón/Castelló",
+    "CEUTA" = "Ceuta",
+    "CIUDAD REAL" = "Ciudad Real",
+    "CORDOBA" = "Córdoba",
+    "CUENCA" = "Cuenca",
+    "GIPUZKOA" = "Gipuzkoa",
+    "GIRONA" = "Girona",
+    "GRANADA" = "Granada",
+    "GUADALAJARA" = "Guadalajara",
+    "HUELVA" = "Huelva",
+    "HUESCA" = "Huesca",
+    "JAEN" = "Jaén",
+    "LEON" = "León",
+    "LLEIDA" = "Lleida",
+    "LA RIOJA" = "Rioja, La",
+    "LUGO" = "Lugo",
+    "MADRID" = "Madrid",
+    "MALAGA" = "Málaga",
+    "MELILLA" = "Melilla",
+    "MURCIA" = "Murcia",
+    "OURENSE" = "Ourense",
+    "ASTURIAS" = "Asturias",
+    "PALENCIA" = "Palencia",
+    "ILLES BALEARS" = "Balears, Illes",
+    "LAS PALMAS" = "Palmas, Las",
+    "NAVARRA" = "Navarra",
+    "PONTEVEDRA" = "Pontevedra",
+    "SALAMANCA" = "Salamanca",
+    "SANTA CRUZ DE TENERIFE" = "Santa Cruz de Tenerife",
+    "CANTABRIA" = "Cantabria",
+    "SEGOVIA" = "Segovia",
+    "SEVILLA" = "Sevilla",
+    "SORIA" = "Soria",
+    "TARRAGONA" = "Tarragona",
+    "TERUEL" = "Teruel",
+    "TOLEDO" = "Toledo",
+    "VALENCIA" = "Valencia/València",
+    "VALLADOLID" = "Valladolid",
+    "ARABA/ALAVA" = "Araba/Álava",
+    "ZAMORA" = "Zamora",
+    "ZARAGOZA" = "Zaragoza"
+  )
+  
+  provincias_validas <- names(equivalencias_mapa_altitud)
+  
+  datos_altitud_mapa <- altitud %>%
+    filter(provincia %in% provincias_validas) %>%
+    mutate(provincia = recode(provincia, !!!equivalencias_mapa_altitud))%>%
+    select(provincia,promedio_altitud)
+  datos_altitud_mapa <- datos_altitud_mapa %>%
+    mutate(
+      indice = case_when(
+        promedio_altitud < 200 ~ 1,
+        promedio_altitud < 500 ~ 2,
+        promedio_altitud < 800 ~ 3,
+        promedio_altitud < 1000 ~ 4,
+        TRUE ~ 5
+      )
+    )
+  
+  output$mapa_altitud <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
+    
+    provincias_alt <- inner_join(Provs, datos_altitud_mapa, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    pal <- colorNumeric(palette = "BrBG", domain = provincias_alt$promedio_altitud, reverse = FALSE)
+    
+    leaflet(provincias_alt, options = leafletOptions(
+      zoomControl = TRUE,
+      dragging = TRUE,
+      scrollWheelZoom = TRUE
+    )) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(promedio_altitud),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        label = ~lapply(
+          paste0(
+            "<strong>", provincia, "</strong><br/>",
+            "Altitud promedio: ", promedio_altitud, " m<br/>",
+            "Indice según la altitud:", indice
+          ),
+          htmltools::HTML
+        ),
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.9,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~promedio_altitud,
+        title = "Altitud promedio (m)",
+        position = "bottomright"
+      ) %>%
+      setView(lng = -3, lat = 40, zoom = 5)
+  })
+  
+
+  
+  
+    
+  observeEvent(input$generar_recomendacion, {
+    req(input$provincia_usuario)
+
+    datos_tiempo %>%
+      filter(provincia == "Madrid") %>%
+      arrange(desc(fecha)) %>%
+      head(5)
+    
+    datos_hoy <- datos_tiempo %>%
+      filter(provincia == input$provincia_usuario,
+             fecha     == Sys.Date())
+    
+    if (nrow(datos_hoy) == 0) {
+      output$mensaje_recomendacion <- renderText(
+        "No hay datos disponibles para esa provincia."
+      )
+      return()
+    }
+    
+    
+    uv   <- datos_hoy$uv[1]
+    tmax <- datos_hoy$Tmax[1]
+    
+    fototipo_piel <- switch(
+      input$tipo_piel,
+      "Muy blanca"    = "I",
+      "Blanca"        = "II",
+      "Intermedia"    = "III",
+      "Morena clara"  = "IV",
+      "Morena oscura" = "V",
+      "Negra"         = "VI"
+    )
+    
+    mensaje <- recomendacion(uv, tmax, fototipo_piel)
+    info<- paste0(
+      " La temperatura actual de ", input$provincia_usuario, "  es: ", round(tmax,1),"ºC ",
+      "y su índice UV para hoy es: ", uv,"."
+      
+    )
+    output$mensaje_recomendacion <- renderText({
+      paste0(mensaje,info, sep="\n")
+    })
+  })
+  
+  
+  
+  datos_temp_hoy <- datos_tiempo %>%
+    filter(fecha == Sys.Date()) %>%
+    select(provincia, Tmax)
+  
+  output$mapa_temp <- renderLeaflet({
+    Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
+    
+    provincias_temp <- inner_join(Provs, datos_temp_hoy, by = "provincia") %>%
+      sf::st_as_sf()
+    
+    pal <- colorNumeric(palette = "Reds", domain = provincias_temp$Tmax)
+    
+    leaflet(provincias_temp, options = leafletOptions(
+      zoomControl = TRUE,
+      dragging = TRUE,
+      scrollWheelZoom = TRUE
+    )) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(
+        fillColor = ~pal(Tmax),
+        color = "white",
+        weight = 1,
+        fillOpacity = 0.8,
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.9,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addLegend(
+        pal = pal,
+        values = ~Tmax,
+        title = "Temperatura máxima (°C) - ", Sys.Date(),
+        position = "bottomright"
+      ) %>%
+      setView(lng = -3, lat = 40, zoom = 5)
+  })
+  
+  
+ 
+  observeEvent(input$calcular_riesgo, {
+    req(input$provincia_usuario_riesgo, input$fototipo_usuario_riesgo,input$edad, input$sexo, input$lunares, input$antecedentes)
+    
+    altitud_data<- datos_altitud_mapa %>%
+      filter(provincia == input$provincia_usuario_riesgo)
+    
+    altitud_indice<- as.numeric(altitud_data$indice)
+    altitud_metros<- altitud_data$promedio_altitud
+    
+    
+    if (length(altitud_indice) == 0 || is.na(altitud_indice)) {
+      output$resultado_riesgo <- renderText("No se encontró altitud para esta provincia.")
+      return()
+    }
+    
+    datos_usuario <- datos_tiempo %>%
+      filter(provincia == input$provincia_usuario_riesgo,
+             fecha == Sys.Date())
+    
+    if (nrow(datos_usuario) == 0 || is.na(datos_usuario$uv[1]) || is.na(datos_usuario$Tmax[1])) {
+      output$resultado_riesgo <- renderText("No hay datos climáticos disponibles para esta provincia hoy.")
+      return()
+    }
+    
+    uv <- datos_usuario$uv[1]
+    tmax <- datos_usuario$Tmax[1]
+    
+    fototipo_codificado <- switch(
+      input$fototipo_usuario_riesgo,
+      "Muy blanca"    = "I",
+      "Blanca"        = "II",
+      "Intermedia"    = "III",
+      "Morena clara"  = "IV",
+      "Morena oscura" = "V",
+      "Negra"         = "VI"
+    )
+    
+    edad <- input$edad
+    sexo <- input$sexo
+    lunares <- input$lunares
+    antecedentes <- input$antecedentes
+    
+   
+    resultado <- calcular_riesgo_melanoma(
+      uv = uv,
+      tmax = tmax,
+      altitud_indice = altitud_indice,
+      fototipo = fototipo_codificado,
+      edad = edad,
+      sexo = sexo,
+      lunares = lunares,
+      antecedentes = antecedentes
+    )
+    
+    output$resultado_riesgo <- renderUI({
+      tagList(
+        tags$p(tags$strong("Provincia:"), input$provincia_usuario_riesgo),
+        tags$p(tags$strong("Fototipo:"),input$fototipo_usuario_riesgo),
+        tags$p(
+          tags$strong("Sexo:"), sexo, "|",
+          tags$strong("Edad:"), edad
+        ),
+        tags$p(
+          tags$strong("Lunares:"), lunares, "|",
+          tags$strong("Antecedentes:"), antecedentes
+        ),
+        tags$p(
+          tags$strong("UV:"), uv, "|",
+          tags$strong("Tmax:"), round(tmax,1), "°C | ",
+          tags$strong("Altitud:"), round(altitud_metros,2), "m"
+        ),
+        tags$hr(),
+        tags$p(tags$strong("Puntuación total:"), resultado$puntuacion_total),
+        tags$p(
+          tags$strong("Nivel de riesgo:"),
+          span(
+            resultado$clasificacion,
+            class = switch(
+              resultado$clasificacion,
+              "Bajo"     = "resalto-verde",
+              "Moderado" = "resalto-amarillo",
+              "Alto"     = "resalto-naranja",
+              "resalto-rojo"
+            )
+          )
+        )
+      )
+    })
+  })
+  
+  
+    
+  })
+
