@@ -1,0 +1,94 @@
+\apendice{Documentación de usuario}
+
+\section{Requisitos software y hardware para ejecutar el proyecto.}
+La aplicación ha sido diseñada como una herramienta web de fácil acceso,cuyo objetivo final es el uso del público en general, siendo estos desde desarrolladores para las mejoras futuras de la aplicación o aquellas  personas con interés de saber más sobre el melanoma y su prevención.
+Esta plataforma no requiere ningún hardware especializado ni requisitos especiales para su puesta en marcha.
+Sin embargo, es imprescindible contar con conexión a internet, ya que la plataforma realiza solicitudes API a la AEMET y al Instituto Nacional de Estadística mediante su respectivo paquete en \textit{R}. Su acceso puede ser desde cualquier navegador moderno como Google Chrome, ampliamente usado por la población en general, ya sea desde un ordenador personal o un dispositivo móvil.  
+
+\section{Instalación / Puesta en marcha}
+
+Al ser una aplicación web, no requiere ninguna instalación, el usuario puede acceder a la URL de la aplicación \href{ https://nfarla02.shinyapps.io/UV-Dermis/}{UV-Dermis}. Una vez cargada la interfaz, se podrá empezar a interactuar con las diferentes pestañas visibles desde la barra del navegador. En la pestaña de mapas interactivos, la visualización podría tardar un par de segundos debido a la carga de datos. 
+
+\section{Demostraciones prácticas}
+Al acceder a la aplicación, se le mostrará la interfaz de inicio en la cual se encuentran las utilidades de esta web.
+En esta pestaña se encuentra información sobre la aplicación y lo que puedes hacer en ella, también presenta una barra en la parte superior de la página con las diferentes pestañas de la web.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/Captura de pantalla 2025-06-02 192630.png}
+        \caption{Pestaña inicio,barra de navegación}
+        \label{fig:navegador}
+    \end{figure} 
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/botones.png}
+        \caption{Botones de acceso rápido.}
+        \label{fig:btn}
+    \end{figure} 
+También presenta pestañas teóricas como lo son las pestañas de "Contenido informativo" y "Marco Teórico de la calculadora de riesgo acumulado"  con el fin de poner al usuario con el contexto y contenido de la aplicación. En estas secciones se pretende explicar conceptos que escuchamos en nuestro día a día o en temporadas altas de exposición solar, como lo son el índice UV o el SPF.
+
+En el módulo de "Mapas de variables" nos encontramos con la distribución geográfica de las variables ambientales escogidas junto a la tasa de mortalidad e incidencias del melanoma maligno de piel. Los mapas de temperatura e índices UV se actualizan diariamente por su conexión a la Agencia Estatal de Meteorología.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/defunciones.png}
+        \caption{Mapa de tasas de incidencia y mortalidad por melanoma.}
+        \label{fig:inciden}
+    \end{figure} 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/altitud.png}
+        \caption{Mapa de altitudes.}
+        \label{fig:btn}
+    \end{figure} 
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/mapauv.png}
+        \caption{Mapa de índices de radiación ultravioleta.}
+        \label{fig:uv}
+    \end{figure}
+    
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/temp.png}
+        \caption{Mapa de temperaturas.}
+        \label{fig:map_temp}
+    \end{figure} 
+Por otro lado, nos encontramos con las pestañas con las que puede interactuar el usuario, que son:
+\begin{itemize}
+    \item \textbf{Riesgo Acumulado}: proporciona un estimación aproximada y orientativa sobre el riesgo actual de desarrollar un melanoma según las características individuales y la zona geográfica del usuario.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/Captura de pantalla 2025-06-03 103009.png}
+        \caption{Selección de parámetros de la calculadora.}
+        \label{fig:riesgo}
+    \end{figure} 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/Captura de pantalla 2025-06-03 103034.png}
+        \caption{Resultado estimado de la calculadora.}
+        \label{fig:resulta}
+    \end{figure}
+    \item \textbf{Recomendador}: en esta sección se encuentran explicaciones de conceptos relacionados con el cuiadodo de la piel junto a un recomendador que nos proporciona medidas de prevención y cuiadado de la piel según la prediccón del índice UV y la temperatura de la zona geográfica y el fototipo del usuario.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{image.png}
+        \caption{Inicio recomendador}
+        \label{fig:rec}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{Captura de pantalla 2025-05-31 200738.png}
+        \caption{Recomendación.}
+        \label{fig:rec2}
+    \end{figure}
+    \item \textbf{Datos Meteorológicos}: finalmente se entrega la opción de explorar datos históricos de los datos meteorológicos escogidos de manera visual en un gráfico multiopciones para observar su evolución entre las distintas provincias.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{image2.png}
+        \caption{Gráficos temporales.}
+        \label{fig:graficos}
+    \end{figure}
+    También tiene una opción de descarga de datos si el usuario lo desea.
+\end{itemize}
+
+Finalmente, tiene una última sección, "Acerca Del Proyecto", que contiene información sobre este Trabajo de Fin de Grado y acceso directo para el repositorio GitHub donde se encuentra todo el desarrollo detallado de la aplicación.
+     

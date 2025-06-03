@@ -1,0 +1,62 @@
+\apendice{Descripción de adquisición y tratamiento de datos} obligatorio
+En este aparatado se detallará la obtención de datos, desde los solicitados mediante APIs hasta los de elaboración propia.
+El proceso de obtención se puede dividir en tres bloques:
+Los datos obtenidos mediante la API de la AEMET:
+Los datos de las defunciones obtenidos mediante el paquete de la INE en R que conecta con su API
+Los datos de elaboración propios
+
+
+\section{Descripción formal de los datos}
+El proceso de obtención se puede dividir en tres bloques:
+\begin{itemize}
+    \item \textbf{Los datos obtenidos mediante la API de la AEMET}: para este proceso se desarrollo una función llamada \textit{actualizar\_datos\_climaticos()} que encapsula todo el proceso de descarga, transformación y almacenamiento de datos meteorológicos en un bloque único.
+    El proceso comienza con la consrucción del \textit{endpoint} disponible en la \href{https://opendata.aemet.es/dist/index.html?}{AEMET} y la petición de datos. 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{img/peticion.png}
+        \caption{Petición}
+        \label{fig:peticion}
+    \end{figure}
+    Para temperaturas, se ha escogido el \textit{endpoint} que proporciona observaciones convencionales como humedad, precipitación, viento y entre otras se encuentra la temperatura de cada estación meteorológica que se registra cada hora. La respuesta no son los datos directamente, sino que se trata de un \textit{JSON} con información sobre el estado de la solicitud, información sobre los datos proporcionados y el enlace a los datos obtenidos \ref{fig:RESPUESTA}.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{respuesta.png}
+        \caption{Estructura de la respuesta de la API.}
+        \label{fig:RESPUESTA}
+    \end{figure}
+    Se procede a extraer los datos realizando una descarga del contenido del enlace proporcionado, conservando su estructura original, posteriormente realizando una conversión total al estándar \textit{UTF-8} para mejor gestión de datos y evitar errores.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{img/json.png}
+        \caption{Datos observacionales. }
+        \label{fig:observaciones}
+    \end{figure}
+    Como se puede observar en la figura \ref{fig:observaciones}, hay varios registros de distintas variables pero solo nos interesan los atributos \textit{idema}, \textit{tamax} y \textit{tamin} para el proyecto. Los registros son por horas y por \textit{idemas}, que son los identificadores de las estaciones meteorológicas que corresponden a una provincia, por ello se realiza un filtro de la temperatura mínima y máxima de todo el día de cada identificador.
+    Tener los datos identificados por idemas suponía un problema a la hora de representarlos geográficamente, por ello se acudió a la funcion \textit{aemet\_stations()} para obtener las correspondencias de cada \textit{idema} a su respectiva provincia, para realizar el proceso de asociación \textit{idema}-->provincia. Finalmente se agrupan todas los idemas en su provincia con su temperatura promedio máxima y mínima junto a la fecha de adquisición.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{img/ideme.png}
+        \caption{Provincias de los idemas.}
+        \label{fig:idemas}
+    \end{figure}
+    De manera análoga, se obtuvo los datos de predicción de índice ultravioleta, cambiando el endpoint por el de predicción índice ultravioleta con código 0 para tener los datos del día actual. A diferencia de las temperaturas, estos datos no se necesitaba su asociación \textit{idema}-->provincia, ya que estos datos venían dados en provincias.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{img/peticiouv.png}
+        \caption{Petición índice UV}
+        \label{fig:uvpet}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{img/respu.png}
+        \caption{Datos índice UV.}
+        \label{fig:enter-label}
+    \end{figure}
+    Para la obtención de altitudes, se extrajeron de la función  \textit{aemet\_stations()} agrupando los idemas en su provincia correspondiente calculando el promedio de altitud del conjunto de idemas de cada provincia.
+    Como paso final se implementó un diccionario de equivalencias de los nombres de las provincias, ya que cada variable presentaba un nombre diferente ya sea por mayúsculas, acentos o segundos idiomas de la provincia, para un mejor manejo a la hora de representarlos en el mapa.
+    
+    \item \textbf{Los datos de las defunciones por melanoma maligno de la piel}: se obtuvieron del paquete de la INE,\textit{INEbaseR}, que conecta con la API del Instituto Nacional de Estadística. Se filtran solo los de melanoma maligno de la piel, y de nuevo se realiza la transformación a un nombre común de las provincias para que corresponda con los valores de las provincias de la representación geográfica.
+    
+    \item \textbf{Los datos de elaboración propia:} estos datos han sido los de la densidad de población de cada provincia para calcular la tasa de incidencia del melanoma \cite{AnexoProvinciasCiudades2025} .
+    
+\end{itemize}
