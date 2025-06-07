@@ -424,8 +424,17 @@ obtener_datos_melanoma <- function() {
       riesgo_total > 18 ~ "Muy alto"
     )
     
-    return(list(
-      puntuacion_total = riesgo_total,
-      clasificacion = nivel_riesgo
-    ))
+    
+    list(
+      p_uv= puntos_uv,
+      p_tmax= puntos_temp,
+      p_altitud= puntos_alt,
+      p_fototipo= puntos_fototipo,
+      p_edad= puntos_edad,
+      p_sexo= puntos_sexo,
+      p_lunares= puntos_lunares,
+      p_antecedentes= puntos_antecedentes,
+      puntuacion_total= riesgo_total,
+      clasificacion= nivel_riesgo
+    )
   }

@@ -2,7 +2,7 @@ library(shiny)
 library(leaflet)
 
 shinyUI(
-  navbarPage(strong("UV-Derma: Plataforma de Prevención del Melanoma"), id="navegador",
+  navbarPage(strong("UV-Dermis: Plataforma de Prevención del Melanoma"), id="navegador",
              tags$head(
                tags$style(HTML(
                  " .tab-content {
@@ -107,7 +107,7 @@ shinyUI(
                       fluidPage(
                         div(class = "hero-container",
                             img(src = "posible_portada1.png", class = "img-fluid"),
-                            div(class = "hero-text", "Bienvenido/a a UV-Derma"),
+                            div(class = "hero-text", "Bienvenido/a a UV-Dermis"),
                             div(class = "hero-subtext", "Plataforma interactiva para la prevención del melanoma")
                         ),
                         
@@ -162,6 +162,44 @@ shinyUI(
              ),
              tabPanel(strong("Contenido informativo"),value = "info",
                       tabsetPanel(id="navegador-interno",
+                                  tabPanel(strong("Melanoma maligno de piel"),
+                                           wellPanel(
+                                             h3(strong("¿Qué es?")),
+                                             p("Es un tipo de cáncer de piel que se desarrolla cuando las células que nos aportan color a la piel, como se ha mencionado anteriormente los melanocitos, comienzan a crecer fuera de control. Es menos frecuente que otros tipos de cánceres de piel, pero más grave, ya que si no se detecta a tiempo puede propagarse al resto del cuerpo."),
+                                             p("Este tipo de cáncer se suele desarrollar generalmente en la piel más expuesta a la luz solar como los brazos, cara, piernas o espalda cuando estamos tomando el sol."),
+                                             p("La radiación UV es un factor muy importante y bien reconocido en la génesis del cáncer cutáneo, pero también existen otros factores de riesgo como la predisposición genética, y la combinación de otros factores ambientales como la altitud y las temperaturas máximas."),
+                                             p("Se sabe que la exposición descontrolada y sin protección a la radiación ultravioleta es la culpable de la mayoría de melanomas y por ello, debemos limitar la exposición a esta."),
+                                             p("Aquí un ejemplo de su expresión:"),
+                                             fluidRow(
+                                               column(4, img(src = "melanoma_1.jpg", width = "100%")),
+                                               column(4, img(src = "melanoma_2.png", width = "100%")),
+                                               column(4, img(src = "melanoma_3.png", width = "100%"))
+                                             )
+                                           ),
+                                           
+                                           br(),
+                                           wellPanel(
+                                             h3(strong("Signos y síntomas tempranos del melanoma")),
+                                             p("Los primeros síntomas del melanoma suelen ser cambios en la piel, tanto en el cambio de lunares o pecas ya existentes como la aparición de una nueva malformación pigmentada."),
+                                             p("Todos sabemos cómo es el aspecto de un lunar sano, pero algunos presentan características anormales que indican melanomas u otros tipos de cáncer de piel."),
+                                             p("Un lunar sano presenta un color uniforme, con borde definido de forma ovalada o redonda."),
+                                             p("Las características que deberían llamarnos la atención son las siguientes:"),
+                                             tags$ul(
+                                               tags$li("Forma asimétrica"),
+                                               tags$li("Cambios de color, bultos cuyo color no esté bien definido visualmente o no sea un color usual."),
+                                               tags$li("Cambios de tamaño, que su diámetro sea superior a los 6 milímetros."),
+                                               tags$li("Aparición de sangrado o sensación de picazón."),
+                                               tags$li("Bordes inusuales, no bien definidos, que tenga cortes en la forma.")
+                                             ),
+                                             p("Aquí una comparación visual de cómo es un lunar sano frente a uno maligno."),
+                                             img(src = "maligno_vs_benigno.png", width = "600px")
+                                           ),
+                                           
+                                           br(),
+                                           actionButton("volver_inicio_desde_info_melanoma", "Volver a inicio", class = "btn btn-primary")
+                                  ),
+                                  
+                                  
                         tabPanel(strong("¿Qué es la radiación UV?"),
                                  wellPanel(
                                    h3(strong("La radiación ultravioleta (UV)")),
@@ -220,42 +258,6 @@ shinyUI(
                                  
                                  br(),br(),
                                  actionButton("volver_inicio_desde_intervalos", "Volver a inicio", class = "btn btn-primary")
-                        ),
-                        tabPanel(strong("Melanoma maligno de piel"),
-                                 wellPanel(
-                                   h3(strong("¿Qué es?")),
-                                   p("Es un tipo de cáncer de piel que se desarrolla cuando las células que nos aportan color a la piel, como se ha mencionado anteriormente los melanocitos, comienzan a crecer fuera de control. Es menos frecuente que otros tipos de cánceres de piel, pero más grave, ya que si no se detecta a tiempo puede propagarse al resto del cuerpo."),
-                                   p("Este tipo de cáncer se suele desarrollar generalmente en la piel más expuesta a la luz solar como los brazos, cara, piernas o espalda cuando estamos tomando el sol."),
-                                   p("La radiación UV es un factor muy importante y bien reconocido en la génesis del cáncer cutáneo, pero también existen otros factores de riesgo como la predisposición genética, y la combinación de otros factores ambientales como la altitud y las temperaturas máximas."),
-                                   p("Se sabe que la exposición descontrolada y sin protección a la radiación ultravioleta es la culpable de la mayoría de melanomas y por ello, debemos limitar la exposición a esta."),
-                                   p("Aquí un ejemplo de su expresión:"),
-                                   fluidRow(
-                                     column(4, img(src = "melanoma_1.jpg", width = "100%")),
-                                     column(4, img(src = "melanoma_2.png", width = "100%")),
-                                     column(4, img(src = "melanoma_3.png", width = "100%"))
-                                   )
-                                 ),
-                                 
-                                 br(),
-                                 wellPanel(
-                                   h3(strong("Signos y síntomas tempranos del melanoma")),
-                                   p("Los primeros síntomas del melanoma suelen ser cambios en la piel, tanto en el cambio de lunares o pecas ya existentes como la aparición de una nueva malformación pigmentada."),
-                                   p("Todos sabemos cómo es el aspecto de un lunar sano, pero algunos presentan características anormales que indican melanomas u otros tipos de cáncer de piel."),
-                                   p("Un lunar sano presenta un color uniforme, con borde definido de forma ovalada o redonda."),
-                                   p("Las características que deberían llamarnos la atención son las siguientes:"),
-                                   tags$ul(
-                                     tags$li("Forma asimétrica"),
-                                     tags$li("Cambios de color, bultos cuyo color no esté bien definido visualmente o no sea un color usual."),
-                                     tags$li("Cambios de tamaño, que su diámetro sea superior a los 6 milímetros."),
-                                     tags$li("Aparición de sangrado o sensación de picazón."),
-                                     tags$li("Bordes inusuales, no bien definidos, que tenga cortes en la forma.")
-                                   ),
-                                   p("Aquí una comparación visual de cómo es un lunar sano frente a uno maligno."),
-                                   img(src = "maligno_vs_benigno.png", width = "600px")
-                                 ),
-                                 
-                                 br(),
-                                 actionButton("volver_inicio_desde_info_melanoma", "Volver a inicio", class = "btn btn-primary")
                         )
                       )
              ),
@@ -416,7 +418,7 @@ shinyUI(
                                    p("El melanoma es una enfermedad influenciada por múltiples factores ambientales y personales, entre ellas las descritas previamente."),
                                    p("Esta herramienta esta inspirada en la calculadora de predicción del Instituto Australiano del Melanoma. El objetivo de esta es realizar una estimación aproximada del riesgo existente con la información disponible, facilitando su prevención adaptada al contexto geográfico y biológico de cada usuario. En ningún momento sustituye la asistencia médica ya que el riesgo personal puede diferir de la estimación por factores externos."),
                                    p("La estructura interna de esta herramienta se fundamenta en metodologías ampliamente validadas y usadas en medicina preventiva, como los modelos de predicción desarrollados en el estudio del corazón en Framingham (Framingham Risk Score) para enfermedades cardiovasculares, o el FINDRISC para el diagnóstico de diabetes tipo 2. Estos modelos convierten variables clínicas en categorías puntuadas según su riesgo aportado a cada enfermedad."),
-                                   p("UV-Derma adopta este enfoque para cuantificar el riesgo del melanoma, asignando puntuaciones a cada variable según su impacto documentado en los estudios científicos existentes. Esta suma de factores ofrece una estimación aproximada, comprensible y útil para la población general, sin perder su base científica. De esta manera, al igual que los modelos mencionados, permite implementar medidas preventivas contra el melanoma.")
+                                   p("UV-Dermis adopta este enfoque para cuantificar el riesgo del melanoma, asignando puntuaciones a cada variable según su impacto documentado en los estudios científicos existentes. Esta suma de factores ofrece una estimación aproximada, comprensible y útil para la población general, sin perder su base científica. De esta manera, al igual que los modelos mencionados, permite implementar medidas preventivas contra el melanoma.")
                                  ),
                                  br(),br(),
                                  actionButton("volver_inicio_desde_riesgo_factores", "Volver a inicio", class = "btn btn-primary")

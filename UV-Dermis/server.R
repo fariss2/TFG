@@ -34,7 +34,7 @@ library(htmltools)
 
 shinyServer(function(input, output,session) { 
   
-
+#----------BOTONES ACCESO RAPIDO
   botones_volver <- c(
     "volver_inicio_desde_uv",
     "volver_inicio_desde_melanoma",
@@ -163,7 +163,7 @@ shinyServer(function(input, output,session) {
   tasa_mortalidad<-tasa_mortalidad%>%
     mutate(tasa=round((melanoma / poblacion) * 100000, 2))
   
-  
+#------MAPA MELANOMA  
   
   output$mapa_melanoma <- renderLeaflet({
     Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
@@ -202,7 +202,7 @@ shinyServer(function(input, output,session) {
         position = "bottomright"
       )
   })
-  #---------------------
+  #---------------------Grafico temporal variables meteorologicas
   
   
   output$grafico_temporal <- renderPlot({
@@ -232,7 +232,7 @@ shinyServer(function(input, output,session) {
       ) +
       theme_minimal(base_size = 20)
   })
-  
+#----------descarga de datos  
   output$descargar_excel <- downloadHandler(
     filename = function() {
       paste0("datos_tirmpo_hasta", Sys.Date(), ".xlsx")
@@ -251,7 +251,7 @@ shinyServer(function(input, output,session) {
     }
   )
   
-  #------------------------
+  #------------------------Mapa UV
   datos_uv_hoy <- datos_tiempo %>%
     filter(fecha == Sys.Date()) %>%
     select(provincia, uv)
@@ -385,7 +385,7 @@ shinyServer(function(input, output,session) {
         TRUE ~ 5
       )
     )
-  
+#---------mapa altitudes  
   output$mapa_altitud <- renderLeaflet({
     Provs <- esp_get_prov() %>% rename(provincia = ine.prov.name)
     
@@ -431,7 +431,7 @@ shinyServer(function(input, output,session) {
   
 
   
-  
+#-----imprimir recomendacion
     
   observeEvent(input$generar_recomendacion, {
     req(input$provincia_usuario)
@@ -478,7 +478,7 @@ shinyServer(function(input, output,session) {
   })
   
   
-  
+#----mapa de temperaturas   
   datos_temp_hoy <- datos_tiempo %>%
     filter(fecha == Sys.Date()) %>%
     select(provincia, Tmax)
@@ -519,7 +519,7 @@ shinyServer(function(input, output,session) {
   })
   
   
- 
+#----------calculo de riesgo 
   observeEvent(input$calcular_riesgo, {
     req(input$provincia_usuario_riesgo, input$fototipo_usuario_riesgo,input$edad, input$sexo, input$lunares, input$antecedentes)
     
@@ -573,6 +573,8 @@ shinyServer(function(input, output,session) {
       lunares = lunares,
       antecedentes = antecedentes
     )
+    print(resultado)
+    #----------visualizacion calculo de riesgo.
     
     output$resultado_riesgo <- renderUI({
       tagList(
@@ -590,6 +592,23 @@ shinyServer(function(input, output,session) {
           tags$strong("UV:"), uv, "|",
           tags$strong("Tmax:"), round(tmax,1), "°C | ",
           tags$strong("Altitud:"), round(altitud_metros,2), "m"
+        ),
+        tags$hr(),
+        tags$details(
+          tags$summary(tags$strong("Ver desglose de puntuaciones")),
+            tags$ul(
+              tags$li(paste0("Puntos por UV: ", resultado$p_uv)),
+              tags$li(paste0("Puntos por temperatura: ", resultado$p_tmax)),
+              tags$li(paste0("Puntos por altitud: ", resultado$p_altitud)),
+              tags$li(paste0("Puntos por fototipo de piel: ", resultado$p_fototipo)),
+              tags$li(paste0("Puntos por sexo: ", resultado$p_sexo)),
+              tags$li(paste0("Puntos por edad: ", resultado$p_edad)),
+              tags$li(paste0("Puntos por presencia de lunares: ", resultado$p_lunares)),
+              tags$li(paste0("Puntos por antecendes familiares: ", resultado$p_antecedentes))
+              
+            )
+          
+          
         ),
         tags$hr(),
         tags$p(tags$strong("Puntuación total:"), resultado$puntuacion_total),
