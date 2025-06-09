@@ -122,9 +122,9 @@ shinyUI(
                             h3(strong("¿Qué puedes hacer?")),
                             tags$ul(
                               tags$li("Obtener información relevante y de interes sobre el cáncer de piel, tipo melanoma y como afecta la radiación UV a nuestra piel."),
-                              tags$li("Consultar el índice UV actual por provincia, entre otras funciones "),
-                              tags$li("Visualización de las variables que aumentan el riesgo de desarrollar un melanoma "),
-                              tags$li("Cálculo aproximado de sufrir esta patología según las condiciones actuales de tu zona geográfica"),
+                              tags$li("Consultar el índice UV actual por provincia, entre otras funciones. "),
+                              tags$li("Visualización de las variables que aumentan el riesgo de desarrollar un melanoma. "),
+                              tags$li("Cálculo aproximado de sufrir esta patología según las condiciones actuales de tu zona geográfica."),
                               tags$li("Recomendador según tu piel y zona geográfica, indicaciones que seguir para prevenir el melanoma."),
                               tags$li("Explorar datos ambientales y tasas de mortalidad."),
                               tags$li("Acceder a un historial de datos meteorológicos actualizada para análisis futuros.")
@@ -141,7 +141,7 @@ shinyUI(
                               tags$li("La radiación UV puede ser intensa incluso en días nublados."),
                               tags$li("Las zonas de mayor altitud reciben más radiación UV."),
                               tags$li("El 90% de los melanomas son evitables con protección adecuada."),
-                              tags$li("El 80% del daño solar en la piel ocurre antes de los 18 años")
+                              tags$li("El 80% del daño solar en la piel ocurre antes de los 18 años.")
                             )
                           )
                           
@@ -173,7 +173,7 @@ shinyUI(
                                              fluidRow(
                                                column(4, img(src = "melanoma_1.jpg", width = "100%")),
                                                column(4, img(src = "melanoma_2.png", width = "100%")),
-                                               column(4, img(src = "melanoma_3.png", width = "100%"))
+                                               column(4, img(src = "MEL3.png", width = "100%"))
                                              )
                                            ),
                                            
@@ -229,7 +229,7 @@ shinyUI(
                                    p("La incidencia directa de la radiación UV en combinación con otros factores de riesgo ambientales y genéticos altera el ADN de los melanocitos, son las células que pigmentan la piel."),
                                    p("El ADN de una célula son las instrucciones que debe seguir la célula para seguir multiplicándose y creciendo a un ritmo sano; y finalmente cuando sea indicado el momento de la apoptosis, muerte celular."),
                                    p("El resultado más común por la luz UV es la formación de dímeros de pirimidina, lo que induce a mutaciones en las células epidérmicas, y como consecuencia se crean células cancerosas."),
-                                   img(src = "dimeros.png", width = "600px"),
+                                   img(src = "danouvb.jpg", width = "600px"),
                                    p("Estos dímeros distorsionan localmente la estructura del ADN interfiriendo en el apareamiento de bases complementarias."),
                                    p("A veces se reparan los dímeros pero existen casos en los que no y esto afecta a los procesos de replicación y transcripción."),
                                    p("La acumulación de alteraciones en el ADN puede provocar mutaciones en genes de gran importancia, como el gen supresor de tumores p53 que es esencial para mantener el equilibrio genético."),
@@ -304,7 +304,7 @@ shinyUI(
                                      wellPanel(
                                        fluidRow(
                                          column(width = 2,
-                                                img(src = "provincias.png", style = "max-width: 100%; height: 40px; margin-top: 8px;")
+                                                img(src = "PROVS.webp", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                          ),
                                          column(width = 10,
                                                 selectInput("provincia_usuario_riesgo", "Provincia:",choices = sort(unique(datos_tiempo$provincia)))
@@ -312,7 +312,7 @@ shinyUI(
                                        ),
                                        fluidRow(
                                          column(width = 2,
-                                                img(src="Fitzpatrick.jpg", style = "max-width: 100%; height: 40px; margin-top: 8px;")
+                                                img(src="fototipo.jpg", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                                 ),
                                          column(width = 10,
                                                 selectInput("fototipo_usuario_riesgo", "Tipo de piel:",choices = c("Muy blanca", "Blanca", "Intermedia", "Morena clara", "Morena oscura", "Negra"))
@@ -328,7 +328,7 @@ shinyUI(
                                        ),
                                        fluidRow(
                                          column(width = 2,
-                                                img(src = "edad.avif", style = "max-width: 100%; height: 40px; margin-top: 8px;")
+                                                img(src = "edad.png", style = "max-width: 100%; height: 40px; margin-top: 8px;")
                                          ),
                                          column(width = 10,
                                                 sliderInput("edad", "Edad:", min = 0, max = 100, value = 30)
@@ -429,7 +429,7 @@ shinyUI(
                       wellPanel(
                         h3(strong("Recomendación según tipo de piel y zona geográfica")),
                         p("Esta sección te recomendara medidas de protección frente a la presencia de factores de riesgo en tu zona geográfica."),
-                        p("Selecciona tu provincia y el recomendador analiza el índice de radiación ultravioleta y temperatura máxima de la zona y los riesgos que generan para hoy", Sys.Date())
+                        p("Selecciona tu provincia y el recomendador analiza el índice de radiación ultravioleta y temperatura máxima de la zona y los riesgos que generan para hoy", Sys.Date(),".")
                       ),
                       fluidRow(
                         column(6,
@@ -461,7 +461,7 @@ shinyUI(
                                   p("Existen 6 tipos:"),
                                   tags$ul(
                                     tags$li(strong("Muy blanca:"), "Presente en individuos de piel muy clara, ojos azules, propia de pelirrojos con pecas en la piel. Presentan un color de piel blanco-lechoso. Se quema siempre de forma intensa sin presencia de bronceado y descama de forma ostensible."),
-                                    tags$li(strong("Blanca:"), "Presente en individuos de piel clara, pelo rubio, ojos claros y con pecas, que no estan expuestas habitualmente al sol. Quemado intenso y fácil, con bronceado mínimo y descama de forma notoria "),
+                                    tags$li(strong("Blanca:"), "Presente en individuos de piel clara, pelo rubio, ojos claros y con pecas, que no estan expuestas habitualmente al sol. Quemado intenso y fácil, con bronceado mínimo y descama de forma notoria. "),
                                     tags$li(strong("Intermedia:"), "Presente en razas caucásicas de piel ligeramente morena que  no esta expuesta habitualmente al sol.Se quema con facilidad presentando un bronceado gradual. "),
                                     tags$li(strong("Morena clara:"), "Presente en individuos de piel morena con pelo y ojos oscuros. Se quema moderada o minímamente, bronceado o pigmentación inmediata y con bastante facilidad al exponerse al sol."),
                                     tags$li(strong("Morena oscura:"), "Presente en individuos de piel color marron. Se quema raramente y presentan bronceado muy intenso. "),
@@ -471,8 +471,7 @@ shinyUI(
                                  h3(strong("¿Qué es el SPF de las cremas?")),
                                  img(src="spf.jpg", width="400px"),
                                  p("Estas siglas significan facto de protección solar y es una medida relativa del tiempo que el protector solar bloquea los rayos ultravioleta."),
-                                 p("Actua multiplicando el tiempo que puede estar una piel sin quemarse al sol, por ejemplo las pieles del fototipo I pueden estar hasta 10 minutos al sol"),
-                                 p("sin crema solar, usando el SPF20 podrá estar al sol 200 minutos expuesta al sol sin quemarse."),
+                                 p("Actua multiplicando el tiempo que puede estar una piel sin quemarse al sol, por ejemplo las pieles del fototipo I pueden estar hasta 10 minutos al sol sin crema solar, usando el SPF20 podrá estar al sol 200 minutos expuesta al sol sin quemarse."),
                                  img(src="spf1.jpg", width="500px"),
                                  p("Como se ha dicho antes esta medida es relativa y existen factores que disminuyen la eficacia, como:"),
                                  tags$ul(
@@ -490,7 +489,7 @@ shinyUI(
              tabPanel(strong("Datos Meteorológicos"),value="datos",
                       wellPanel(h3(strong("Datos meteorológicos")),
                                 p("En la siguiente pestaña se muestra un historico de datos meteorológicos que se va actualizando con los datos que vamos recibiendo de las APIs de la AEMET. Nos mostrará la fecha de los valores de índice de radiación ultravioleta, temperatura máxima y mínima de cada provincia."),
-                                p("En el siguiente grafico podemos visualizar la variación de la variable escogida y hacer una comparación visual de esta entre las diferentes provincias de España "),
+                                p("En el siguiente grafico podemos visualizar la variación de la variable escogida y hacer una comparación visual de esta entre las diferentes provincias de España. "),
                       ),
                       sidebarLayout(
                         sidebarPanel(
@@ -530,11 +529,11 @@ shinyUI(
                           p(strong("Tutor:"), " Antonio Jesús Canepa Oneto"),
                           br(),
                           p("Este proyecto utiliza datos meteorológicos y sanitarios con fines divulgativos y educativos."),
-                          p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos meteorológicos para futuras líneas de investigaciones sobre predicciones de padecer esta patología ")),
+                          p("La idea es alertar sobre factores de riesgo para el desarrollo del cáncer de piel y reclutar datos meteorológicos para futuras líneas de investigaciones sobre predicciones de padecer esta patología. ")),
                         br(),
                         wellPanel(
                           h4(strong("Contacto")),
-                          p("Toda la información redactada y mencionada en  esta plataforma se encuentra citada en la memoria y anexos de este trabajo que puede consultarlo en el repositorio GitHub del mismo trabajo."),
+                          p("Toda la información redactada y mencionada en  esta plataforma se encuentra citada en la memoria y anexos de este trabajo que puede consultarlo en el último lanzamiento (Versión 1.0.0) del repositorio GitHub de la plataforma."),
                           p("También puede consultarlo para más información sobre la estructura interna de la aplicación. En caso de tener alguna otra sugerencia o algún problema al acceder a alguna pestaña web, dejanoslo saber en una issue del mismo repositorio."),
                           tags$a(href="https://github.com/fariss2/TFG" , "Ir al Repositorio Github🔗")),
                         br(),br(),
