@@ -5,7 +5,7 @@ En relación con los objetivos planteados al principio de este documento, los re
 
 \begin{itemize}
     
-    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en la salud:} se incorporó un panel informativo interactivo que describe el melanoma maligno de piel, su relación con la radiación ultravioleta, la altitud y la temperatura, así como sus efectos sobre el ADN y factores de riesgo adicionales. Este contenido tiene un enfoque divulgativo y accesible, complementado con imágenes, tablas y referencias científicas.
+    \item \textbf{Dotar al usuario de conocimientos sobre el impacto de variables ambientales en la salud:} se incorporó un panel informativo interactivo que describe el \textit{melanoma} maligno de piel, su relación con la radiación ultravioleta, la altitud y la temperatura, así como sus efectos sobre el ADN y factores de riesgo adicionales. Este contenido tiene un enfoque divulgativo y accesible, complementado con imágenes, tablas y referencias científicas.
     
     \begin{figure}[H]
         \centering
@@ -14,7 +14,7 @@ En relación con los objetivos planteados al principio de este documento, los re
         \label{fig:panel}
     \end{figure} 
     
-    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir melanoma:}  se desarrolló una herramienta de cálculo que estima un riesgo orientativo de melanoma para el día actual. Esta estimación se basa en la combinación de factores personales y ambientales, mediante una estructura heurística de puntuación inspirada en modelos médicos preventivos.
+    \item \textbf{Facilitar una estimación aproximada del riesgo acumulado de sufrir \textit{melanoma}:}  se desarrolló una herramienta de cálculo que estima un riesgo orientativo de \textit{melanoma} para el día actual. Esta estimación se basa en la combinación de factores personales y ambientales, mediante una estructura heurística de puntuación inspirada en modelos médicos preventivos.
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/calculo.png}
@@ -29,7 +29,7 @@ En relación con los objetivos planteados al principio de este documento, los re
         \label{fig:Recomendacion}
     \end{figure} 
 
-    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET):} se procesaron y estandarizaron los datos meteorológicos procedentes de la API de AEMET y las estadísticas de mortalidad por melanoma del INE. Se diseñó un sistema de actualización automática y se estructuraron los datos para alimentar tanto los mapas interactivos como los módulos de cálculo y análisis.
+    \item \textbf{Uso y limpieza de datos abiertos (INE y AEMET):} se procesaron y estandarizaron los datos meteorológicos procedentes de la API de AEMET y las estadísticas de mortalidad por \textit{melanoma} del INE. Se diseñó un sistema de actualización automática y se estructuraron los datos para alimentar tanto los mapas interactivos como los módulos de cálculo y análisis.
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/uv.png}
@@ -60,7 +60,7 @@ En relación con los objetivos planteados al principio de este documento, los re
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/posible_portada1.png}
-        \caption{Portada aplicación.}
+        \caption{Portada de la aplicación.}
         \label{fig:portada}
     \end{figure} 
 
@@ -70,17 +70,17 @@ En relación con los objetivos planteados al principio de este documento, los re
 \clearpage
 \section{Discusión}
 
-Viendo el apartado anterior se puede observar que los resultados obtenidos reflejan una correspondencia directa con los objetivos propuestos al inicio de este proyecto, ofreciendo tanto un desarrollo técnico y atractivo  como una herramienta de divulgación y prevención accesible para el melanoma cutáneo.
+Se puede observar que los resultados obtenidos reflejan una correspondencia directa con los objetivos propuestos al inicio de este proyecto, ofreciendo tanto un desarrollo técnico y atractivo  como una herramienta de divulgación y prevención accesible para el \textit{melanoma} cutáneo.
 
 En comparación con las aplicaciones mencionadas anteriormente, se ha logrado obtener una plataforma con un enfoque más integral adaptado al marco geográfico español.
-La aplicación  incorpora variables ambientales adicionales como la altitud y temperatura, que aumentan la radiación UV y por tanto, el riesgo de desarrollar melanoma. Además, se incluye una pestaña que ofrece un cálculo heurístico del riesgo acumulado, inspirado en modelos preventivos de otras enfermedades, aportando un componente educativo y predictivo orientada a la sensibilización ciudadana sobre el cuidado de la piel.
+La aplicación  incorpora variables ambientales adicionales como la altitud y temperatura, que aumentan la radiación UV y por tanto, el riesgo de desarrollar \textit{melanoma}. Además, se incluye una pestaña que ofrece un cálculo heurístico del riesgo acumulado, inspirado en modelos preventivos de otras enfermedades, aportando un componente educativo y predictivo orientada a la sensibilización ciudadana sobre el cuidado de la piel.
 En comparación con UV-Derma de la AEDV y la Universidad de Málaga, este proyecto no se limita a informar sobre la exposición solar, sino que permite personalizar la experiencia del usuario en el uso de la aplicación mediante la selección de factores individuales.
 
 Desde el punto de vista legal y ético, la plataforma cumple con los requisitos del Reglamento General de Protección de Datos (RGPD), ya que en ningún momento se recopilan ni almacenan datos personales del usuario.
 
-En cuanto a la calidad de los datos, el proceso de limpieza y estandarización de las fuentes provenientes del INE y AEMET garantiza la fiabilidad de las visualizaciones y el correcto funcionamiento de las llamadas a API. No obstante, la dependencia de servicios externos introduce vulnerabilidades ante posibles cambios en los endpoints\footnote{En desarrollo de software, un endpoint es la dirección URL o punto de acceso de una API o servicio web al que la aplicación envía solicitudes para obtener o enviar datos.}, lo cual podría comprometer la estabilidad operativa del sistema en el futuro.
+En cuanto a la calidad de los datos, el proceso de limpieza y estandarización de las fuentes provenientes del INE y AEMET garantiza la fiabilidad de las visualizaciones y el correcto funcionamiento de las llamadas a API. No obstante, la dependencia de servicios externos introduce vulnerabilidades ante posibles cambios en los endpoints\footnote{En desarrollo de software, un endpoint es la dirección URL o punto de acceso de una API al que la aplicación envía solicitudes para obtener datos.}, lo cual podría comprometer la estabilidad operativa del sistema en el futuro.
 
 Finalmente, como contribución al ámbito de la epidemiología ambiental se dispone de un repositorio público como recurso reutilizable por desarrolladores e investigadores para mejorar las metodologías de prevención y asistencia sanitaria.
 
-En resumen, UV-Derma se presenta como una solución accesible que incorpora mejoras clave de las herramientas existentes al integrar datos climáticos nacionales, personalización del riesgo y contenido educativo en un único entorno interactivo.
+En resumen, UV-Dermis se presenta como una solución accesible que incorpora mejoras clave de las herramientas existentes al integrar datos climáticos nacionales, personalización del riesgo y contenido educativo en un único entorno interactivo.
 

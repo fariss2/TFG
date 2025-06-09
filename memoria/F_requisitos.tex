@@ -1,0 +1,177 @@
+\apendice{Especificación de Requisitos}
+
+\section{Explicación casos de uso.}
+
+Un caso de uso es un concepto utilizado en el desarrollo de \textit{software} para describir una secuencia de acciones a realizar para lograr un resultado observable para el usuario \cite{Manuel-Cillero}. A continuación, se especifican los casos de uso y se muestran los diagramas de secuencias de la aplicación UV-Dermis.
+
+Para el acceso y visualización del cotenido de la pestaña de mapas de variabes se es sigue el proceso detallado en el diagrama \ref{fig:interna3}. De la misma manera, para el acceso de riesgo acumulado esta la figura \ref{fig:interna2} y para el acceso al recomendador  la figura \ref{fig:interna1}.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/riesgoacum.png}
+        \caption{Diagrama de secuencias, acceso al cálculo de riesgo acumulado.}
+        \label{fig:interna2}
+\end{figure}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/mapas.png}
+        \caption{Diagrama de secuencias, acceso a mapa de variables meteorológicas.}
+        \label{fig:interna3}
+\end{figure} 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/recomen.png}
+        \caption{Diagrama de secuencias, acceso a la recomendación.}
+        \label{fig:interna1}
+\end{figure}
+
+En la figura \ref{fig:interna}, asociada al caso de uso \ref{fig:cu5}, se observa que la aplicación para mostrar los datos meteorológicos no vas mas allá del entorno local.
+ \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/datospesta.png}
+        \caption{Diagrama de secuencias, visualización de datos.}
+        \label{fig:interna}
+    \end{figure}
+
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1}    & \textbf{Acceso contenido informativo}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Nisrine Fariss Lamine \\
+		
+		\textbf{Descripción}          & Información relevante para entender el contexto de la aplicación \\
+		\textbf{Precondición}         & Acceder a las pestañas del contenido infromativo y marco teórico de la calculadora \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item En el módulo del contenido informativo acceder a las diferentes subpestañas.
+			\item En la pestaña de riesgo acumulado acceder al marco teórico de la calculadora.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario obtiene información del contexto y fundamentos científicos. \\
+	
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1 Acceso contenido informativo.}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-2}    & \textbf{Visualización de mapas}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Nisrine Fariss Lamine \\
+		
+		\textbf{Descripción}          & Exploración la variabilidad geográfica de las variables. \\
+		\textbf{Precondición}         & Acceso al módulo de mapa de variables. Conexión a Internet. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Visitar las subpestañas del módulo.
+			
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se muestran los mapas \\
+		\textbf{Excepciones}          & Si la AEMET/INE no responden se muestra una ventana gris. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-2 Visualización de mapas.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1}    & \textbf{Cálculo riesgo acumulado}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Nisrine Fariss Lamine \\
+		
+		\textbf{Descripción}          & Estimación del riesgo acumulado de desarrollar melanoma para el usuario \\
+		\textbf{Precondición}         & Acceso a la pestaña de riesgo acumulado. Disponibilidad de datos. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Introducir los parámetros del usuario.
+			\item Ejecución del cálculo.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Disposición de una estimación orientativa sobre los factores de riesgo actuales. \\
+		\textbf{Excepciones}          & Ausencia de datos. \\
+		\textbf{Importancia}          & Alta  \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3 Cálculo riesgo acumulado.}
+\end{table}
+
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-4}    & \textbf{Obtener recomendación}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Nisrine Fariss Lamine \\
+		
+		\textbf{Descripción}          & Ofrece al usuario medidas de prevención según su fototipo de piel. \\
+		\textbf{Precondición}         & Acceder a la pestaña del recomendador \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Elección de provincia y fototipo de piel.
+			\item Obtener recomendación
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se obtiene una recomendación preventiva e información sobre la temperatura e índice UV de su provincia. \\
+		\textbf{Excepciones}          & Ausencia de datos. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-4 Obtener recomendación.}
+\end{table}
+
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5}    & \textbf{Exploración de historico de datos meteorológicos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Nisrine Fariss Lamine \\
+		
+		\textbf{Descripción}          & Facilita al usuario visualización de la evolución temporal de temperaturas e índices UV de las provincias, ambas seleccionables. \\
+		\textbf{Precondición}         & Acceso a la pestaña de datos meteorológicos. Existencia del conjunto de datos pasados. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Selección de provincia/s y variable/s.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Gráfico evolutivo de las variables. Posibilidad de descarga \\
+		\textbf{Excepciones}          &  \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5 Exploración de historico de datos meteorológicos.}
+    \label{fig:cu5}
+
+    \end{table}
+
+
+   

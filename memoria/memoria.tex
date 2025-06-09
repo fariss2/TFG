@@ -1,0 +1,290 @@
+\documentclass[a4paper,12pt,twoside]{memoir}
+
+% Castellano
+\usepackage[spanish,es-tabla]{babel}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Scalable font
+\usepackage{caption}
+\usepackage{microtype}
+\usepackage{placeins}
+\usepackage{float} 
+\usepackage{underscore}    
+\usepackage{enumitem}
+
+
+\RequirePackage{booktabs}
+\RequirePackage[table]{xcolor}
+\RequirePackage{xtab}
+\RequirePackage{multirow}
+
+% Links
+\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
+\hypersetup{
+	allcolors = {red}
+}
+
+% Ecuaciones
+\usepackage{amsmath}
+
+% Rutas de fichero / paquete
+\newcommand{\ruta}[1]{{\sffamily #1}}
+
+% Párrafos
+\nonzeroparskip
+
+% Huérfanas y viudas
+\widowpenalty100000
+\clubpenalty100000
+
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
+% Imágenes
+
+% Comando para insertar una imagen en un lugar concreto.
+% Los parámetros son:
+% 1 --> Ruta absoluta/relativa de la figura
+% 2 --> Texto a pie de figura
+% 3 --> Tamaño en tanto por uno relativo al ancho de página
+\usepackage{graphicx}
+
+\newcommand{\imagen}[3]{
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=#3\textwidth]{#1}
+		\caption{#2}\label{fig:#1}
+	\end{figure}
+	\FloatBarrier
+}
+
+
+
+
+
+
+
+\graphicspath{ {./img/} }
+
+% Capítulos
+\chapterstyle{bianchi}
+\newcommand{\capitulo}[2]{
+	\setcounter{chapter}{#1}
+	\setcounter{section}{0}
+	\setcounter{figure}{0}
+	\setcounter{table}{0}
+	\chapter*{#2}
+	\addcontentsline{toc}{chapter}{#2}
+	\markboth{#2}{#2}
+}
+
+% Apéndices
+\renewcommand{\appendixname}{Apéndice}
+\renewcommand*\cftappendixname{\appendixname}
+
+\newcommand{\apendice}[1]{
+	%\renewcommand{\thechapter}{A}
+	\chapter{#1}
+}
+
+\renewcommand*\cftappendixname{\appendixname\ }
+
+% Formato de portada
+
+\makeatletter
+\usepackage{xcolor}
+\newcommand{\tutor}[1]{\def\@tutor{#1}}
+\newcommand{\tutorb}[1]{\def\@tutorb{#1}}
+
+\newcommand{\course}[1]{\def\@course{#1}}
+\definecolor{cpardoBox}{HTML}{E6E6FF}
+\def\maketitle{
+  \null
+  \thispagestyle{empty}
+  % Cabecera ----------------
+\begin{center}
+  \noindent\includegraphics[width=\textwidth]{cabeceraSalud}\vspace{1.5cm}%
+\end{center}
+  
+  % Título proyecto y escudo salud ----------------
+  \begin{center}
+    \begin{minipage}[c][1.5cm][c]{.20\textwidth}
+        \includegraphics[width=\textwidth]{escudoSalud.pdf}
+    \end{minipage}
+  \end{center}
+  
+  \begin{center}
+    \colorbox{cpardoBox}{%
+        \begin{minipage}{.8\textwidth}
+          \vspace{.5cm}\Large
+          \begin{center}
+          \textbf{TFG del Grado en Ingeniería de la Salud}\vspace{.6cm}\\
+          \textbf{\LARGE\@title{}}
+          \end{center}
+          \vspace{.2cm}
+        \end{minipage}
+    }%
+  \end{center}
+  
+    % Datos de alumno, curso y tutores ------------------
+  \begin{center}%
+  {%
+    \noindent\LARGE
+    Presentado por \@{Nisrine Fariss Lamine}\\ 
+    en Universidad de Burgos\\
+    \vspace{0.5cm}
+    \noindent\Large
+    \@date{}\\
+    \vspace{0.5cm}
+    %Tutor: \@tutor{}\\ % comenta el que no corresponda
+    Tutor: \@{Antonio Jesús Canepa Oneto}\\
+  }%
+  \end{center}%
+  \null
+  \cleardoublepage
+  }
+\makeatother
+
+\newcommand{\nombre}{Nisrine Fariss Lamine}
+\newcommand{\nombreTutor}{Antonio Jesús Canepa Oneto } 
+%\newcommand{\nombreTutorb}{Tutor 2} 
+\newcommand{\dni}{79416773G} 
+
+% Datos de portada
+\title{UV-Dermis: Plataforma de Prevención del Melanoma}
+\author{\nombre}
+\tutor{\nombreTutor}
+%\tutorb{\nombreTutorb}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}
+
+
+\noindent\includegraphics[width=\textwidth]{cabeceraSalud}\vspace{1cm}
+
+\noindent D. \nombreTutor, profesor y director del Área de Lenguajes y Sistemas Informáticos del Departamento de Ingeniería Informática.
+
+\noindent Expone:
+
+\noindent Que la alumna Dña. \nombre, con DNI \dni, ha realizado el Trabajo final de Grado en Ingeniería de la Salud titulado UV-Dermis:Plataforma de Prevención del Melanoma. 
+
+\noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
+
+\begin{center} %\large
+En Burgos, {\large \today}
+\end{center}
+
+\vfill\vfill\vfill
+
+% Author and supervisor
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft} %\large
+%Vº. Bº. del Tutor:\\[2cm]
+D. \nombreTutor
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft} %\large
+%Vº. Bº. del Tutor:\\[2cm]
+%D. \nombreTutorb
+\end{flushleft}
+\end{minipage}
+\hfill
+
+\vfill
+
+% para casos con solo un tutor comentar lo anterior
+% y descomentar lo siguiente
+%Vº. Bº. del Tutor:\\[2cm]
+%D. nombre tutor
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+
+
+
+\frontmatter
+
+% Abstract en castellano
+\renewcommand*\abstractname{Resumen}
+\begin{abstract}
+En el contexto actual de la salud pública y la disponibilidad de datos abiertos, la comprensión de los factores asociados a la mortalidad por cáncer de piel, en concreto el \textit{melanoma}, se ha vuelto una prioridad investigadora y social, especialmente en el marco del calentamiento global.
+En este contexto, el presente Trabajo de Fin de Grado desarrolla \textit{UV-Dermis}, una aplicación web interactiva elaborada con el \textit{framework Shiny} de \textit{R}, orientada a la prevención del \textit{melanoma} cutáneo. La herramienta utiliza datos procedentes de \textit{APIs} públicas (AEMET), accesibles mediante paquetes específicos de \textit{R} (INE\_baseR), para construir un conjunto de datos meteorológicos que integra variables clave como la radiación ultravioleta, la temperatura máxima diaria y la altitud media por provincia. La aplicación ofrece contenido educativo, mapas interactivos, un recomendador personalizado de medidas de protección solar y una calculadora heurística del riesgo acumulado de padecer \textit{melanoma}, adaptada a las características individuales del usuario. 
+Este recurso tiene como objetivo sensibilizar a la población sobre los efectos ambientales e individuales en la salud cutánea, así como fomentar la educación y el cuidado de la piel. Finalmente, aspira a contribuir al avance de la investigación en el campo de la epidemiología ambiental.
+
+
+\end{abstract}
+
+\renewcommand*\abstractname{Descriptores}
+ \begin{abstract}
+Melanoma, Radiación Ultravioleta(UV), Altitud, Temperatura, R, RStudio, Shiny, API, Salud Pública, Cuidado de la Piel, Prevención
+\end{abstract}
+
+\cleardoublepage
+
+% Abstract en inglés
+\renewcommand*\abstractname{Abstract}
+\begin{abstract}
+In the current context of public health and the availability of open data, understanding the factors associated with skin cancer mortality, in particular \textit{melanoma}, has become a research and social priority, especially in the context of global warming. 
+In this context, this final degree project develops \textit{UV-Dermis}, an interactive web application developed with the \textit{R} \textit{framework Shiny}, oriented to the prevention of cutaneous \textit{melanoma}. The tool uses data from public \textit{APIs} (AEMET), accessible through specific \textit{R} packages (INE\_baseR), to build a meteorological dataset that integrates key variables such as ultraviolet radiation, daily maximum temperature and average altitude by province. The application offers educational content, interactive maps, a personalized sun protection measures recommender and a heuristic calculator of the cumulative risk of \textit{melanoma}, adapted to the user's individual characteristics. 
+This resource aims to raise public awareness of the environmental and individual effects on skin health, as well as to promote education and skin care. Finally, it aims to contribute to the advancement of research in the field of environmental epidemiology.
+
+\end{abstract}
+
+\renewcommand*\abstractname{Keywords}
+\begin{abstract}
+Melanoma, Ultraviolet(UV) Radiation, Altitude, Temperature, R,
+RStudio, Shiny, API, Public Health, Skin Care, Prevention
+    
+\end{abstract}
+
+
+\cleardoublepage
+
+% Indices
+\tableofcontents
+
+\cleardoublepage
+
+\listoffigures
+
+\cleardoublepage
+
+\listoftables
+\cleardoublepage
+
+
+\mainmatter
+\include{./tex/1_introduccion}
+\clearpage
+\include{./tex/2_objetivos}
+\clearpage
+\include{./tex/3_teoricos}
+\clearpage
+\include{./tex/4_metodologia}
+\clearpage
+\include{./tex/5_resultados}
+\clearpage
+\include{./tex/6_conclusiones}
+\clearpage
+\include{./tex/7_lineas_futuras}
+\clearpage
+
+\bibliographystyle{unsrt}
+\bibliography{bibliografia}
+
+\end{document}

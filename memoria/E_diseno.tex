@@ -1,6 +1,6 @@
 \apendice{Especificación de diseño}
 
-La estructura interna de la aplicación se fue detallando a medida que se avanzaba en el proyecto y quedo de la siguiente manera:
+La estructura interna de la aplicación se fue detallando a medida que se avanzaba en el proyecto y quedó de la siguiente manera, figura \ref{fig:interna}:
 
 \begin{figure}[H]
         \centering
@@ -8,3 +8,12 @@ La estructura interna de la aplicación se fue detallando a medida que se avanza
         \caption{Estructura interna de UV-Dermis}
         \label{fig:interna}
     \end{figure} 
+\begin{itemize}
+    \item \textbf{Inicio}: página principal de la web donde se encuentra el acceso rápido a las demas pestañas, que de la misma manera estas pestañas poseen un botón de retorno a la página principal. En esta pestaña se encuentra información sobre que se puede hacer en la web.
+    \item \textbf{Contenido informativo}: información relevante respecto al melanoma maligno de la piel. 
+    \item \textbf{Mapa de Variables}: módulo de visualización geográfica de la tasa de incidencia/mortalidad del melanoma, y de las variables ambientales escogidas, cuyos datos han sido obtenidos del paquete de \textit{R} de la INE y de las respuestas de la API de la AEMET respectivamente.
+    \item \textbf{Riesgo acumulado}: módulo donde se encuentra la estimación del riesgo acumulado de desarrollar melanoma, el resultado obtenido proviene de una función que recibe los datos ambientales y por otra parte los datos que introduce el usuario. Presenta una subpestaña para la explicación teórica de la calculadora.
+    \item \textbf{Recomendador}: interfaz donde se ofrecen recomendaciones según el tipo de piel, seleccionado por el usuario, y la provincia de interés. Su función recibe los datos de las respuestas de la API de la AEMET.
+    \item \textbf{Datos Meteorológicos}: gráfico donde se puede visualizar la evolución temporal de las variables meteorológicas, ya almacenadas en local, de las provincias a elección del usuario.
+    \item \textbf{Acerca del proyecto}: pestaña con enlace directo al repositorio de \textit{GitHub}.
+\end{itemize}

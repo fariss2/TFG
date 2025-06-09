@@ -3,13 +3,13 @@
 \section{Estructura de directorios}
 En este capítulo se incluye la información relacionada con la organización del repositorio \href{https://github.com/fariss2/TFG}{GitHub}. 
 \begin{itemize}
-    \item \textbf{Carpeta img:} carpeta donde se incluyen las imágenes que aparecen en la portada del repositorio, es decir las que se han empleado en el README.
+    \item \textbf{Carpeta img:} carpeta donde se incluyen las imágenes que aparecen en la portada del repositorio, es decir, las que se han empleado en el README.
     \item README.md: archivo de presentación del repositorio GitHub.
     \item \textbf{Carpeta memoria:} carpeta donde se redactan todos los capítulos de la memoria y anexos:
     \begin{itemize}
         \item \textbf{1\_objetivos.tex}: documento \textit{LaTex} que contiene la información acerca de los objetivos.
         \item \textbf{2\_introducció.tex}: documento \textit{LaTex} que contiene información introductoria del proyecto.
-        \item \textbf{3\_teóricos.tex}: documento \textit{LaTex} que el marco teórico de l poryecto junto a las creaciones presentes similares a la actual aplicación.
+        \item \textbf{3\_teóricos.tex}: documento \textit{LaTex} que el marco teórico del poryecto junto a las creaciones presentes similares a la actual aplicación.
         \item \textbf{4\_metodología.tex}:  documento \textit{LaTex} que engloba el porceso de realización de la plataforma, mencionando las herramientas y técnicas empleadas en el proceso.
         \item \textbf{5\_resultados.tex}: documento \textit{LaTex} que contiene una breve discusión sobre los resultados obtenidos de la aplicación final junto a una muestra de resultados.
         \item \textbf{6\_conclusiones.tex}: documento \textit{LaTex} que contiene las conclusiones del proyecto.
@@ -23,7 +23,7 @@ En este capítulo se incluye la información relacionada con la organización de
     \item \textbf{Carpeta UV-Dermis}: carpeta donde se encuentra alojada la aplicación final. Contiene:
     \begin{itemize}
         \item \textbf{Global.R}: fichero donde se encuentras las funciones implementadas para la ejecución de la aplicación. Se han separado para una mejor legibilidad y fácil acceso para la modificación de estas si porcede.
-        \item \textbf{ui.R}:  \textit{script} \footnote{secuencia de instrucciones escritas en un lenguaje de programación que se ejecuta para realizar tareas específicas} donde se encuentra el código encargado de la interfaz y diseño de la aplicación.
+        \item \textbf{ui.R}:  \textit{script} \footnote{ Un script es una secuencia de instrucciones escritas en un lenguaje de programación.} donde se encuentra el código encargado de la interfaz y diseño de la aplicación.
         \item \textbf{server.R}: \textit{script} donde se encuentra toda la lógica de la aplicación desde la ejecución de funciones hasta el desarrollo de gráficos y mapas.
         \item \textbf{Carpeta www}: carperta donde se alojan las imágenes utilizadas en la interfaz de la aplicación.
         \item \textbf{base\_climatica.rds}: archivo donde se encuentra el conjunto de datos meteorológicos que se van registrando diariamente.
@@ -31,58 +31,123 @@ En este capítulo se incluye la información relacionada con la organización de
         \item \textbf{densidad.xlsx}: archivo de elaboración propia  que incluye datos sobre la población de cada provincia.
         \item Archivos que contienen los datos respuesta de la API, que se detallarán más adelante en el apartado D.
     \end{itemize}
+    \item \textbf{Archivos secundarios}: contiene archivos que se han usado y dejado de usar a lo largo del desarrollo del proyecto, como lo son notas de tutorías y archivos similares.
     
 \end{itemize}
 
 \section{Entorno de desarrollo}
 En esta sección se detallan  los elementos \textit{software} utilizados para el desarrollo de  la aplicación:
 \begin{itemize}
-    \item \textbf{R 4.5.0}: se trata de la última version del lenguaje de programación utilizado que técnicamente esta especializado en análisis estadistico pero dada su compatibilidad con el framework Shiny se utilizó para desarrollar una aplicación
-    \item \textbf{RStudio:} entorno de desarrollo integrado para el lenguaje utilizado, R.
-    \item \textbf{Librerías y paquetes de R}: se detallarán más adelante.
-    \item \textbf{Bloc de notas}: aplicacion del escritorio usada para la visualización de los datos respuesta de la AEMET para una mejor compresión de su estructura.
+    \item \textbf{R 4.5.0}: se trata de la última version del ecosistema de programación utilizado, que técnicamente esta especializado en análisis estadístico pero dada su compatibilidad con el \textit{framework} \textit{Shiny} se utilizó para desarrollar una aplicación
+    \item \textbf{RStudio:} entorno de desarrollo integrado para el lenguaje utilizado, \textit{R}.
+    \item \textbf{Bibliotecas y paquetes de R}: se detallarán más adelante.
+    \item \textbf{Bloc de notas}: aplicación del escritorio usada para la visualización de los datos respuesta de la AEMET para una mejor compresión de su estructura.
+\end{itemize}
+\subsection{Desarrollo de la aplicación}
+La estructura interna de la aplicación se divide en:
+\begin{itemize}
+    \item \textbf{Fichero \textit{Global.R}}: archivo que contiene las funciones creadas para el funcionamiento de la aplicación. Se separan en un \textit{script} aparte para una mejor organización y limpieza del código, de esta manera en caso de que se modifique alguna función sean fáciles de ubicar.
+    \item \textbf{Fichero\textit{ ui.R}}: fichero encargado del diseño de la interfaz de la aplicación, lo que estará a la vista del usuario, lo que se conoce como \textit{front-end} en el ámbito de desarrolladores \textit{software}.
+    \item \textbf{Fichero \textit{server.R}}: consiste en el conjunto de la lógica necesaria para el funcionamiento interno de la plataforma, no visible al usuario, conocido también como \textit{back-end}.
+    \item \textbf{Carpeta \textit{www}}: en esta carpeta se encuentran las imágenes que serán visibles en la interfaz de la aplicación.
 \end{itemize}
 
-\subsection{Librerías y paquetes}
-En R para comenzar a usar una librería, ha de ser instalado su respectivo paquete mediante el comando \textit{install.packages("librería")} que puede ser ejecutado ya sea en el script del código o en la terminal de RStudio que se encuentra en parte inferior izquierda.
+\subsubsection{Desarrollo de la interfaz del usuario}
+A continuación se desglosan los principales componentes de Shiny que conforman la interfaz de la aplicación.
+\begin{itemize}
+    \item \textbf{Definición general de la interfaz.}
+    \begin{itemize}
+        \item \textit{NavbarPage()} encargado de crear la barra de navegación superior donde se encuentran las principales pestañas. 
+        \item \textit{TabPanel()} dentro de este componente se encuentra descrita cada pestaña con su respectivo contenido. A algunas se les ha asociado un valor identificativo para su uso en el acceso rápido.
+        \item \textit{TabsetPanel()} componente que se ha usado para anidar varias subpestañas en una sola, como por ejemplo la pestaña de mapa de variables que contiene cuatro subpestañas.
+    \end{itemize}
+    \item \textbf{Disposición de los contenidos.}
+    \begin{itemize}
+        \item \textit{FluidPage(), fluidRow()} y \textit{column()} son funciones que permiten un diseño de página fluidas que consta de definición de filas y el espacio horizontal en columnas para decidir la zona donde aparecerá el contenido incluido y de esta manera se asegura la escalabilidad de los componentes en la pestaña.
+        \item \textit{SidebarLayout()} con una barra lateral, \textit{sidebarPanel()} con valor por defecto de 1/3 de ancho usado para la selección de parámetros y un área pricipal, \textit{mainPanel()} para visualizar la salida del gráfico de datos meteorológicos.
+        \item \textit{WellPanel()} se uso para recoger y dividir los distintos contenidos de una pestaña para un mejor diseño.
+    \end{itemize}
+    \item \textbf{Entradas y salidas en pantalla.}
+    \begin{itemize}
+        \item \textit{ActionButton()} se usaron para aportar un acceso rápido a las diferentes pestañas.
+        \item \textit{PlotOutput()} para mostrar el gráfico de datos meteorológicos.
+        \item \textit{DownloadButton()} para la descarga de datos aportados, figura \ref{fig:descarga}.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/descarga.png}
+            \caption{Acción de descarga}
+            \label{fig:descarga}
+        \end{figure}
+        \item \textit{SelectInput()} para la selección de opción o de multiples variables, figura \ref{fig:seleccion}.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/SELECCION.png}
+            \caption{Selección de opción.}
+            \label{fig:seleccion}
+        \end{figure}
+        \item \textit{TextOutput()} para mostrar la respuesta de la ejecución de las herramientas proporcionadas.
+        \item \textit{SliderInput()} selección numérica en barra deslizante, figura \ref{fig:deslizante}.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/slider.png}
+            \caption{Barra deslizante.}
+            \label{fig:deslizante}
+        \end{figure}
+        \item \textit{LeafletOutput()} para la impresión de los mapas interactivos.
+    \end{itemize}
+\end{itemize}
+
+
+
+\subsubsection{Desarrollo de la lógica de la aplicación}
+
+La ejecución de la aplicación empieza con la invocación del bloque \textit{server(input,output,session)} que contiene el código de la lógica. En este fichero se cargan todos los datos necesarios y las entradas recibidas por la selección del usuario para la visualización de mapas o gráficos según los parámetros seleccionados. También se invoca a las funciones definidas en \textit{Global.R} para solicitar datos, obtener recomendaciones o calcular riesgo. 
+
+En general, el \textit{server} escucha lo que recibe del usuario, carga y procesa los datos y presenta los resultados obtenidos como se ha diseñado en la interfaz.
+
+
+
+
+\subsection{Bibliotecas y paquetes}
+En \textit{R} para comenzar a usar una biblioteca, ha de ser instalado su respectivo paquete mediante el comando \textit{install.packages(``nombre\_biblioteca'')} que puede ser ejecutado ya sea en el \textit{script} del código o en la terminal de \textit{RStudio} que se encuentra en la parte inferior izquierda.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{image3.png}
-    \caption{Instalación mediante comandos en la terminal RStudio}
+    \caption{Instalación mediante comandos en la terminal \textit{RStudio}}
 \end{figure}
-También existe otra manera de instalar paquetes en RStudio, mas intuitiva, que se encuentra el la esquina inferior derecha en la pestaña de \textit{packages}.
+También existe otra manera de instalar paquetes en \textit{RStudio}, más intuitiva, que se encuentra en la esquina inferior derecha en la pestaña de \textit{packages}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{pack.png}
-    \caption{Instalación intuitiva}
+    \caption{Instalación intuitiva.}
     \label{fig:enter-label}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{intui.png}
-    \caption{}
+    \caption{Selección de paquete.}
     \label{fig:enter-label}
 \end{figure}
-En esta misma pestaña de instalación intuitiva se encuentran las librerías, que las puedes usar seleccionando su casilla \ref{fig:lireria intuitiva} o, de igual manera que los paquetes, se les puede llamar mediante comandos en el script o en la terminal \ref{fig:terminal}.
+En esta misma pestaña de instalación intuitiva se encuentran las bibliotecas, que las puedes usar seleccionando su casilla, figura \ref{fig:lireria intuitiva} o, de igual manera que los paquetes, se les puede llamar mediante comandos en el \textit{script} o en la terminal, figura \ref{fig:terminal}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{libreint.png}
-    \caption{Uso de librerías seleccionando su casilla}
+    \caption{Uso de bibliotecas seleccionando su casilla}
     \label{fig:lireria intuitiva}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{libreterm.png}
-    \caption{Llamada de librerías en la terminal.}
+    \caption{Llamada de bibliotecas en la terminal.}
     \label{fig:terminal}
 \end{figure}
-Las librerías usadas fueron las siguientes:
+Las bibliotecas usadas fueron las siguientes:
 \begin{itemize}
     \item \textbf{\textit{library(shiny)}}: \textit{framework} para construir aplicaciones web interactivas \cite{Shiny}.
     \item \textbf{\textit{library(httr)}}: proporciona las herramientas necesarias para trabajar con solicitudes API y gestionar respuestas en formatos JSON \cite{httr}.
     \item \textbf{\textit{library(jsonlite)}}: ofrece herramientas para trabajar con JSON \footnote{JSON (JavaScript Object Notation) es un formato de texto ligero para el intercambio de datos} \cite{Jsonlite}.
     \item \textbf{\textit{library(dplyr)}}: proporciona funciones para la manipulación de datos \cite{dplyr}.
-    \item \textbf{\textit{library(ggplot2)}}: librería para crear gráficos \cite{ggplot2}.
+    \item \textbf{\textit{library(ggplot2)}}: biblioteca cuyas funciones se usaron para crear gráficos \cite{ggplot2}.
     \item \textbf{\textit{library(sf)}}: soporte para acceso a funciones simples, una forma estandarizada de codificar y analizar datos vectoriales espaciales \cite{sf}.
     \item \textbf{\textit{library(mapSpain)}}: para la creación de mapas de España, proporciona límites administrativos a varios niveles, en mi caso me interesaban las provincias \cite{R-mapspain}.
     \item \textbf{\textit{library(tidyverse)}}: conjunto de paquetes R diseñados para el procesamiento de datos \cite{tidyverse}.
@@ -90,21 +155,21 @@ Las librerías usadas fueron las siguientes:
     \item \textbf{\textit{library(DT)}}: permite crear y visualizar datos en formato de tablas \cite{DT}.
     \item \textbf{\textit{library(readxl)}}: permite leer archivos en formato \textit{xls} y \textit{xlsx} \cite{readxl}.
     \item \textbf{\textit{library(writexl)}}: permite crear y escribir archivos \textit{xlsx} \cite{writexl}.
-    \item \textbf{\textit{library(INEbaseR)}}: libreria que facilita el acceso a datos del Instituto Nacional de Estadística para su descarga y uso \cite{INEbaseR}.
+    \item \textbf{\textit{library(INEbaseR)}}: biblioteca y paquete que facilita el acceso a datos del Instituto Nacional de Estadística para su descarga y uso \cite{INEbaseR}.
     \item \textbf{\textit{library(stringr)}}: proporciona funciones para trabajar con cadenas de texto \cite{stringr}.
     \item \textbf{\textit{library(purrr)}}: ofrece herramientas para programción funcional, haciendo el código más eficiente \cite{purrr}.
-    \item \textbf{\textit{library(leaflet)}}: librería que permite el uso de la librería de JavaScript Leaflet para realizar mapas interactivos \cite{leaflet}.
+    \item \textbf{\textit{library(leaflet)}}: librería que permite el uso de la biblioteca de \textit{JavaScript} \textit{Leaflet} para realizar mapas interactivos \cite{leaflet}.
     \item \textbf{\textit{library(htmltools)}}: aporta herramientas para crear contenido HTML en R, lo facilita y mejora el diseño de la interfaz de la web \cite{htmltools}.
 \end{itemize}
 
-\subsection{Desplegamiento de la aplicación}
+\subsection{Despliegue de la aplicación}
 
-El desplegamiento de una aplicación web es la acción que se realiza para presentar o hacer pública una aplicación a través de determinadas herramientas \cite{DespliegueAplicacionesWeb}. En mi caso se ha hecho uso de una plataforma desarrollada por \citet{Shinyappsio} que permite desplegar y compartir aplicaciones web creadas con el \textit{framework} \textit{Shiny} utilizando un lenguaje de programación \textit{R} o \textit{Python}.
+El despliegue de una aplicación web es la acción que se realiza para presentar o hacer pública una aplicación a través de determinadas herramientas \cite{DespliegueAplicacionesWeb}. En mi caso se ha hecho uso de una plataforma desarrollada por Posit \cite{Shinyappsio} que permite desplegar y compartir aplicaciones web creadas con el \textit{framework} \textit{Shiny} utilizando un lenguaje de programación \textit{R} o \textit{Python}.
 
 \subsubsection{Proceso}
 Una vez finalizada la aplicación
 \begin{enumerate}
-    \item Se crea la aplicación en RStudio pinchando en el ícono superior de la izquierda que pone \textit{New file}  \ref{fig:PASO1} y se seleciona \textit{Shiny Web App} \ref{fig:PASO2}. Una vez seleccionada la opción \textit{Shiny Web App} te muestra una pantalla para poner un nombre y elegir la estructura de la aplicación, que separe los ficheros de la lógica del fichero de la interfaz.
+    \item Se crea la aplicación en \textit{RStudio} pinchando en el ícono superior de la izquierda que pone \textit{New file}, figura  \ref{fig:PASO1} y se seleciona \textit{Shiny Web App}, figura \ref{fig:PASO2}. Una vez seleccionada la opción \textit{Shiny Web App} te muestra una pantalla para poner un nombre y elegir la estructura de la aplicación, que separe los ficheros de la lógica del fichero de la interfaz.
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.5\linewidth]{newfile.png}
@@ -124,14 +189,14 @@ Una vez finalizada la aplicación
     \caption{Dashboard}
     \label{fig:daschboad}
 \end{figure}
-\item Una vez llegado a este paso, en \textit{RStudio} se debe tener el paquete de \textit{rsconnect} instalado y su librería en uso a la hora de vincular la cuenta. Mediante el comando visible en la figura \ref{fig:comand} se conectará la cuenta con \textit{RStudio}.
+\item Una vez llegado a este paso, en \textit{RStudio} se debe tener el paquete de \textit{rsconnect} instalado y su biblioteca en uso a la hora de vincular la cuenta. Mediante el comando visible en la figura \ref{fig:comand} se conectará la cuenta con \textit{RStudio}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{comando.png}
     \caption{Comando para vincular la cuenta.}
     \label{fig:comand}
 \end{figure}
-\item Finalmente, ya se puede hacer pública la aplicacion ya sea por el comando \textit{rsconnect::deployApp()} en la terminal o bien en la esquina superior derecha se encuentra el ícono de \textit{publish} o \textit{republish} en caso de que el contenido de la aplicación haya cambiado. El ícono de\textit{ Run App} sirve para ejecutar la aplicación el local y poder visualizar su funcionamiento de manera rápida \ref{fig:PUBLIC}
+\item Finalmente, ya se puede hacer pública la aplicacion ya sea por el comando \textit{rsconnect::deployApp()} en la terminal o bien en la esquina superior derecha se encuentra el ícono de \textit{publish} o \textit{republish} en caso de que el contenido de la aplicación haya cambiado. El ícono de\textit{ Run App} sirve para ejecutar la aplicación el local y poder visualizar su funcionamiento de manera rápida, figura \ref{fig:PUBLIC}
 .\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{PUBLISH.png}
@@ -139,10 +204,6 @@ Una vez finalizada la aplicación
     \label{fig:PUBLIC}
 \end{figure}
 \end{enumerate}
-
-
-
-
 
 \section{Pruebas del sistema}
 
@@ -152,9 +213,9 @@ Al tener gran parte de la aplicación, se ha procedido a realizar una prueba del
 \section{Instrucciones para la modificación o mejora del proyecto.}
 Como se ha mencionado en el apartado de líneas futuras de la memoria de este proyecto, existen diversas mejoras para UV-Dermis. Posibles mejoras:
 \begin{itemize}
-    \item \textbf{Geolocalización automática del usuario}: actualmente, en la aplicación, la provincia se se selecciona manualmente. Con esta mejora se busca mejorar la experiencia del usuario y dotar a la aplicación de una funcionalidad ampliamente usada en el desarrollo de aplicaciones web. Dado a que R no tiene acceso a la APIs del navegador, se usaría \textit{JavaScript} a través del paquete \textit{shinyjs} que nos permite usar. Se implementaría la función de geolocalización en el \textit{script} \textit{Global.R} para mantener la limpieza del código, de respuesta esta función nos daría unas coordenadas que se traducirían a la provincia correcta gracias a la librería \textit{sf} que analiza datos espaciales. En el \textit{ui.R} se debería de cambiar el \textit{inputSelect} a una selección automática.
-    \item \textbf{Incorporación de variables atmosféricas adicionales:} con esta incorporaación se buscaría mejorar la precisión de la radiación UV incidente en la superficie terrestre. Las variables son la nubosidad y la densidad de la capa de ozono, ambas disponibles en la fuente abierta de la AEMET y para su obtención se realizaría el mismo proceso que se hizo con las variables incluidas actualmente en la aplicación.
-    Estas solicitudes de datos se integrarían al script de las funciones para mantener la limpieza y estructura del código, y los datos resultantes a las funciones de recomendación y riesgo acumulado mejorando la precisión del resultado reflejando una exposición solar más real, y no solo radiación UV.
-    \item \textbf{Sistema de notificaciones automáticas por email:} Se busca automatizar el envío de recomendaciones por correo electrónico en función de condiciones actuales de la zona geográfica del usuario. Se emplearía la librería \textit{emayili} para el envío de correos usando servidores \textit{SMTP}. Para ello se necesita el consentimiento del usuario y su respectivo correo electrónico. 
+    \item \textbf{Geolocalización automática del usuario}: actualmente, en la aplicación, la provincia se se selecciona manualmente. Con esta mejora se busca mejorar la experiencia del usuario y dotar a la aplicación de una funcionalidad ampliamente usada en el desarrollo de aplicaciones web. Dado a que \textit{R} no tiene acceso a la APIs del navegador, se usaría \textit{JavaScript} a través del paquete \textit{shinyjs} que nos permite usar. Se implementaría la función de geolocalización en el \textit{script} \textit{Global.R} para mantener la limpieza del código, de respuesta esta función nos daría unas coordenadas que se traducirían a la provincia correcta gracias a la biblioteca \textit{sf} que analiza datos espaciales. En el \textit{ui.R} se debería de cambiar el \textit{inputSelect} a una selección automática.
+    \item \textbf{Incorporación de variables atmosféricas adicionales:} con esta incorporación se buscaría mejorar la precisión de la radiación UV incidente en la superficie terrestre. Las variables son la nubosidad y la densidad de la capa de ozono, ambas disponibles en la fuente abierta de la AEMET y para su obtención se realizaría el mismo proceso que se hizo con las variables incluidas actualmente en la aplicación.
+    Estas solicitudes de datos se integrarían al \textit{script} de las funciones para mantener la limpieza y estructura del código, y los datos resultantes a las funciones de recomendación y riesgo acumulado mejorando la precisión del resultado reflejando una exposición solar más real, y no solo radiación UV.
+    \item \textbf{Sistema de notificaciones automáticas por email:} Se busca automatizar el envío de recomendaciones por correo electrónico en función de condiciones actuales de la zona geográfica del usuario. Se emplearía el paquete \textit{emayili} y su respectiva biblioteca para el envío de correos usando servidores \textit{SMTP}. Para ello se necesita el consentimiento del usuario y su respectivo correo electrónico. 
 \end{itemize}
 Todas estas mejoras serían documentadas en el repositorio GitHub, con el fin de mantener la aplicación accesible y bien documentado su desarrollo.
